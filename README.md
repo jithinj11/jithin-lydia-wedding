@@ -1,16 +1,37 @@
-# Jithin & Lydia Wedding Invitation
+# Jithin & Lydia — Wedding Invitation
 
-Static GitHub Pages wedding invitation.
+A mobile-first, elegant wedding invitation website designed in the cream, gold and botanical style of the reference invitation.
 
-## Event details
-- Wedding: 07 November 2026 at 3:30 PM
-- Church: St. Thomas Jacobite Syrian Church, North Paravur
-- Reception: Sunny Convention Centre at 6:30 PM
+## Venues
+- Wedding: St. Thomas Jacobite Syrian Church, North Paravur, Ernakulam
+- Reception: Sunny Convention Center, Ernakulam
 
-## Upload to GitHub Pages
-1. Upload all files in this folder to the root of your repository.
-2. Commit/push the files.
-3. In GitHub: Settings → Pages → Deploy from branch → select `main` and `/root`.
-4. Open the generated GitHub Pages URL.
+## Before publishing
+Open `config.js` and add:
+- weddingDate
+- ceremonyTime
+- receptionTime
 
-No build process or npm installation is required.
+Example:
+```js
+const WEDDING_CONFIG = {
+  weddingDate: "2027-02-14",
+  ceremonyTime: "10:00 AM",
+  receptionTime: "6:00 PM onwards"
+};
+```
+
+## Add your photos
+Put these files in `assets/`:
+- `story-1.jpg`
+- `story-2.jpg`
+- `story-3.jpg`
+- `church.jpg`
+- `couple.jpg`
+
+The site works without photos too; the sections will simply show the designed background.
+
+## GitHub Pages
+Upload all files to the root of your GitHub repository, commit, then enable GitHub Pages from the repository's Pages settings using the main branch.
+
+No RSVP is included.
