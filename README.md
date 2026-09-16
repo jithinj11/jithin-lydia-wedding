@@ -1,15 +1,16 @@
-# Jithin & Lydia Wedding Website
+# Jithin & Lydia Wedding Invitation
 
-Static wedding invitation website for **Jithin & Lydia**, November 7, 2026.
+Static GitHub Pages wedding invitation.
 
-## Run locally
-Open `index.html` in a browser.
+## Event details
+- Wedding: 07 November 2026 at 3:30 PM
+- Church: St. Thomas Jacobite Syrian Church, North Paravur
+- Reception: Sunny Convention Centre at 6:30 PM
 
-## Deploy with GitHub Pages
-1. Push all files to the `main` branch.
-2. GitHub → **Settings** → **Pages**.
-3. Under **Build and deployment**, select **Deploy from a branch**.
-4. Choose `main` and `/ (root)`.
-5. Save.
+## Upload to GitHub Pages
+1. Upload all files in this folder to the root of your repository.
+2. Commit/push the files.
+3. In GitHub: Settings → Pages → Deploy from branch → select `main` and `/root`.
+4. Open the generated GitHub Pages URL.
 
-The site is intentionally framework-free, so no build command or npm installation is required.
+No build process or npm installation is required.
