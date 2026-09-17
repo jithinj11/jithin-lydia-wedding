@@ -1,29 +1,21 @@
 # Jithin & Lydia Wedding Invitation
 
-A cinematic Christian wedding invitation designed for GitHub Pages.
+A GitHub Pages-ready Christian wedding invitation website built with HTML, CSS, and vanilla JavaScript.
 
-## Main files
+## Files
 
-- `index.html` — website structure
-- `style.css` — design and animations
-- `script.js` — interactions, automatic storytelling, countdown and music
-- `config.js` — change wedding details without editing the page
+- `index.html` contains the nine invitation sections.
+- `style.css` contains the responsive cinematic layout and animations.
+- `script.js` powers configuration hydration, auto-scroll, controls, countdown, and music.
+- `config.js` is the central place to edit names, dates, verses, venues, map links, images, music, and animation timing.
 
-## Add your assets
+## Customizing
 
-Place images in `assets/images/` using the configured names:
+Edit `config.js`:
 
-- `hero.jpg`
-- `church.jpg`
-- `couple.jpg`
-- `reception.jpg`
+- Add Google Maps URLs in `ceremony.mapsUrl` and `reception.mapsUrl`.
+- Replace image URLs in `images` with local files such as `assets/images/hero.jpg`.
+- Add a music file in `assets/music/` and set `music.source`.
+- Replace family placeholders by adding parent names to `family.groomParents` and `family.brideParents`.
 
-Optional music:
-
-- `assets/music/wedding-music.mp3`
-
-## Important
-
-Update `config.js` with final Bible translations, family names, story, images, Maps links and music before publishing.
-
-The current website is intentionally configured so the main wedding content can be changed from one file.
+The site has no build step. Open `index.html` locally or publish the folder with GitHub Pages.

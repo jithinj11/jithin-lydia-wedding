@@ -1,196 +1,159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#F6F0E6">
-  <title>Jithin & Lydia — Wedding Invitation</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<main id="wedding">
-
-  <section id="opening" class="section cover" data-delay="opening">
-    <div class="church-bg" aria-hidden="true"></div>
-    <div class="botanical top-left" aria-hidden="true"></div>
-    <div class="botanical top-right" aria-hidden="true"></div>
-    <div class="botanical bottom-left" aria-hidden="true"></div>
-    <div class="botanical bottom-right" aria-hidden="true"></div>
-
-    <div class="inner reveal">
-      <div class="eyebrow">A Christian Wedding Invitation</div>
-      <div class="cross">✝</div>
-      <h2>A Beautiful Journey<br>Begins</h2>
-      <div class="gold-line"></div>
-      <p>Together by Grace<br>Forever in Love</p>
-      <button class="open-btn" id="openInvitation" type="button">Open Invitation</button>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f0e6">
+    <title>Jithin & Lydia | Wedding Invitation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="top-controls" aria-label="Invitation controls">
+      <button class="pill-control" id="autoToggle" type="button" aria-pressed="true">AUTO • ON</button>
+      <button class="round-control" id="musicToggle" type="button" aria-pressed="false" aria-label="Play music">♪</button>
     </div>
-  </section>
 
-  <section id="openingVerse" class="section verse reveal" data-delay="verse">
-    <div class="botanical top-left" aria-hidden="true"></div>
-    <div class="botanical bottom-right" aria-hidden="true"></div>
-    <div class="inner">
-      <div class="cross">✝</div>
-      <div class="eyebrow">A Promise in God's Time</div>
-      <div class="verse-text" id="openingVerseText"></div>
-      <div class="gold-line"></div>
-      <div class="reference" id="openingVerseRef"></div>
-    </div>
-  </section>
-
-  <section id="names" class="section names-section reveal" data-delay="names">
-    <div class="botanical top-left" aria-hidden="true"></div>
-    <div class="botanical bottom-right" aria-hidden="true"></div>
-    <div class="inner">
-      <div class="eyebrow">You Are Invited To</div>
-      <div class="eyebrow">The Wedding Of</div>
-      <div class="names script" aria-label="Jithin and Lydia">
-        <div class="name-line" id="groomName"></div>
-        <div class="name-line" style="font-size:.34em; margin:26px 0;">and</div>
-        <div class="name-line" id="brideName"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="hero" class="section hero reveal" data-delay="hero">
-    <div class="inner">
-      <div class="eyebrow">With Joy In Our Hearts</div>
-      <h1 class="script" id="heroNames"></h1>
-      <div class="gold-line"></div>
-      <p id="heroDate" style="color:white;"></p>
-    </div>
-  </section>
-
-  <section id="story" class="section photo-section reveal" data-delay="story">
-    <div class="inner">
-      <div class="eyebrow">Our Story</div>
-      <h2 id="storyHeading">Our Journey</h2>
-      <img class="photo" id="couplePhoto" src="assets/images/couple.jpg" alt="The couple">
-      <p id="storyText"></p>
-    </div>
-  </section>
-
-  <section id="ceremony" class="section event reveal" data-delay="ceremony">
-    <div class="botanical top-right" aria-hidden="true"></div>
-    <div class="inner">
-      <div class="cross">✝</div>
-      <div class="eyebrow">The Sacrament Of</div>
-      <h2 id="ceremonyTitle">Holy Matrimony</h2>
-      <img class="event-image" src="assets/images/church.jpg" alt="Church">
-      <div class="event-info">
-        <div id="ceremonyDate"></div>
-        <div id="ceremonyTime"></div>
-        <h3 id="ceremonyVenue"></h3>
-        <div id="ceremonyLocation"></div>
-      </div>
-      <a class="map-btn" id="ceremonyMap" href="#" target="_blank" rel="noopener">View Location</a>
-    </div>
-  </section>
-
-  <section id="reception" class="section event reveal" data-delay="reception">
-    <div class="inner">
-      <div class="eyebrow">After The Vows</div>
-      <h2 id="receptionTitle">Celebration of Love</h2>
-      <img class="event-image" id="receptionImage" src="assets/images/reception.jpg" alt="Wedding reception">
-      <div class="event-info">
-        <div id="receptionDate"></div>
-        <div id="receptionTime"></div>
-        <h3 id="receptionVenue"></h3>
-        <div id="receptionLocation"></div>
-      </div>
-      <a class="map-btn" id="receptionMap" href="#" target="_blank" rel="noopener">View Location</a>
-    </div>
-  </section>
-
-  <section id="celebrationVerse" class="section verse reveal" data-delay="verse">
-    <div class="botanical top-left" aria-hidden="true"></div>
-    <div class="botanical bottom-right" aria-hidden="true"></div>
-    <div class="inner">
-      <div class="cross">✝</div>
-      <div class="eyebrow">A Celebration Of Grace</div>
-      <div class="verse-text" id="celebrationVerseText"></div>
-      <div class="gold-line"></div>
-      <div class="reference" id="celebrationVerseRef"></div>
-    </div>
-  </section>
-
-  <section id="family" class="section family reveal" data-delay="family">
-    <div class="inner">
-      <div class="eyebrow">With The Blessings Of</div>
-      <h2>Our Families</h2>
-      <div class="family-grid">
-        <div class="family-box">
-          <div class="eyebrow">Groom's Family</div>
-          <div id="groomParents">Names to be added</div>
+    <main id="invitation">
+      <section class="panel opening active" id="opening" data-key="opening">
+        <div class="photo-bg" data-image="opening"></div>
+        <div class="light-wash"></div>
+        <div class="botanical botanical-left"></div>
+        <div class="botanical botanical-right"></div>
+        <div class="opening-card reveal-group">
+          <p class="opening-title stagger">A BEAUTIFUL<br>JOURNEY<br>BEGINS</p>
+          <span class="gold-line stagger"></span>
+          <p class="script-small stagger">Together by Grace<br>Forever in Love</p>
+          <button class="open-button stagger" id="openInvitation" type="button">OPEN INVITATION <span>›</span></button>
         </div>
-        <div class="family-box">
-          <div class="eyebrow">Bride's Family</div>
-          <div id="brideParents">Names to be added</div>
+      </section>
+
+      <section class="panel verse-panel" id="ecclesiastes" data-key="openingVerse">
+        <div class="soft-landscape" data-image="closing"></div>
+        <div class="leaf-corner top-left"></div>
+        <div class="leaf-corner top-right"></div>
+        <div class="verse-content reveal-group">
+          <span class="tiny-cross stagger" aria-hidden="true">✝</span>
+          <blockquote class="verse stagger" data-config="openingVerse"></blockquote>
+          <p class="verse-ref stagger" data-config="openingRef"></p>
+          <span class="gold-line stagger"></span>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <section id="countdownSection" class="section reveal" data-delay="countdown">
-    <div class="botanical top-left" aria-hidden="true"></div>
-    <div class="botanical bottom-right" aria-hidden="true"></div>
-    <div class="inner">
-      <div class="eyebrow">Counting Down</div>
-      <h2>To Forever</h2>
-      <div class="countdown" aria-live="polite">
-        <div class="time-box"><strong id="days">0</strong><span>Days</span></div>
-        <div class="time-box"><strong id="hours">0</strong><span>Hours</span></div>
-        <div class="time-box"><strong id="minutes">0</strong><span>Minutes</span></div>
-        <div class="time-box"><strong id="seconds">0</strong><span>Seconds</span></div>
-      </div>
-      <p id="countdownMessage"></p>
-    </div>
-  </section>
+      <section class="panel hero" id="hero" data-key="namesHero">
+        <div class="photo-bg" data-image="hero"></div>
+        <div class="hero-overlay"></div>
+        <div class="leaf-corner top-right"></div>
+        <div class="hero-copy reveal-group">
+          <p class="eyebrow stagger">YOU ARE INVITED TO<br>THE WEDDING OF</p>
+          <div class="names-svg" aria-label="Jithin and Lydia">
+            <svg viewBox="0 0 720 350" role="img">
+              <text class="draw-name draw-one" x="56" y="118">Jithin</text>
+              <text class="and-word" x="318" y="185">and</text>
+              <text class="draw-name draw-two" x="84" y="292">Lydia</text>
+            </svg>
+          </div>
+          <p class="date-line stagger" data-config="displayDate">7 NOVEMBER 2026</p>
+          <span class="gold-line stagger"></span>
+        </div>
+      </section>
 
-  <section id="photos" class="section photo-section reveal" data-delay="story">
-    <div class="inner">
-      <div class="eyebrow">A Few Moments</div>
-      <h2>Our Memories</h2>
-      <div id="photoStory"></div>
-    </div>
-  </section>
+      <section class="panel event ceremony" id="ceremony" data-key="ceremony">
+        <div class="event-image reveal-image" data-image="church"></div>
+        <div class="event-copy reveal-group">
+          <p class="eyebrow stagger">THE SACRAMENT OF</p>
+          <h1 class="section-title stagger">HOLY MATRIMONY</h1>
+          <div class="details-list">
+            <div class="detail stagger"><span class="icon">▣</span><p><b data-config="ceremonyDay">Saturday</b><br><span data-config="ceremonyDate">7 November 2026</span></p></div>
+            <div class="detail stagger"><span class="icon">◷</span><p data-config="ceremonyTime">3:30 PM</p></div>
+            <div class="detail stagger"><span class="icon">⌖</span><p><span data-config="ceremonyVenue">St. Thomas Jacobite Syrian Church</span><br><span data-config="ceremonyLocation">North Paravur</span></p></div>
+          </div>
+          <a class="location-button stagger" data-config="ceremonyMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
+          <p class="quote stagger">Two are better than one, because they have a good return for their work.</p>
+        </div>
+      </section>
 
-  <section id="finalVerse" class="section verse reveal" data-delay="verse">
-    <div class="botanical top-left" aria-hidden="true"></div>
-    <div class="botanical bottom-right" aria-hidden="true"></div>
-    <div class="inner">
-      <div class="cross">✝</div>
-      <div class="verse-text" id="finalVerseText"></div>
-      <div class="gold-line"></div>
-      <div class="reference" id="finalVerseRef"></div>
-    </div>
-  </section>
+      <section class="panel reception" id="reception" data-key="reception">
+        <div class="photo-bg" data-image="reception"></div>
+        <div class="dark-veil"></div>
+        <div class="sparkle" aria-hidden="true"></div>
+        <div class="reception-card reveal-group">
+          <h1 class="section-title light stagger">CELEBRATION<br>OF LOVE</h1>
+          <div class="details-list light">
+            <div class="detail stagger"><span class="icon">▣</span><p data-config="receptionDate">7 November 2026</p></div>
+            <div class="detail stagger"><span class="icon">◷</span><p data-config="receptionTime">6:30 PM onwards</p></div>
+            <div class="detail stagger"><span class="icon">⌖</span><p><span data-config="receptionVenue">Sunny Convention Centre</span><br><span data-config="receptionLocation">North Paravur</span></p></div>
+          </div>
+          <a class="location-button light stagger" data-config="receptionMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
+        </div>
+      </section>
 
-  <section id="closing" class="section cover reveal" data-delay="closing">
-    <div class="church-bg" aria-hidden="true"></div>
-    <div class="botanical top-left" aria-hidden="true"></div>
-    <div class="botanical top-right" aria-hidden="true"></div>
-    <div class="inner">
-      <div class="cross">✝</div>
-      <div class="eyebrow">With Faith In Our Hearts</div>
-      <h2>Love By Our Side,<br>God Before Us</h2>
-      <div class="gold-line"></div>
-      <div class="script" style="font-size:clamp(65px,12vw,125px); line-height:.8;" id="closingNames"></div>
-      <p>We begin forever.</p>
-      <div class="reference" id="closingDate"></div>
-      <p style="margin-top:45px;">Thank you for being part of our journey.</p>
-    </div>
-  </section>
+      <section class="panel verse-panel" id="psalm" data-key="celebrationVerse">
+        <div class="soft-landscape" data-image="closing"></div>
+        <div class="leaf-corner top-left"></div>
+        <div class="leaf-corner bottom-right"></div>
+        <div class="verse-content reveal-group">
+          <blockquote class="verse stagger" data-config="celebrationVerse"></blockquote>
+          <p class="verse-ref stagger" data-config="celebrationRef"></p>
+          <span class="gold-line stagger"></span>
+        </div>
+      </section>
 
-</main>
+      <section class="panel family" id="family" data-key="family">
+        <div class="leaf-corner top-left"></div>
+        <div class="leaf-corner bottom-right"></div>
+        <div class="family-content reveal-group">
+          <h1 class="section-title stagger">WITH THE BLESSINGS<br>OF OUR FAMILIES</h1>
+          <div class="family-grid">
+            <article class="family-box stagger">
+              <h2>GROOM'S FAMILY</h2>
+              <p data-config="groomParents">[Father's Name]<br>[Mother's Name]</p>
+            </article>
+            <article class="family-box stagger">
+              <h2>BRIDE'S FAMILY</h2>
+              <p data-config="brideParents">[Father's Name]<br>[Mother's Name]</p>
+            </article>
+          </div>
+          <span class="gold-line stagger"></span>
+          <p class="quote stagger">We are deeply grateful for the love, prayers and support of our families.</p>
+        </div>
+      </section>
 
-<button class="auto-control" id="autoControl" type="button" aria-label="Toggle automatic storytelling">AUTO • ON</button>
-<button class="music" id="musicControl" type="button" aria-label="Play or pause music">♫</button>
-<audio id="weddingMusic" preload="none" loop></audio>
+      <section class="panel countdown" id="countdown" data-key="countdown">
+        <div class="leaf-corner top-right"></div>
+        <div class="countdown-content reveal-group">
+          <h1 class="section-title stagger">COUNTING DOWN<br>TO FOREVER</h1>
+          <div class="count-grid stagger" id="countGrid">
+            <div><strong data-unit="days">00</strong><span>DAYS</span></div>
+            <div><strong data-unit="hours">00</strong><span>HOURS</span></div>
+            <div><strong data-unit="minutes">00</strong><span>MINUTES</span></div>
+            <div><strong data-unit="seconds">00</strong><span>SECONDS</span></div>
+          </div>
+          <p class="complete-message" id="completeMessage" hidden></p>
+          <span class="gold-line stagger"></span>
+          <p class="quote stagger">Every moment brings us closer to the beginning of our forever.</p>
+        </div>
+      </section>
 
-<script src="config.js"></script>
-<script src="script.js"></script>
-</body>
+      <section class="panel closing" id="closing" data-key="closing">
+        <div class="photo-bg" data-image="closing"></div>
+        <div class="closing-glow"></div>
+        <div class="closing-copy reveal-group">
+          <p class="eyebrow stagger">WITH FAITH IN OUR HEARTS,<br>LOVE BY OUR SIDE,<br>AND GOD BEFORE US,</p>
+          <h1 class="closing-title stagger">WE BEGIN FOREVER.</h1>
+          <p class="signature stagger" data-config="signature">Jithin & Lydia</p>
+          <p class="date-line stagger">7 • 11 • 2026</p>
+          <span class="gold-line stagger"></span>
+          <p class="thanks stagger">THANK YOU<br><span>FOR BEING PART OF OUR JOURNEY</span></p>
+        </div>
+      </section>
+    </main>
+
+    <audio id="weddingMusic" loop preload="none"></audio>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

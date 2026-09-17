@@ -1,239 +1,220 @@
-(() => {
-  "use strict";
+(function () {
+  const config = window.weddingConfig;
+  const root = document.documentElement;
+  const panels = Array.from(document.querySelectorAll(".panel"));
+  const openButton = document.getElementById("openInvitation");
+  const autoToggle = document.getElementById("autoToggle");
+  const musicToggle = document.getElementById("musicToggle");
+  const music = document.getElementById("weddingMusic");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const cfg = window.weddingConfig;
-  const $ = (id) => document.getElementById(id);
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function text(id, value) {
-    const el = $(id);
-    if (el) el.textContent = value || "";
-  }
-
-  function setLink(id, url) {
-    const el = $(id);
-    if (!el) return;
-    if (url) {
-      el.href = url;
-      el.style.display = "inline-block";
-    } else {
-      el.removeAttribute("href");
-      el.style.display = "none";
-    }
-  }
-
-  function setupContent() {
-    text("openingVerseText", cfg.bibleVerses.opening.text);
-    text("openingVerseRef", cfg.bibleVerses.opening.reference);
-
-    text("groomName", cfg.couple.groom);
-    text("brideName", cfg.couple.bride);
-    text("heroNames", `${cfg.couple.groom} & ${cfg.couple.bride}`);
-    text("heroDate", cfg.wedding.displayDate);
-
-    text("storyHeading", cfg.story.heading);
-    text("storyText", cfg.story.text);
-
-    text("ceremonyTitle", cfg.ceremony.title);
-    text("ceremonyDate", cfg.ceremony.date);
-    text("ceremonyTime", cfg.ceremony.time);
-    text("ceremonyVenue", cfg.ceremony.venue);
-    text("ceremonyLocation", cfg.ceremony.location);
-    setLink("ceremonyMap", cfg.ceremony.mapsUrl);
-
-    text("receptionTitle", cfg.reception.title);
-    text("receptionDate", cfg.reception.date);
-    text("receptionTime", cfg.reception.time);
-    text("receptionVenue", cfg.reception.venue);
-    text("receptionLocation", cfg.reception.location);
-    setLink("receptionMap", cfg.reception.mapsUrl);
-
-    text("celebrationVerseText", cfg.bibleVerses.celebration.text);
-    text("celebrationVerseRef", cfg.bibleVerses.celebration.reference);
-
-    text("groomParents", cfg.family.groomParents.length ? cfg.family.groomParents.join(" • ") : "Names to be added");
-    text("brideParents", cfg.family.brideParents.length ? cfg.family.brideParents.join(" • ") : "Names to be added");
-
-    text("finalVerseText", cfg.bibleVerses.final.text);
-    text("finalVerseRef", cfg.bibleVerses.final.reference);
-    text("closingNames", `${cfg.couple.groom} & ${cfg.couple.bride}`);
-    text("closingDate", cfg.wedding.displayDate);
-
-    const hero = document.querySelector(".hero");
-    const churchBg = document.querySelectorAll(".church-bg");
-    if (cfg.images.hero) hero.style.backgroundImage =
-      `linear-gradient(rgba(20,20,17,.25), rgba(20,20,17,.6)), url("${cfg.images.hero}")`;
-
-    churchBg.forEach(el => {
-      if (cfg.images.church) el.style.backgroundImage =
-        `linear-gradient(transparent, rgba(105,112,93,.13)), url("${cfg.images.church}")`;
-    });
-
-    if (cfg.images.couple) $("couplePhoto").src = cfg.images.couple;
-
-    const receptionImage = $("receptionImage");
-    if (cfg.images.reception) receptionImage.src = cfg.images.reception;
-
-    const photoStory = $("photoStory");
-    photoStory.innerHTML = "";
-    (cfg.images.story || []).forEach((src, i) => {
-      const img = document.createElement("img");
-      img.className = "photo reveal";
-      img.loading = "lazy";
-      img.alt = `Wedding memory ${i + 1}`;
-      img.src = src;
-      photoStory.appendChild(img);
-    });
-
-    document.documentElement.style.setProperty("--bg", cfg.theme.background);
-    document.documentElement.style.setProperty("--paper", cfg.theme.paper);
-    document.documentElement.style.setProperty("--text", cfg.theme.text);
-    document.documentElement.style.setProperty("--muted", cfg.theme.muted);
-    document.documentElement.style.setProperty("--gold", cfg.theme.gold);
-    document.documentElement.style.setProperty("--olive", cfg.theme.olive);
-  }
-
-  let autoPlay = Boolean(cfg.animation.autoScroll) && !reducedMotion;
   let opened = false;
+  let autoEnabled = config.animation.autoScroll && !reduceMotion;
   let autoTimer = null;
-  let userPauseTimer = null;
-  let currentIndex = 0;
+  let activeIndex = 0;
+  let programmaticScroll = false;
 
-  const sections = Array.from(document.querySelectorAll(".section"));
+  applyTheme();
+  hydrateContent();
+  setupImages();
+  setupObserver();
+  setupCountdown();
+  setupControls();
 
-  function clearAutoTimer() {
-    if (autoTimer) {
-      clearTimeout(autoTimer);
-      autoTimer = null;
+  function applyTheme() {
+    Object.entries(config.theme).forEach(([key, value]) => root.style.setProperty(`--${key}`, value));
+    root.style.setProperty("--speed", String(config.animation.handwritingSpeed || 1));
+  }
+
+  function hydrateContent() {
+    setText("openingVerse", splitVerse(config.bibleVerses.opening.text));
+    setText("openingRef", config.bibleVerses.opening.reference);
+    setText("celebrationVerse", splitVerse(config.bibleVerses.celebration.text));
+    setText("celebrationRef", config.bibleVerses.celebration.reference);
+    setText("displayDate", config.wedding.displayDate.toUpperCase());
+    setText("ceremonyDay", config.ceremony.day);
+    setText("ceremonyDate", config.ceremony.date);
+    setText("ceremonyTime", config.ceremony.time);
+    setText("ceremonyVenue", config.ceremony.venue);
+    setText("ceremonyLocation", config.ceremony.location);
+    setText("receptionDate", config.reception.date);
+    setText("receptionTime", config.reception.time);
+    setText("receptionVenue", config.reception.venue);
+    setText("receptionLocation", config.reception.location);
+    setText("signature", `${config.couple.groom} & ${config.couple.bride}`);
+    setParents("groomParents", config.family.groomParents);
+    setParents("brideParents", config.family.brideParents);
+    setLocation("ceremonyMaps", config.ceremony.mapsUrl);
+    setLocation("receptionMaps", config.reception.mapsUrl);
+
+    if (config.music.source) music.src = config.music.source;
+    if (!config.music.enabled) musicToggle.hidden = true;
+  }
+
+  function setText(key, text) {
+    document.querySelectorAll(`[data-config="${key}"]`).forEach((node) => {
+      node.innerHTML = text;
+    });
+  }
+
+  function setParents(key, names) {
+    const fallback = "[Father's Name]<br>[Mother's Name]";
+    setText(key, names && names.length ? names.map(escapeHtml).join("<br>") : fallback);
+  }
+
+  function setLocation(key, url) {
+    document.querySelectorAll(`[data-config="${key}"]`).forEach((link) => {
+      if (url) {
+        link.href = url;
+      } else {
+        link.removeAttribute("href");
+        link.setAttribute("aria-disabled", "true");
+      }
+    });
+  }
+
+  function splitVerse(text) {
+    return escapeHtml(text).replace(/,\s+/g, ",<br>").replace(/\.\s+/g, ".<br>");
+  }
+
+  function escapeHtml(text) {
+    return String(text).replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[char]));
+  }
+
+  function setupImages() {
+    document.querySelectorAll("[data-image]").forEach((node) => {
+      const image = config.images[node.dataset.image];
+      if (image) node.style.backgroundImage = `url("${image}")`;
+    });
+  }
+
+  function setupObserver() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const panel = entry.target;
+        panel.classList.add("active");
+        activeIndex = panels.indexOf(panel);
+        scheduleNext();
+        if (panel.id === "hero") settleDrawnNames();
+      });
+    }, { threshold: 0.58 });
+
+    panels.forEach((panel) => observer.observe(panel));
+  }
+
+  function setupControls() {
+    updateAutoButton();
+
+    openButton.addEventListener("click", async () => {
+      opened = true;
+      panels[0].classList.add("active");
+      await startMusic();
+      scrollToPanel(1);
+    });
+
+    autoToggle.addEventListener("click", () => {
+      autoEnabled = !autoEnabled;
+      updateAutoButton();
+      scheduleNext();
+    });
+
+    musicToggle.addEventListener("click", async () => {
+      if (!config.music.source) return;
+      if (music.paused) {
+        await startMusic();
+      } else {
+        music.pause();
+        musicToggle.setAttribute("aria-pressed", "false");
+      }
+    });
+
+    ["wheel", "touchstart", "keydown", "pointerdown"].forEach((eventName) => {
+      window.addEventListener(eventName, (event) => {
+        if (!opened || programmaticScroll) return;
+        if (event.target.closest("#autoToggle, #musicToggle, #openInvitation, a, button")) return;
+        autoEnabled = false;
+        updateAutoButton();
+        clearTimeout(autoTimer);
+      }, { passive: true });
+    });
+  }
+
+  async function startMusic() {
+    if (!config.music.enabled || !config.music.source) return;
+    try {
+      await music.play();
+      musicToggle.setAttribute("aria-pressed", "true");
+    } catch (error) {
+      musicToggle.setAttribute("aria-pressed", "false");
     }
+  }
+
+  function updateAutoButton() {
+    autoToggle.textContent = `AUTO • ${autoEnabled ? "ON" : "OFF"}`;
+    autoToggle.setAttribute("aria-pressed", String(autoEnabled));
   }
 
   function scheduleNext() {
-    clearAutoTimer();
-    if (!autoPlay || !opened || currentIndex >= sections.length - 1) return;
-
-    const section = sections[currentIndex];
-    const key = section.dataset.delay || "story";
-    const delay = Number(cfg.animation.sectionDelay[key]) || 7000;
-
-    autoTimer = setTimeout(() => {
-      if (!autoPlay) return;
-      currentIndex += 1;
-      sections[currentIndex].scrollIntoView({ behavior: "smooth", block: "start" });
-      scheduleNext();
-    }, delay);
+    clearTimeout(autoTimer);
+    if (!opened || !autoEnabled || activeIndex >= panels.length - 1) return;
+    const key = panels[activeIndex].dataset.key;
+    const delay = config.animation.sectionDelay[key] || 8000;
+    autoTimer = setTimeout(() => scrollToPanel(activeIndex + 1), delay);
   }
 
-  function pauseForInteraction() {
-    if (!opened) return;
-    autoPlay = false;
-    clearAutoTimer();
-    $("autoControl").textContent = "AUTO • OFF";
+  function scrollToPanel(index) {
+    if (!panels[index]) return;
+    programmaticScroll = true;
+    panels[index].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    window.setTimeout(() => {
+      programmaticScroll = false;
+    }, reduceMotion ? 50 : 1200);
+  }
 
-    clearTimeout(userPauseTimer);
-    userPauseTimer = setTimeout(() => {
-      if (!reducedMotion && opened) {
-        autoPlay = true;
-        $("autoControl").textContent = "AUTO • ON";
-        scheduleNext();
+  function settleDrawnNames() {
+    window.setTimeout(() => {
+      document.querySelectorAll(".draw-name").forEach((node) => node.classList.add("done"));
+    }, 7600 * (config.animation.handwritingSpeed || 1));
+  }
+
+  function setupCountdown() {
+    const target = new Date(`${config.wedding.date}T${config.wedding.time}:00`);
+    const units = {
+      days: document.querySelector('[data-unit="days"]'),
+      hours: document.querySelector('[data-unit="hours"]'),
+      minutes: document.querySelector('[data-unit="minutes"]'),
+      seconds: document.querySelector('[data-unit="seconds"]')
+    };
+    const grid = document.getElementById("countGrid");
+    const message = document.getElementById("completeMessage");
+    message.textContent = config.countdownCompleteMessage;
+
+    function tick() {
+      const remaining = target.getTime() - Date.now();
+      if (remaining <= 0) {
+        grid.hidden = true;
+        message.hidden = false;
+        return;
       }
-    }, 4500);
+      const totalSeconds = Math.floor(remaining / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      units.days.textContent = String(days).padStart(2, "0");
+      units.hours.textContent = String(hours).padStart(2, "0");
+      units.minutes.textContent = String(minutes).padStart(2, "0");
+      units.seconds.textContent = String(seconds).padStart(2, "0");
+    }
+
+    tick();
+    window.setInterval(tick, 1000);
   }
-
-  $("autoControl").addEventListener("click", () => {
-    clearTimeout(userPauseTimer);
-    autoPlay = !autoPlay;
-    $("autoControl").textContent = autoPlay ? "AUTO • ON" : "AUTO • OFF";
-    if (autoPlay) scheduleNext();
-    else clearAutoTimer();
-  });
-
-  ["wheel", "touchstart", "touchmove", "pointerdown", "keydown"].forEach(type => {
-    window.addEventListener(type, (event) => {
-      if (type === "keydown" && ["Tab", "Shift", "Control", "Alt", "Meta"].includes(event.key)) return;
-      pauseForInteraction();
-    }, { passive: true });
-  });
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        if (entry.target.id === "names") entry.target.classList.add("play");
-
-        const idx = sections.indexOf(entry.target);
-        if (idx >= 0 && idx !== currentIndex) {
-          currentIndex = idx;
-          if (opened && autoPlay) scheduleNext();
-        }
-      }
-    });
-  }, { threshold: 0.38 });
-
-  sections.forEach(s => observer.observe(s));
-
-  $("openInvitation").addEventListener("click", () => {
-    if (opened) return;
-    opened = true;
-    $("opening").classList.add("visible");
-    $("openingVerse").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
-
-    const audio = $("weddingMusic");
-    if (cfg.music.enabled && cfg.music.source) {
-      audio.src = cfg.music.source;
-      audio.play().then(() => {
-        $("musicControl").textContent = "❚❚";
-      }).catch(() => {
-        $("musicControl").textContent = "♫";
-      });
-    }
-
-    currentIndex = 1;
-    scheduleNext();
-  });
-
-  $("musicControl").addEventListener("click", () => {
-    const audio = $("weddingMusic");
-    if (!audio.src && cfg.music.source) audio.src = cfg.music.source;
-    if (!audio.src) return;
-
-    if (audio.paused) {
-      audio.play().then(() => $("musicControl").textContent = "❚❚").catch(() => {});
-    } else {
-      audio.pause();
-      $("musicControl").textContent = "♫";
-    }
-  });
-
-  function countdown() {
-    const target = new Date(`${cfg.wedding.date}T${cfg.wedding.time}:00`);
-    const now = new Date();
-    let diff = target.getTime() - now.getTime();
-
-    if (!Number.isFinite(diff) || diff <= 0) {
-      text("days", "0");
-      text("hours", "0");
-      text("minutes", "0");
-      text("seconds", "0");
-      text("countdownMessage", "TODAY, TWO HEARTS BECOME ONE.");
-      return;
-    }
-
-    const days = Math.floor(diff / 86400000);
-    diff %= 86400000;
-    const hours = Math.floor(diff / 3600000);
-    diff %= 3600000;
-    const minutes = Math.floor(diff / 60000);
-    const seconds = Math.floor((diff % 60000) / 1000);
-
-    text("days", String(days).padStart(2, "0"));
-    text("hours", String(hours).padStart(2, "0"));
-    text("minutes", String(minutes).padStart(2, "0"));
-    text("seconds", String(seconds).padStart(2, "0"));
-    text("countdownMessage", "");
-  }
-
-  setupContent();
-  countdown();
-  setInterval(countdown, 1000);
-})();
+}());

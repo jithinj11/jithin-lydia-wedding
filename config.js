@@ -1,4 +1,4 @@
-const weddingConfig = {
+window.weddingConfig = {
   couple: {
     groom: "Jithin",
     bride: "Lydia"
@@ -6,13 +6,14 @@ const weddingConfig = {
 
   wedding: {
     date: "2026-11-07",
-    displayDate: "7 November 2026",
-    time: "15:30"
+    time: "15:30",
+    displayDate: "7 November 2026"
   },
 
   ceremony: {
     title: "Holy Matrimony",
     date: "7 November 2026",
+    day: "Saturday",
     time: "3:30 PM",
     venue: "St. Thomas Jacobite Syrian Church",
     location: "North Paravur",
@@ -28,6 +29,8 @@ const weddingConfig = {
     mapsUrl: ""
   },
 
+  bibleTranslation: "WEB",
+
   bibleVerses: {
     opening: {
       text: "He has made everything beautiful in its time.",
@@ -36,10 +39,6 @@ const weddingConfig = {
     celebration: {
       text: "The Lord has done great things for us, and we are filled with joy.",
       reference: "Psalm 126:3"
-    },
-    final: {
-      text: "",
-      reference: ""
     }
   },
 
@@ -48,39 +47,36 @@ const weddingConfig = {
     brideParents: []
   },
 
-  story: {
-    heading: "Our Journey",
-    text: "Our story will be added here."
-  },
-
   music: {
     enabled: true,
-    source: "assets/music/wedding-music.mp3"
+    source: ""
   },
 
   animation: {
     autoScroll: true,
     sectionDelay: {
       opening: 5000,
-      verse: 8000,
-      names: 7000,
-      hero: 6000,
-      story: 10000,
+      openingVerse: 8000,
+      namesHero: 10000,
       ceremony: 9000,
-      reception: 8000,
+      reception: 9000,
+      celebrationVerse: 8000,
       family: 8000,
       countdown: 7000,
-      closing: 8000
+      closing: 10000
     },
     handwritingSpeed: 1
   },
 
   images: {
-    hero: "assets/images/hero.jpg",
-    church: "assets/images/church.jpg",
-    couple: "assets/images/couple.jpg",
-    story: []
+    opening: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=82",
+    hero: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=2100&q=84",
+    church: "https://images.unsplash.com/photo-1473177104440-ffee2f376098?auto=format&fit=crop&w=1600&q=82",
+    reception: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1800&q=82",
+    closing: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2100&q=82"
   },
+
+  countdownCompleteMessage: "TODAY, TWO HEARTS BECOME ONE.",
 
   theme: {
     background: "#F6F0E6",
