@@ -55,15 +55,15 @@ window.weddingConfig = {
   animation: {
     autoScroll: true,
     sectionDelay: {
-      opening: 2500,
-      openingVerse: 4000,
-      namesHero: 5000,
-      ceremony: 4000,
-      reception: 4000,
-      celebrationVerse: 4000,
-      family: 4000,
-      countdown: 4000,
-      closing: 5000
+      opening: 500,
+      openingVerse: 200,
+      namesHero: 2000,
+      ceremony: 2000,
+      reception: 2000,
+      celebrationVerse: 2000,
+      family: 2000,
+      countdown: 2000,
+      closing:2000
     },
     handwritingSpeed: 1
   },
@@ -72,7 +72,7 @@ window.weddingConfig = {
     opening: "assets/images/1.png",
     hero: "assets/images/hero.png",
     church: "assets/images/church.png",
-    reception: "assets/images/4.png",
+    reception: "assets/images/reception.png",
     closing: "assets/images/2.png"
   },
 
