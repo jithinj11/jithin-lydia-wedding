@@ -87,3 +87,4 @@ window.weddingConfig = {
     olive: "#69705D"
   }
 };
+
