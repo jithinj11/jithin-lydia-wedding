@@ -71,7 +71,7 @@ window.weddingConfig = {
   images: {
     opening: "assets/images/1.png",
     hero: "assets/images/hero.png",
-    church: "assets/images/3.png",
+    church: "assets/images/church.png",
     reception: "assets/images/4.png",
     closing: "assets/images/2.png"
   },

@@ -116,7 +116,7 @@
       opened = true;
       panels[0].classList.add("active");
       await startMusic();
-      scrollToPanel(1);
+      scrollToPanel(1, true);
     });
 
     autoToggle.addEventListener("click", () => {
@@ -166,15 +166,19 @@
     if (!opened || !autoEnabled || activeIndex >= panels.length - 1) return;
     const key = panels[activeIndex].dataset.key;
     const delay = config.animation.sectionDelay[key] || 8000;
-    autoTimer = setTimeout(() => scrollToPanel(activeIndex + 1), delay);
+    autoTimer = setTimeout(() => scrollToPanel(activeIndex + 1, true), delay);
   }
 
-  function scrollToPanel(index) {
+  function scrollToPanel(index, continueAuto = false) {
     if (!panels[index]) return;
+    clearTimeout(autoTimer);
+    activeIndex = index;
+    panels[index].classList.add("active");
     programmaticScroll = true;
     panels[index].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
     window.setTimeout(() => {
       programmaticScroll = false;
+      if (continueAuto) scheduleNext();
     }, reduceMotion ? 50 : 1200);
   }
 
