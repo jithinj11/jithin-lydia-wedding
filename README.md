@@ -1,37 +1,29 @@
-# Jithin & Lydia — Wedding Invitation
+# Jithin & Lydia Wedding Invitation
 
-A mobile-first, elegant wedding invitation website designed in the cream, gold and botanical style of the reference invitation.
+A cinematic Christian wedding invitation designed for GitHub Pages.
 
-## Venues
-- Wedding: St. Thomas Jacobite Syrian Church, North Paravur, Ernakulam
-- Reception: Sunny Convention Center, Ernakulam
+## Main files
 
-## Before publishing
-Open `config.js` and add:
-- weddingDate
-- ceremonyTime
-- receptionTime
+- `index.html` — website structure
+- `style.css` — design and animations
+- `script.js` — interactions, automatic storytelling, countdown and music
+- `config.js` — change wedding details without editing the page
 
-Example:
-```js
-const WEDDING_CONFIG = {
-  weddingDate: "2027-02-14",
-  ceremonyTime: "10:00 AM",
-  receptionTime: "6:00 PM onwards"
-};
-```
+## Add your assets
 
-## Add your photos
-Put these files in `assets/`:
-- `story-1.jpg`
-- `story-2.jpg`
-- `story-3.jpg`
+Place images in `assets/images/` using the configured names:
+
+- `hero.jpg`
 - `church.jpg`
 - `couple.jpg`
+- `reception.jpg`
 
-The site works without photos too; the sections will simply show the designed background.
+Optional music:
 
-## GitHub Pages
-Upload all files to the root of your GitHub repository, commit, then enable GitHub Pages from the repository's Pages settings using the main branch.
+- `assets/music/wedding-music.mp3`
 
-No RSVP is included.
+## Important
+
+Update `config.js` with final Bible translations, family names, story, images, Maps links and music before publishing.
+
+The current website is intentionally configured so the main wedding content can be changed from one file.
