@@ -49,7 +49,7 @@ window.weddingConfig = {
 
   music: {
     enabled: true,
-    source: ""
+    source: "assets/music/wedding-music.mp3"
   },
 
   animation: {
@@ -69,11 +69,11 @@ window.weddingConfig = {
   },
 
   images: {
-    opening: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=82",
-    hero: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=2100&q=84",
-    church: "https://images.unsplash.com/photo-1473177104440-ffee2f376098?auto=format&fit=crop&w=1600&q=82",
-    reception: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1800&q=82",
-    closing: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2100&q=82"
+    opening: "assets/images/1.png",
+    hero: "assets/images/2.png",
+    church: "assets/images/3.png",
+    reception: "assets/images/4.png",
+    closing: "assets/images/2.png"
   },
 
   countdownCompleteMessage: "TODAY, TWO HEARTS BECOME ONE.",
