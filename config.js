@@ -55,15 +55,15 @@ window.weddingConfig = {
   animation: {
     autoScroll: true,
     sectionDelay: {
-      opening: 5000,
-      openingVerse: 8000,
-      namesHero: 10000,
-      ceremony: 9000,
-      reception: 9000,
-      celebrationVerse: 8000,
-      family: 8000,
-      countdown: 7000,
-      closing: 10000
+      opening: 2500,
+      openingVerse: 4000,
+      namesHero: 5000,
+      ceremony: 4000,
+      reception: 4000,
+      celebrationVerse: 4000,
+      family: 4000,
+      countdown: 4000,
+      closing: 5000
     },
     handwritingSpeed: 1
   },
