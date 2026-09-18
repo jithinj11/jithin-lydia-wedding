@@ -53,11 +53,11 @@ window.weddingConfig = {
   },
 
   animation: {
-    autoScroll: false,
+    autoScroll: true,
     sectionDelay: {
       opening: 500,
-      openingVerse: 600,
-      namesHero: 3000,
+      openingVerse: 2000,
+      namesHero: 4500,
       ceremony: 3000,
       reception: 3000,
       celebrationVerse: 3000,
