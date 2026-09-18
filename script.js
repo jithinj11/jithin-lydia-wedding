@@ -3,16 +3,14 @@
   const root = document.documentElement;
   const panels = Array.from(document.querySelectorAll(".panel"));
   const openButton = document.getElementById("openInvitation");
-  const autoToggle = document.getElementById("autoToggle");
   const musicToggle = document.getElementById("musicToggle");
   const music = document.getElementById("weddingMusic");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let opened = false;
-  let autoEnabled = config.animation.autoScroll && !reduceMotion;
-  let autoTimer = null;
   let activeIndex = 0;
-  let programmaticScroll = false;
+  let scrollLocked = false;
+  let lockTimer = null;
 
   applyTheme();
   hydrateContent();
@@ -47,7 +45,10 @@
     setLocation("ceremonyMaps", config.ceremony.mapsUrl);
     setLocation("receptionMaps", config.reception.mapsUrl);
 
-    if (config.music.source) music.src = config.music.source;
+    if (config.music.source) {
+      music.src = config.music.source;
+      music.load();
+    }
     if (!config.music.enabled) musicToggle.hidden = true;
   }
 
@@ -101,8 +102,8 @@
         const panel = entry.target;
         panel.classList.add("active");
         activeIndex = panels.indexOf(panel);
-        scheduleNext();
         if (panel.id === "hero") settleDrawnNames();
+        revealScrollCue(panel);
       });
     }, { threshold: 0.58 });
 
@@ -110,19 +111,11 @@
   }
 
   function setupControls() {
-    updateAutoButton();
-
     openButton.addEventListener("click", async () => {
       opened = true;
       panels[0].classList.add("active");
       await startMusic();
-      scrollToPanel(1, true);
-    });
-
-    autoToggle.addEventListener("click", () => {
-      autoEnabled = !autoEnabled;
-      updateAutoButton();
-      scheduleNext();
+      scrollToPanel(1);
     });
 
     musicToggle.addEventListener("click", async () => {
@@ -135,15 +128,10 @@
       }
     });
 
-    ["wheel", "touchstart", "keydown", "pointerdown"].forEach((eventName) => {
-      window.addEventListener(eventName, (event) => {
-        if (!opened || programmaticScroll) return;
-        if (event.target.closest("#autoToggle, #musicToggle, #openInvitation, a, button")) return;
-        autoEnabled = false;
-        updateAutoButton();
-        clearTimeout(autoTimer);
-      }, { passive: true });
-    });
+    music.addEventListener("error", () => musicToggle.setAttribute("aria-pressed", "false"));
+    window.addEventListener("wheel", blockScrollWhileRevealing, { passive: false });
+    window.addEventListener("touchmove", blockScrollWhileRevealing, { passive: false });
+    window.addEventListener("keydown", blockKeysWhileRevealing);
   }
 
   async function startMusic() {
@@ -156,30 +144,36 @@
     }
   }
 
-  function updateAutoButton() {
-    autoToggle.textContent = `AUTO • ${autoEnabled ? "ON" : "OFF"}`;
-    autoToggle.setAttribute("aria-pressed", String(autoEnabled));
-  }
-
-  function scheduleNext() {
-    clearTimeout(autoTimer);
-    if (!opened || !autoEnabled || activeIndex >= panels.length - 1) return;
-    const key = panels[activeIndex].dataset.key;
-    const delay = config.animation.sectionDelay[key] || 8000;
-    autoTimer = setTimeout(() => scrollToPanel(activeIndex + 1, true), delay);
-  }
-
-  function scrollToPanel(index, continueAuto = false) {
+  function scrollToPanel(index) {
     if (!panels[index]) return;
-    clearTimeout(autoTimer);
     activeIndex = index;
     panels[index].classList.add("active");
-    programmaticScroll = true;
     panels[index].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-    window.setTimeout(() => {
-      programmaticScroll = false;
-      if (continueAuto) scheduleNext();
-    }, reduceMotion ? 50 : 1200);
+  }
+
+  function revealScrollCue(panel) {
+    if (!opened || !["hero", "ceremony", "reception"].includes(panel.id)) return;
+    clearTimeout(lockTimer);
+    scrollLocked = !reduceMotion;
+    panel.classList.remove("scroll-ready");
+    const revealDuration = panel.id === "hero"
+      ? 7600 * (config.animation.handwritingSpeed || 1)
+      : 1700;
+    lockTimer = window.setTimeout(() => {
+      scrollLocked = false;
+      panel.classList.add("scroll-ready");
+    }, reduceMotion ? 0 : revealDuration);
+  }
+
+  function blockScrollWhileRevealing(event) {
+    if (scrollLocked) event.preventDefault();
+  }
+
+  function blockKeysWhileRevealing(event) {
+    if (!scrollLocked) return;
+    if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+      event.preventDefault();
+    }
   }
 
   function settleDrawnNames() {

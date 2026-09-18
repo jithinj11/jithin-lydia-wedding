@@ -53,18 +53,6 @@ window.weddingConfig = {
   },
 
   animation: {
-    autoScroll: true,
-    sectionDelay: {
-      opening: 500,
-      openingVerse: 2000,
-      namesHero: 4500,
-      ceremony: 3000,
-      reception: 3000,
-      celebrationVerse: 3000,
-      family: 2000,
-      countdown: 2000,
-      closing:2000
-    },
     handwritingSpeed: 1
   },
 
@@ -87,4 +75,3 @@ window.weddingConfig = {
     olive: "#69705D"
   }
 };
-

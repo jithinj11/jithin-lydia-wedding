@@ -13,7 +13,6 @@
   <body>
     <div class="grain" aria-hidden="true"></div>
     <div class="top-controls" aria-label="Invitation controls">
-      <button class="pill-control" id="autoToggle" type="button" aria-pressed="true">AUTO • ON</button>
       <button class="round-control" id="musicToggle" type="button" aria-pressed="false" aria-label="Play music">♪</button>
     </div>
 
@@ -54,6 +53,7 @@
           <p class="date-line stagger" data-config="displayDate">7 NOVEMBER 2026</p>
           <span class="gold-line stagger"></span>
         </div>
+        <div class="scroll-cue" aria-hidden="true"><span>SCROLL TO CONTINUE</span><i></i></div>
       </section>
 
       <section class="panel event ceremony" id="ceremony" data-key="ceremony">
@@ -70,6 +70,7 @@
           <a class="location-button stagger" data-config="ceremonyMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
           <p class="quote stagger">Two are better than one, because they have a good return for their work.</p>
         </div>
+        <div class="scroll-cue dark-cue" aria-hidden="true"><span>SCROLL TO CONTINUE</span><i></i></div>
       </section>
 
       <section class="panel reception" id="reception" data-key="reception">
@@ -84,6 +85,7 @@
           </div>
           <a class="location-button light stagger" data-config="receptionMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
         </div>
+        <div class="scroll-cue light-cue" aria-hidden="true"><span>SCROLL TO CONTINUE</span><i></i></div>
       </section>
 
       <!-- <section class="panel verse-panel" id="psalm" data-key="celebrationVerse">
@@ -142,7 +144,7 @@
       </section>
     </main>
 
-    <audio id="weddingMusic" loop preload="none"></audio>
+    <audio id="weddingMusic" loop preload="metadata"></audio>
     <script src="config.js"></script>
     <script src="script.js"></script>
   </body>
