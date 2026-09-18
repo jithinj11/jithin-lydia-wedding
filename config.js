@@ -49,7 +49,7 @@ window.weddingConfig = {
 
   music: {
     enabled: true,
-    source: "assets/music/wedding-music.mp3"
+    source: "assets/music/andriih-wedding-wedding-music-601619.mp3"
   },
 
   animation: {
