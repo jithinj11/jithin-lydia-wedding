@@ -1,150 +1,113 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f6f0e6">
-    <title>Jithin & Lydia | Wedding Invitation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="grain" aria-hidden="true"></div>
-    <div class="film-frame" aria-hidden="true"></div>
-    <div class="top-controls" aria-label="Invitation controls">
-      <button class="round-control" id="musicToggle" type="button" aria-pressed="false" aria-label="Play music">♪</button>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#110c08">
+<meta name="description" content="Jithin & Lydia — a cinematic Christian wedding invitation, 7 November 2026.">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jithin & Lydia | Wedding Invitation">
+<meta property="og:description" content="A cinematic Christian wedding invitation · 7 November 2026">
+<meta property="og:image" content="assets/images/og-image.png">
+<meta property="og:image:alt" content="Jithin and Lydia wedding invitation">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jithin & Lydia | Wedding Invitation">
+<meta name="twitter:description" content="7 November 2026 · North Paravur">
+<meta name="twitter:image" content="assets/images/og-image.png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<title>Jithin & Lydia | Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="grain" aria-hidden="true"></div>
+<div id="pointerGlow" aria-hidden="true"></div>
+<div id="interactionRipple" aria-hidden="true"></div>
+<div id="letterbox" aria-hidden="true"></div>
+<div id="cinematicVignette" aria-hidden="true"></div>
+<main id="film" aria-label="Jithin and Lydia wedding invitation">
+  <section class="scene active" data-scene="opening" aria-label="Opening">
+    <div class="bg depth depth-back"></div><div class="depth depth-mid"></div><div class="lightSweep"></div><div class="shade"></div>
+    <div class="opening content-depth">
+      <small>A CHRISTIAN WEDDING</small><i></i>
+      <h1><span>A BEAUTIFUL</span><span>JOURNEY</span><span>BEGINS</span></h1>
+      <p>Together by Grace<br>Forever in Love</p>
+      <button id="openInvitation" type="button">OPEN INVITATION <b>→</b></button>
+      <div class="micro-hint">A MOMENT WORTH SAVING</div>
     </div>
+  </section>
 
-    <main id="invitation">
-      <section class="panel opening active" id="opening" data-key="opening">
-        <div class="photo-bg" data-image="opening"></div>
-        <div class="light-wash"></div>
-        <div class="opening-card reveal-group">
-          <p class="opening-title stagger">A BEAUTIFUL<br>JOURNEY<br>BEGINS</p>
-          <span class="gold-line stagger"></span>
-          <p class="script-small stagger">Together by Grace<br>Forever in Love</p>
-          <button class="open-button stagger" id="openInvitation" type="button">OPEN INVITATION <span>›</span></button>
-        </div>
-      </section>
+  <section class="scene" data-scene="scripture" aria-label="Scripture">
+    <div class="bg depth depth-back"></div><div class="floatingDust"></div><div class="shade soft"></div>
+    <div class="scripture content-depth"><small>SCRIPTURE</small><i></i>
+      <blockquote>“He has made everything beautiful in its time.”</blockquote>
+      <p>Ecclesiastes 3:11</p>
+    </div>
+  </section>
 
-      <section class="panel verse-panel" id="ecclesiastes" data-key="openingVerse">
-        <div class="soft-landscape" data-image="closing"></div>
-        <div class="verse-content reveal-group">
-          <span class="tiny-cross stagger" aria-hidden="true">✝</span>
-          <blockquote class="verse stagger" data-config="openingVerse"></blockquote>
-          <p class="verse-ref stagger" data-config="openingRef"></p>
-          <span class="gold-line stagger"></span>
-        </div>
-      </section>
+  <section class="scene" data-scene="hero" aria-label="Jithin and Lydia">
+    <div class="bg depth depth-back"></div><div class="heroLight"></div><div class="heroShade"></div>
+    <div class="hero content-depth">
+      <small>YOU ARE INVITED TO<br>THE WEDDING OF</small>
+      <div class="names">
+        <div>Jithin</div><em>&amp;</em><div>Lydia</div>
+        <svg viewBox="0 0 500 80" aria-hidden="true"><path d="M90 46 C175 30 260 42 330 48 C390 53 430 43 465 28"/></svg>
+      </div>
+      <p>7 NOVEMBER 2026</p><i></i>
+      <div class="hero-sub">WITH FAITH • WITH LOVE • WITH GRATITUDE</div>
+      <div class="photo-credit" aria-hidden="true">A MOMENT TO REMEMBER</div>
+    </div>
+  </section>
 
-      <section class="panel hero" id="hero" data-key="namesHero">
-        <div class="photo-bg" data-image="hero"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-copy reveal-group">
-          <p class="eyebrow stagger">YOU ARE INVITED TO<br>THE WEDDING OF</p>
-          <div class="names-svg" aria-label="Jithin and Lydia">
-            <svg viewBox="0 0 720 350" role="img">
-              <path class="ink-flourish flourish-one" d="M120 134 C215 158, 345 146, 454 128 C510 118, 553 121, 592 142" />
-              <text class="draw-name draw-one" x="360" y="118">Jithin</text>
-              <text class="and-word" x="360" y="185">and</text>
-              <text class="draw-name draw-two" x="360" y="292">Lydia</text>
-              <path class="ink-flourish flourish-two" d="M176 300 C268 329, 442 324, 570 286 C600 277, 620 273, 643 280" />
-            </svg>
-          </div>
-          <p class="date-line stagger" data-config="displayDate">7 NOVEMBER 2026</p>
-          <span class="gold-line stagger"></span>
-        </div>
-      </section>
+  <section class="scene" data-scene="ceremony" aria-label="Holy Matrimony">
+    <div class="bg depth depth-back"></div><div class="churchGlow"></div><div class="eventShade"></div>
+    <div class="event ceremony content-depth">
+      <small>THE SACRAMENT OF</small><h2><span>HOLY</span><span>MATRIMONY</span></h2><i></i>
+      <p>St. Thomas Jacobite Syrian Church<br><span>North Paravur</span></p>
+      <b>7 November 2026 · 3:30 PM</b>
+      <a class="location-link" data-map="ceremony" href="#" target="_blank" rel="noopener">VIEW LOCATION <span>↗</span></a>
+    </div>
+  </section>
 
-      <section class="panel event ceremony" id="ceremony" data-key="ceremony">
-        <div class="photo-bg" data-image="church"></div>
-        <div class="event-veil"></div>
-        <div class="event-copy reveal-group">
-          <p class="eyebrow stagger">THE SACRAMENT OF</p>
-          <span class="chapter-line stagger" aria-hidden="true"></span>
-          <h1 class="section-title ceremony-title"><span>HOLY</span><span>MATRIMONY</span></h1>
-          <div class="details-list">
-            <div class="detail stagger"><p><span data-config="ceremonyVenue">St. Thomas Jacobite Syrian Church</span><br><span data-config="ceremonyLocation">North Paravur</span></p></div>
-            <div class="detail stagger"><p><b data-config="ceremonyDay">Saturday</b> · <span data-config="ceremonyDate">7 November 2026</span><br><span data-config="ceremonyTime">3:30 PM</span></p></div>
-          </div>
-          <a class="location-button stagger" data-config="ceremonyMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
-          <p class="quote stagger">Two are better than one, because they have a good return for their work.</p>
-        </div>
-      </section>
+  <section class="scene" data-scene="reception" aria-label="Celebration of Love">
+    <div class="bg depth depth-back"></div><div class="bokeh"></div><div class="receptionShade"></div>
+    <div class="event reception content-depth">
+      <small>AFTER THE CEREMONY</small>
+      <h2><span>CELEBRATION</span><span>OF LOVE</span></h2><i></i>
+      <p>Sunny Convention Centre<br><span>North Paravur</span></p>
+      <b>7 November 2026 · 6:30 PM onwards</b>
+      <a class="location-link" data-map="reception" href="#" target="_blank" rel="noopener">VIEW LOCATION <span>↗</span></a>
+    </div>
+  </section>
 
-      <section class="panel reception" id="reception" data-key="reception">
-        <div class="photo-bg" data-image="reception"></div>
-        <div class="dark-veil"></div>
-        <div class="reception-card reveal-group">
-          <h1 class="section-title light reception-title"><span>CELEBRATION</span><span>OF LOVE</span></h1>
-          <div class="details-list light">
-            <div class="detail stagger"><p><span data-config="receptionVenue">Sunny Convention Centre</span><br><span data-config="receptionLocation">North Paravur</span></p></div>
-            <div class="detail stagger"><p><span data-config="receptionDate">7 November 2026</span><br><span data-config="receptionTime">6:30 PM onwards</span></p></div>
-          </div>
-          <a class="location-button light stagger" data-config="receptionMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
-        </div>
-      </section>
+  <section class="scene" data-scene="family" aria-label="Family blessings">
+    <div class="plain"></div><div class="softRays"></div>
+    <div class="family content-depth"><small>WITH THE BLESSINGS OF OUR FAMILIES</small><i></i>
+      <p>We are deeply grateful for the love, prayers and support of our families.</p>
+    </div>
+  </section>
 
-      <!-- <section class="panel verse-panel" id="psalm" data-key="celebrationVerse">
-        <div class="soft-landscape" data-image="closing"></div>
-        <div class="verse-content reveal-group">
-          <blockquote class="verse stagger" data-config="celebrationVerse"></blockquote>
-          <p class="verse-ref stagger" data-config="celebrationRef"></p>
-          <span class="gold-line stagger"></span>
-        </div>
-      </section> -->
+  <section class="scene" data-scene="countdown" aria-label="Countdown">
+    <div class="plain"></div><div class="countHalo"></div>
+    <div class="count content-depth"><small>COUNTING DOWN</small><h2>TO FOREVER</h2>
+      <div class="timer"><div><b id="d">00</b><p>DAYS</p></div><div><b id="h">00</b><p>HOURS</p></div><div><b id="m">00</b><p>MINUTES</p></div><div><b id="s">00</b><p>SECONDS</p></div></div>
+      <em>Every moment brings us closer to the beginning of our forever.</em>
+    </div>
+  </section>
 
-      <section class="panel family" id="family" data-key="family">
-        <div class="family-content reveal-group">
-          <h1 class="section-title stagger">WITH THE BLESSINGS<br>OF OUR FAMILIES</h1>
-          <div class="family-grid">
-            <article class="family-box stagger">
-              <h2>GROOM'S FAMILY</h2>
-              <p data-config="groomParents">[Father's Name]<br>[Mother's Name]</p>
-            </article>
-            <article class="family-box stagger">
-              <h2>BRIDE'S FAMILY</h2>
-              <p data-config="brideParents">[Father's Name]<br>[Mother's Name]</p>
-            </article>
-          </div>
-          <span class="gold-line stagger"></span>
-          <p class="quote stagger">We are deeply grateful for the love, prayers and support of our families.</p>
-        </div>
-      </section>
-
-      <section class="panel countdown" id="countdown" data-key="countdown">
-        <div class="countdown-content reveal-group">
-          <h1 class="section-title stagger">COUNTING DOWN<br>TO FOREVER</h1>
-          <div class="count-grid stagger" id="countGrid">
-            <div><strong data-unit="days">00</strong><span>DAYS</span></div>
-            <div><strong data-unit="hours">00</strong><span>HOURS</span></div>
-            <div><strong data-unit="minutes">00</strong><span>MINUTES</span></div>
-            <div><strong data-unit="seconds">00</strong><span>SECONDS</span></div>
-          </div>
-          <p class="complete-message" id="completeMessage" hidden></p>
-          <span class="gold-line stagger"></span>
-          <p class="quote stagger">Every moment brings us closer to the beginning of our forever.</p>
-        </div>
-      </section>
-
-      <section class="panel closing" id="closing" data-key="closing">
-        <div class="photo-bg" data-image="closing"></div>
-        <div class="closing-glow"></div>
-        <div class="closing-copy reveal-group">
-          <p class="eyebrow stagger">WITH FAITH IN OUR HEARTS,<br>LOVE BY OUR SIDE,<br>AND GOD BEFORE US,</p>
-          <h1 class="closing-title stagger">WE BEGIN FOREVER.</h1>
-          <p class="signature stagger" data-config="signature">Jithin & Lydia</p>
-          <p class="date-line stagger">7 • 11 • 2026</p>
-          <span class="gold-line stagger"></span>
-          <p class="thanks stagger">THANK YOU<br><span>FOR BEING PART OF OUR JOURNEY</span></p>
-        </div>
-      </section>
-    </main>
-
-    <audio id="weddingMusic" loop preload="metadata"></audio>
-    <script src="config.js"></script>
-    <script src="script.js"></script>
-  </body>
+  <section class="scene" data-scene="closing" aria-label="Closing">
+    <div class="bg depth depth-back"></div><div class="closingLight"></div><div class="shade"></div>
+    <div class="closing content-depth"><small>WITH FAITH IN OUR HEARTS,<br>LOVE BY OUR SIDE,<br>AND GOD BEFORE US,</small>
+      <h2>WE BEGIN FOREVER.</h2><div>Jithin &amp; Lydia</div><p>7 • 11 • 2026</p><i></i><small>THANK YOU<br><span>FOR BEING PART OF OUR JOURNEY</span></small>
+    </div>
+  </section>
+</main>
+<div id="hint" aria-live="polite">TOUCH / CLICK TO PAUSE · RESUMES AFTER 2 SECONDS</div>
+<audio id="weddingMusic" preload="auto" loop aria-hidden="true"></audio>
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
 </html>

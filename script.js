@@ -1,265 +1,135 @@
-(function () {
-  const config = window.weddingConfig;
-  const root = document.documentElement;
-  let panels = Array.from(document.querySelectorAll(".panel"));
-  const openButton = document.getElementById("openInvitation");
-  const musicToggle = document.getElementById("musicToggle");
-  const music = document.getElementById("weddingMusic");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+(()=>{
+  'use strict';
+  const c=window.weddingConfig||{};
+  const body=document.body, root=document.documentElement;
+  const open=document.getElementById('openInvitation'), hint=document.getElementById('hint');
+  const glow=document.getElementById('pointerGlow'), ripple=document.getElementById('interactionRipple');
+  const audio=document.getElementById('weddingMusic');
+  let scenes=[...document.querySelectorAll('.scene')];
+  let i=0,playing=false,paused=false,timer=0,resume=0,started=0,remaining=0,lastPointer=0,countTimer=0;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const resumeDelay=Math.max(500,Number(c.interaction?.resumeAfterInactivity)||2000);
+  const speed=Math.max(.35,Math.min(2.5,Number(c.animation?.speed)||1));
 
-  let opened = false;
-  let activeIndex = 0;
-  let storyTimer = null;
-  let resumeTimer = null;
-  let sceneStartedAt = 0;
-  let sceneRemaining = 0;
-  let storyPaused = false;
-  let started = false;
-
-  applyTheme();
-  hydrateContent();
-  setupOptionalScenes();
-  setupImages();
-  setupObserver();
-  setupCountdown();
-  setupControls();
-
-  function applyTheme() {
-    Object.entries(config.theme).forEach(([key, value]) => root.style.setProperty(`--${key}`, value));
-    root.style.setProperty("--speed", String(config.animation.handwritingSpeed || 1));
-  }
-
-  function hydrateContent() {
-    setText("openingVerse", splitVerse(config.bibleVerses.opening.text));
-    setText("openingRef", config.bibleVerses.opening.reference);
-    setText("celebrationVerse", splitVerse(config.bibleVerses.celebration.text));
-    setText("celebrationRef", config.bibleVerses.celebration.reference);
-    setText("displayDate", config.wedding.displayDate.toUpperCase());
-    setText("ceremonyDay", config.ceremony.day);
-    setText("ceremonyDate", config.ceremony.date);
-    setText("ceremonyTime", config.ceremony.time);
-    setText("ceremonyVenue", config.ceremony.venue);
-    setText("ceremonyLocation", config.ceremony.location);
-    setText("receptionDate", config.reception.date);
-    setText("receptionTime", config.reception.time);
-    setText("receptionVenue", config.reception.venue);
-    setText("receptionLocation", config.reception.location);
-    setText("signature", `${config.couple.groom} & ${config.couple.bride}`);
-    setParents("groomParents", config.family.groomParents);
-    setParents("brideParents", config.family.brideParents);
-    setLocation("ceremonyMaps", config.ceremony.mapsUrl);
-    setLocation("receptionMaps", config.reception.mapsUrl);
-
-    if (config.music.source) {
-      music.src = config.music.source;
-      music.load();
+  function setup(){
+    const theme=c.theme||{};
+    for(const [k,v] of Object.entries(theme)) root.style.setProperty('--'+k,v);
+    root.style.setProperty('--px','0px');root.style.setProperty('--py','0px');
+    root.style.setProperty('--bgx','0px');root.style.setProperty('--bgy','0px');root.style.setProperty('--speed',speed);
+    scenes.forEach(scene=>{
+      const bg=scene.querySelector('.bg'), key=scene.dataset.scene;
+      if(bg&&c.images?.[key]) bg.style.backgroundImage=`url("${c.images[key]}")`;
+    });
+    if(!c.familyBlessings?.enabled){
+      document.querySelector('[data-scene="family"]')?.remove();
+      scenes=[...document.querySelectorAll('.scene')];
     }
-    if (!config.music.enabled) musicToggle.hidden = true;
-  }
-
-  function setText(key, text) {
-    document.querySelectorAll(`[data-config="${key}"]`).forEach((node) => {
-      node.innerHTML = text;
+    document.querySelectorAll('.scene').forEach((scene,n)=>scene.style.setProperty('--scene-index',n));
+    document.querySelectorAll('.location-link').forEach(link=>{
+      const key=link.dataset.map;
+      const url=c[key]?.mapsUrl;
+      if(url) link.href=url; else link.remove();
     });
-  }
-
-  function setParents(key, names) {
-    const fallback = "[Father's Name]<br>[Mother's Name]";
-    setText(key, names && names.length ? names.map(escapeHtml).join("<br>") : fallback);
-  }
-
-  function setLocation(key, url) {
-    document.querySelectorAll(`[data-config="${key}"]`).forEach((link) => {
-      if (url) {
-        link.href = url;
-      } else {
-        link.removeAttribute("href");
-        link.setAttribute("aria-disabled", "true");
-      }
-    });
-  }
-
-  function splitVerse(text) {
-    return escapeHtml(text).replace(/,\s+/g, ",<br>").replace(/\.\s+/g, ".<br>");
-  }
-
-  function escapeHtml(text) {
-    return String(text).replace(/[&<>"']/g, (char) => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[char]));
-  }
-
-  function setupImages() {
-    document.querySelectorAll("[data-image]").forEach((node) => {
-      const image = config.images[node.dataset.image];
-      if (image) node.style.backgroundImage = `url("${image}")`;
-    });
-  }
-
-  function setupOptionalScenes() {
-    const familyScene = document.getElementById("family");
-    if (familyScene && !config.familyBlessings?.enabled) {
-      familyScene.hidden = true;
-      panels = panels.filter((panel) => panel !== familyScene);
+    if(audio&&c.music?.enabled&&c.music?.source){
+      audio.src=c.music.source;
+      audio.volume=Math.max(0,Math.min(1,Number(c.music.volume)||.22));
     }
   }
 
-  function setupObserver() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const panel = entry.target;
-        panel.classList.add("active");
-        activeIndex = panels.indexOf(panel);
-        if (panel.id === "hero") settleDrawnNames();
-      });
-    }, { threshold: 0.58 });
-
-    panels.forEach((panel) => observer.observe(panel));
+  function preload(){
+    const urls=Object.values(c.images||{}).filter(Boolean);
+    urls.forEach(src=>{const im=new Image();im.decoding='async';im.src=src});
   }
 
-  function setupControls() {
-    openButton.addEventListener("click", async () => {
-      opened = true;
-      started = true;
-      document.body.classList.add("film-mode");
-      panels[0].classList.add("active");
-      await startMusic();
-      playScene(1);
-    });
-
-    musicToggle.addEventListener("click", async () => {
-      if (!config.music.source) return;
-      if (music.paused) {
-        await startMusic();
-      } else {
-        music.pause();
-        musicToggle.setAttribute("aria-pressed", "false");
-      }
-    });
-
-    music.addEventListener("error", () => musicToggle.setAttribute("aria-pressed", "false"));
-    window.addEventListener("wheel", blockViewerScroll, { passive: false });
-    window.addEventListener("touchmove", blockViewerScroll, { passive: false });
-    window.addEventListener("keydown", blockViewerKeys);
-    ["pointerdown", "touchstart"].forEach((eventName) => {
-      window.addEventListener(eventName, () => {
-        if (started) pauseForInteraction();
-      }, { passive: true });
-    });
+  function durationFor(scene){
+    const base=Number(c.animation?.scenes?.[scene.dataset.scene])||7000;
+    return Math.max(1800,base/speed);
   }
 
-  async function startMusic() {
-    if (!config.music.enabled || !config.music.source) return;
-    try {
-      await music.play();
-      musicToggle.setAttribute("aria-pressed", "true");
-    } catch (error) {
-      musicToggle.setAttribute("aria-pressed", "false");
+  function resetSceneAnimations(scene){
+    scene.querySelectorAll('[data-replay]').forEach(el=>{el.classList.remove('replay');void el.offsetWidth;el.classList.add('replay')});
+  }
+
+  function show(n){
+    if(n>=scenes.length){
+      playing=false;paused=false;body.classList.remove('playing','paused');hint.textContent='';
+      if(audio){audio.pause();audio.currentTime=0}
+      return;
     }
+    scenes.forEach((s,j)=>s.classList.toggle('active',j===n));
+    i=n; remaining=durationFor(scenes[i]); started=performance.now(); clearTimeout(timer); resetSceneAnimations(scenes[i]);
+    if(playing&&!paused&&!reduced) timer=setTimeout(()=>show(i+1),remaining);
   }
 
-  function scrollToPanel(index) {
-    if (!panels[index]) return;
-    activeIndex = index;
-    panels[index].classList.add("active");
-    panels[index].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  async function start(){
+    if(playing)return;
+    playing=true;paused=false;body.classList.add('playing');
+    hint.textContent='TOUCH / CLICK TO PAUSE · MOVE TO EXPLORE';
+    if(audio&&c.music?.enabled&&c.music?.source){try{await audio.play()}catch(_){}}
+    show(1);
   }
 
-  function playScene(index) {
-    if (!panels[index]) return;
-    clearTimeout(storyTimer);
-    storyPaused = false;
-    document.body.classList.remove("story-paused");
-    activeIndex = index;
-    scrollToPanel(index);
-    const key = panels[index].dataset.key;
-    const duration = config.animation.sceneDuration[key];
-    if (!duration) return;
-    sceneRemaining = duration;
-    sceneStartedAt = performance.now();
-    scheduleAdvance();
-  }
-
-  function scheduleAdvance() {
-    clearTimeout(storyTimer);
-    if (storyPaused || !sceneRemaining) return;
-    storyTimer = window.setTimeout(() => playScene(activeIndex + 1), sceneRemaining);
-  }
-
-  function pauseForInteraction() {
-    clearTimeout(resumeTimer);
-    if (!storyPaused) {
-      const elapsed = performance.now() - sceneStartedAt;
-      sceneRemaining = Math.max(0, sceneRemaining - elapsed);
-      clearTimeout(storyTimer);
-      storyPaused = true;
-      document.body.classList.add("story-paused");
+  function pauseAndResume(){
+    if(!playing)return;
+    clearTimeout(resume);
+    if(!paused){
+      remaining=Math.max(120,remaining-(performance.now()-started));
+      clearTimeout(timer);paused=true;body.classList.add('paused');
+      if(audio)audio.pause();
+      hint.textContent='PAUSED · RESUMING IN 2 SECONDS';
     }
-    resumeTimer = window.setTimeout(() => {
-      storyPaused = false;
-      document.body.classList.remove("story-paused");
-      sceneStartedAt = performance.now();
-      if (sceneRemaining <= 0) {
-        playScene(activeIndex + 1);
-        return;
-      }
-      scheduleAdvance();
-    }, config.animation.interactionResumeDelay || 2000);
+    resume=setTimeout(()=>{
+      if(!playing)return;
+      paused=false;body.classList.remove('paused');hint.textContent='TOUCH / CLICK TO PAUSE · MOVE TO EXPLORE';
+      started=performance.now();
+      if(audio&&c.music?.enabled&&c.music?.source){audio.play().catch(()=>{})}
+      if(!reduced)timer=setTimeout(()=>show(i+1),remaining);
+    },resumeDelay);
   }
 
-  function blockViewerScroll(event) {
-    if (started) event.preventDefault();
+  function pulse(x,y){
+    if(reduced||!ripple)return;
+    ripple.style.left=`${x}px`;ripple.style.top=`${y}px`;
+    ripple.classList.remove('pulse');void ripple.offsetWidth;ripple.classList.add('pulse');
   }
 
-  function blockViewerKeys(event) {
-    if (!started) return;
-    if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
-      event.preventDefault();
-    }
+  function pointerMove(e){
+    if(!playing||reduced)return;
+    const now=performance.now();if(now-lastPointer<16)return;lastPointer=now;
+    const x=e.clientX??innerWidth/2,y=e.clientY??innerHeight/2;
+    const nx=Math.max(-.5,Math.min(.5,x/innerWidth-.5)),ny=Math.max(-.5,Math.min(.5,y/innerHeight-.5));
+    root.style.setProperty('--px',`${(nx*34).toFixed(2)}px`);root.style.setProperty('--py',`${(ny*24).toFixed(2)}px`);
+    root.style.setProperty('--bgx',`${(nx*-18).toFixed(2)}px`);root.style.setProperty('--bgy',`${(ny*-14).toFixed(2)}px`);
+    if(glow){glow.style.left=`${x}px`;glow.style.top=`${y}px`}
   }
 
-  function settleDrawnNames() {
-    window.setTimeout(() => {
-      document.querySelectorAll(".draw-name").forEach((node) => node.classList.add("done"));
-    }, 7600 * (config.animation.handwritingSpeed || 1));
+  function pointerDown(e){
+    if(open&&open.contains(e.target))return;
+    if(e.target?.closest?.('.location-link'))return;
+    if(!playing)return;
+    pulse(e.clientX??innerWidth/2,e.clientY??innerHeight/2);pauseAndResume();
   }
 
-  function setupCountdown() {
-    const target = new Date(`${config.wedding.date}T${config.wedding.time}:00`);
-    const units = {
-      days: document.querySelector('[data-unit="days"]'),
-      hours: document.querySelector('[data-unit="hours"]'),
-      minutes: document.querySelector('[data-unit="minutes"]'),
-      seconds: document.querySelector('[data-unit="seconds"]')
-    };
-    const grid = document.getElementById("countGrid");
-    const message = document.getElementById("completeMessage");
-    message.textContent = config.countdownCompleteMessage;
+  function blockScroll(e){if(playing)e.preventDefault()}
 
-    function tick() {
-      const remaining = target.getTime() - Date.now();
-      if (remaining <= 0) {
-        grid.hidden = true;
-        message.hidden = false;
-        return;
-      }
-      const totalSeconds = Math.floor(remaining / 1000);
-      const days = Math.floor(totalSeconds / 86400);
-      const hours = Math.floor((totalSeconds % 86400) / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-      units.days.textContent = String(days).padStart(2, "0");
-      units.hours.textContent = String(hours).padStart(2, "0");
-      units.minutes.textContent = String(minutes).padStart(2, "0");
-      units.seconds.textContent = String(seconds).padStart(2, "0");
-    }
-
-    tick();
-    window.setInterval(tick, 1000);
+  function countdown(){
+    const date=c.wedding?.date||'2026-11-07',time=c.wedding?.time||'15:30';
+    const target=Date.parse(`${date}T${time}:00`);
+    const d=document.getElementById('d'),h=document.getElementById('h'),m=document.getElementById('m'),s=document.getElementById('s');
+    if(!d||!h||!m||!s||Number.isNaN(target))return;
+    const tick=()=>{const q=Math.max(0,Math.floor((target-Date.now())/1000));d.textContent=String(Math.floor(q/86400)).padStart(2,'0');h.textContent=String(Math.floor(q%86400/3600)).padStart(2,'0');m.textContent=String(Math.floor(q%3600/60)).padStart(2,'0');s.textContent=String(q%60).padStart(2,'0')};
+    tick();countTimer=setInterval(tick,1000);
   }
-}());
+
+  open?.addEventListener('click',start);
+  addEventListener('pointermove',pointerMove,{passive:true});
+  addEventListener('pointerdown',pointerDown,{passive:true});
+  addEventListener('wheel',blockScroll,{passive:false});
+  addEventListener('touchmove',blockScroll,{passive:false});
+  addEventListener('keydown',e=>{
+    if(!playing||e.target?.closest?.('input,textarea,select,button,a'))return;
+    if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key)){e.preventDefault();pauseAndResume()}
+  });
+  addEventListener('beforeunload',()=>{clearInterval(countTimer);clearTimeout(timer);clearTimeout(resume);if(audio)audio.pause()});
+  setup();preload();countdown();
+})();

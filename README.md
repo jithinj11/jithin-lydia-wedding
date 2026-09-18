@@ -1,21 +1,24 @@
-# Jithin & Lydia Wedding Invitation
+# Jithin & Lydia — Premium Cinematic Wedding Invitation
 
-A GitHub Pages-ready Christian wedding invitation website built with HTML, CSS, and vanilla JavaScript.
+GitHub Pages-ready, full-screen, non-scrolling Christian wedding invitation.
 
-## Files
+## Included
+- Cinematic scene engine with automatic progression
+- Pointer/touch depth response and interaction ripple
+- Tap/click pause with automatic resume after 2 seconds
+- Wheel/touch-scroll blocking while the film is playing
+- Scripture, hero, Holy Matrimony, reception, optional family blessings, countdown and closing
+- Scene-specific Google Maps links
+- Image preloading for smoother transitions
+- Open Graph/Twitter sharing metadata and favicon
+- Optional music hook that starts only after OPEN INVITATION and pauses with the film
+- Mobile and reduced-motion handling
 
-- `index.html` contains the nine invitation sections.
-- `style.css` contains the responsive cinematic layout and animations.
-- `script.js` powers configuration hydration, auto-scroll, controls, countdown, and music.
-- `config.js` is the central place to edit names, dates, verses, venues, map links, images, music, and animation timing.
+## Personal photos
+`assets/images/couple-photo-placeholder.png` is a replaceable slot. Replace it with a real couple photo if desired and update `config.js` (`images.heroPhoto`). The current bundled hero is a cinematic placeholder, not a real photograph of the couple.
 
-## Customizing
+## Music
+Set `music.enabled:true` and put the desired file at `assets/music/wedding.mp3` (or change `music.source`). The browser will only attempt playback after the visitor taps OPEN INVITATION.
 
-Edit `config.js`:
-
-- Add Google Maps URLs in `ceremony.mapsUrl` and `reception.mapsUrl`.
-- Replace image URLs in `images` with local files such as `assets/images/hero.jpg`.
-- Add a music file in `assets/music/` and set `music.source`.
-- Replace family placeholders by adding parent names to `family.groomParents` and `family.brideParents`.
-
-The site has no build step. Open `index.html` locally or publish the folder with GitHub Pages.
+## Deploy
+Upload the contents of this folder to a GitHub Pages repository. No build step is required.
