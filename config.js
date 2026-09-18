@@ -8,7 +8,7 @@ window.weddingConfig={
   reception:{
     mapsUrl:'https://www.google.com/maps/search/?api=1&query=Sunny+Convention+Centre+North+Paravur'
   },
-  music:{enabled:false,source:'assets/music/wedding.mp3',volume:.22},
+  music:{enabled:true,source:'assets/music/wedding.mp3',volume:.22},
   interaction:{resumeAfterInactivity:2000},
   animation:{speed:1,scenes:{
     opening:6200,scripture:7200,hero:9800,ceremony:7600,
