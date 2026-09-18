@@ -47,13 +47,26 @@ window.weddingConfig = {
     brideParents: []
   },
 
+  familyBlessings: {
+    enabled: false
+  },
+
   music: {
     enabled: true,
     source: "assets/music/andriih-wedding-wedding-music-601619.mp3"
   },
 
   animation: {
-    handwritingSpeed: 1
+    handwritingSpeed: 1,
+    interactionResumeDelay: 2000,
+    sceneDuration: {
+      openingVerse: 7800,
+      namesHero: 10800,
+      ceremony: 8600,
+      reception: 8600,
+      family: 7400,
+      countdown: 7000
+    }
   },
 
   images: {

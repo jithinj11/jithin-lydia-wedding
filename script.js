@@ -1,7 +1,7 @@
 (function () {
   const config = window.weddingConfig;
   const root = document.documentElement;
-  const panels = Array.from(document.querySelectorAll(".panel"));
+  let panels = Array.from(document.querySelectorAll(".panel"));
   const openButton = document.getElementById("openInvitation");
   const musicToggle = document.getElementById("musicToggle");
   const music = document.getElementById("weddingMusic");
@@ -9,11 +9,16 @@
 
   let opened = false;
   let activeIndex = 0;
-  let scrollLocked = false;
-  let lockTimer = null;
+  let storyTimer = null;
+  let resumeTimer = null;
+  let sceneStartedAt = 0;
+  let sceneRemaining = 0;
+  let storyPaused = false;
+  let started = false;
 
   applyTheme();
   hydrateContent();
+  setupOptionalScenes();
   setupImages();
   setupObserver();
   setupCountdown();
@@ -95,6 +100,14 @@
     });
   }
 
+  function setupOptionalScenes() {
+    const familyScene = document.getElementById("family");
+    if (familyScene && !config.familyBlessings?.enabled) {
+      familyScene.hidden = true;
+      panels = panels.filter((panel) => panel !== familyScene);
+    }
+  }
+
   function setupObserver() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -103,7 +116,6 @@
         panel.classList.add("active");
         activeIndex = panels.indexOf(panel);
         if (panel.id === "hero") settleDrawnNames();
-        revealScrollCue(panel);
       });
     }, { threshold: 0.58 });
 
@@ -113,9 +125,11 @@
   function setupControls() {
     openButton.addEventListener("click", async () => {
       opened = true;
+      started = true;
+      document.body.classList.add("film-mode");
       panels[0].classList.add("active");
       await startMusic();
-      scrollToPanel(1);
+      playScene(1);
     });
 
     musicToggle.addEventListener("click", async () => {
@@ -129,9 +143,14 @@
     });
 
     music.addEventListener("error", () => musicToggle.setAttribute("aria-pressed", "false"));
-    window.addEventListener("wheel", blockScrollWhileRevealing, { passive: false });
-    window.addEventListener("touchmove", blockScrollWhileRevealing, { passive: false });
-    window.addEventListener("keydown", blockKeysWhileRevealing);
+    window.addEventListener("wheel", blockViewerScroll, { passive: false });
+    window.addEventListener("touchmove", blockViewerScroll, { passive: false });
+    window.addEventListener("keydown", blockViewerKeys);
+    ["pointerdown", "touchstart"].forEach((eventName) => {
+      window.addEventListener(eventName, () => {
+        if (started) pauseForInteraction();
+      }, { passive: true });
+    });
   }
 
   async function startMusic() {
@@ -151,26 +170,54 @@
     panels[index].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
   }
 
-  function revealScrollCue(panel) {
-    if (!opened || !["hero", "ceremony", "reception"].includes(panel.id)) return;
-    clearTimeout(lockTimer);
-    scrollLocked = !reduceMotion;
-    panel.classList.remove("scroll-ready");
-    const revealDuration = panel.id === "hero"
-      ? 7600 * (config.animation.handwritingSpeed || 1)
-      : 1700;
-    lockTimer = window.setTimeout(() => {
-      scrollLocked = false;
-      panel.classList.add("scroll-ready");
-    }, reduceMotion ? 0 : revealDuration);
+  function playScene(index) {
+    if (!panels[index]) return;
+    clearTimeout(storyTimer);
+    storyPaused = false;
+    document.body.classList.remove("story-paused");
+    activeIndex = index;
+    scrollToPanel(index);
+    const key = panels[index].dataset.key;
+    const duration = config.animation.sceneDuration[key];
+    if (!duration) return;
+    sceneRemaining = duration;
+    sceneStartedAt = performance.now();
+    scheduleAdvance();
   }
 
-  function blockScrollWhileRevealing(event) {
-    if (scrollLocked) event.preventDefault();
+  function scheduleAdvance() {
+    clearTimeout(storyTimer);
+    if (storyPaused || !sceneRemaining) return;
+    storyTimer = window.setTimeout(() => playScene(activeIndex + 1), sceneRemaining);
   }
 
-  function blockKeysWhileRevealing(event) {
-    if (!scrollLocked) return;
+  function pauseForInteraction() {
+    clearTimeout(resumeTimer);
+    if (!storyPaused) {
+      const elapsed = performance.now() - sceneStartedAt;
+      sceneRemaining = Math.max(0, sceneRemaining - elapsed);
+      clearTimeout(storyTimer);
+      storyPaused = true;
+      document.body.classList.add("story-paused");
+    }
+    resumeTimer = window.setTimeout(() => {
+      storyPaused = false;
+      document.body.classList.remove("story-paused");
+      sceneStartedAt = performance.now();
+      if (sceneRemaining <= 0) {
+        playScene(activeIndex + 1);
+        return;
+      }
+      scheduleAdvance();
+    }, config.animation.interactionResumeDelay || 2000);
+  }
+
+  function blockViewerScroll(event) {
+    if (started) event.preventDefault();
+  }
+
+  function blockViewerKeys(event) {
+    if (!started) return;
     if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
       event.preventDefault();
     }

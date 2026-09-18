@@ -12,6 +12,7 @@
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
+    <div class="film-frame" aria-hidden="true"></div>
     <div class="top-controls" aria-label="Invitation controls">
       <button class="round-control" id="musicToggle" type="button" aria-pressed="false" aria-label="Play music">♪</button>
     </div>
@@ -45,15 +46,16 @@
           <p class="eyebrow stagger">YOU ARE INVITED TO<br>THE WEDDING OF</p>
           <div class="names-svg" aria-label="Jithin and Lydia">
             <svg viewBox="0 0 720 350" role="img">
+              <path class="ink-flourish flourish-one" d="M120 134 C215 158, 345 146, 454 128 C510 118, 553 121, 592 142" />
               <text class="draw-name draw-one" x="360" y="118">Jithin</text>
               <text class="and-word" x="360" y="185">and</text>
               <text class="draw-name draw-two" x="360" y="292">Lydia</text>
+              <path class="ink-flourish flourish-two" d="M176 300 C268 329, 442 324, 570 286 C600 277, 620 273, 643 280" />
             </svg>
           </div>
           <p class="date-line stagger" data-config="displayDate">7 NOVEMBER 2026</p>
           <span class="gold-line stagger"></span>
         </div>
-        <div class="scroll-cue" aria-hidden="true"><span>SCROLL TO CONTINUE</span><i></i></div>
       </section>
 
       <section class="panel event ceremony" id="ceremony" data-key="ceremony">
@@ -61,31 +63,28 @@
         <div class="event-veil"></div>
         <div class="event-copy reveal-group">
           <p class="eyebrow stagger">THE SACRAMENT OF</p>
-          <h1 class="section-title stagger">HOLY MATRIMONY</h1>
+          <span class="chapter-line stagger" aria-hidden="true"></span>
+          <h1 class="section-title ceremony-title"><span>HOLY</span><span>MATRIMONY</span></h1>
           <div class="details-list">
-            <div class="detail stagger"><span class="icon">▣</span><p><b data-config="ceremonyDay">Saturday</b><br><span data-config="ceremonyDate">7 November 2026</span></p></div>
-            <div class="detail stagger"><span class="icon">◷</span><p data-config="ceremonyTime">3:30 PM</p></div>
-            <div class="detail stagger"><span class="icon">⌖</span><p><span data-config="ceremonyVenue">St. Thomas Jacobite Syrian Church</span><br><span data-config="ceremonyLocation">North Paravur</span></p></div>
+            <div class="detail stagger"><p><span data-config="ceremonyVenue">St. Thomas Jacobite Syrian Church</span><br><span data-config="ceremonyLocation">North Paravur</span></p></div>
+            <div class="detail stagger"><p><b data-config="ceremonyDay">Saturday</b> · <span data-config="ceremonyDate">7 November 2026</span><br><span data-config="ceremonyTime">3:30 PM</span></p></div>
           </div>
           <a class="location-button stagger" data-config="ceremonyMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
           <p class="quote stagger">Two are better than one, because they have a good return for their work.</p>
         </div>
-        <div class="scroll-cue dark-cue" aria-hidden="true"><span>SCROLL TO CONTINUE</span><i></i></div>
       </section>
 
       <section class="panel reception" id="reception" data-key="reception">
         <div class="photo-bg" data-image="reception"></div>
         <div class="dark-veil"></div>
         <div class="reception-card reveal-group">
-          <h1 class="section-title light stagger">CELEBRATION<br>OF LOVE</h1>
+          <h1 class="section-title light reception-title"><span>CELEBRATION</span><span>OF LOVE</span></h1>
           <div class="details-list light">
-            <div class="detail stagger"><span class="icon">▣</span><p data-config="receptionDate">7 November 2026</p></div>
-            <div class="detail stagger"><span class="icon">◷</span><p data-config="receptionTime">6:30 PM onwards</p></div>
-            <div class="detail stagger"><span class="icon">⌖</span><p><span data-config="receptionVenue">Sunny Convention Centre</span><br><span data-config="receptionLocation">North Paravur</span></p></div>
+            <div class="detail stagger"><p><span data-config="receptionVenue">Sunny Convention Centre</span><br><span data-config="receptionLocation">North Paravur</span></p></div>
+            <div class="detail stagger"><p><span data-config="receptionDate">7 November 2026</span><br><span data-config="receptionTime">6:30 PM onwards</span></p></div>
           </div>
           <a class="location-button light stagger" data-config="receptionMaps" href="#" target="_blank" rel="noreferrer">VIEW LOCATION <span>›</span></a>
         </div>
-        <div class="scroll-cue light-cue" aria-hidden="true"><span>SCROLL TO CONTINUE</span><i></i></div>
       </section>
 
       <!-- <section class="panel verse-panel" id="psalm" data-key="celebrationVerse">
@@ -97,7 +96,7 @@
         </div>
       </section> -->
 
-      <!-- <section class="panel family" id="family" data-key="family">
+      <section class="panel family" id="family" data-key="family">
         <div class="family-content reveal-group">
           <h1 class="section-title stagger">WITH THE BLESSINGS<br>OF OUR FAMILIES</h1>
           <div class="family-grid">
@@ -113,7 +112,7 @@
           <span class="gold-line stagger"></span>
           <p class="quote stagger">We are deeply grateful for the love, prayers and support of our families.</p>
         </div>
-      </section> -->
+      </section>
 
       <section class="panel countdown" id="countdown" data-key="countdown">
         <div class="countdown-content reveal-group">
