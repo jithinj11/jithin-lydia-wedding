@@ -60,10 +60,10 @@ window.weddingConfig = {
     handwritingSpeed: 1,
     interactionResumeDelay: 2000,
     sceneDuration: {
-      openingVerse: 7800,
+      openingVerse: 5000,
       namesHero: 10800,
-      ceremony: 8600,
-      reception: 8600,
+      ceremony: 5000,
+      reception: 5000,
       family: 7400,
       countdown: 7000
     }
