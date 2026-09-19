@@ -66,7 +66,7 @@
     if(playing)return;
     playing=true;paused=false;body.classList.add('playing');
     hint.textContent='TOUCH / CLICK TO PAUSE · MOVE TO EXPLORE';
-    if(audio&&c.music?.enabled&&c.music?.source){try{await audio.play()}catch(_){}}
+    if(audio&&c.music?.enabled&&c.music?.source){audio.load();try{await audio.play()}catch(_){} }
     show(1);
   }
 

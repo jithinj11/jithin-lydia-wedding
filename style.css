@@ -68,3 +68,21 @@ body{touch-action:auto;overflow:hidden;}
 
 .event p span{display:inline-block;font-style:italic;color:#fff8ed!important;text-shadow:0 2px 14px rgba(0,0,0,.98);}
 .event b{color:#fff8ed;text-shadow:0 2px 14px rgba(0,0,0,.98);}
+
+/* Final mobile closing-scene fit */
+@media(max-width:700px){
+  .closing.content-depth{top:51%;width:94vw;padding:0 2vw;}
+  .closing small{font-size:.56rem;letter-spacing:.16em;line-height:1.5;}
+  .closing h2{font-size:clamp(2.35rem,10vw,3.4rem);line-height:.9;margin:15px 0;}
+  .closing>div{font-size:clamp(3.6rem,16vw,5.2rem);line-height:.9;}
+  .closing>p{font-size:.62rem;letter-spacing:.16em;margin:12px 0;}
+  .closing i{width:110px;margin:13px auto;}
+  .closing small:last-child{font-size:.54rem;line-height:1.55;}
+  .closing small span{font-size:.76em;}
+}
+@media(max-height:650px) and (max-width:700px){
+  .closing.content-depth{top:49%;}
+  .closing h2{margin:10px 0;font-size:2.2rem;}
+  .closing>div{font-size:3.45rem;}
+  .closing i{margin:9px auto;}
+}
