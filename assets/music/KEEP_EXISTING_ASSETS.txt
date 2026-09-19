@@ -1,0 +1,1 @@
+Existing repository music belongs in this folder. The enhanced code uses assets/music/wedding.mp3.

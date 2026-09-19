@@ -1,27 +1,18 @@
-# Jithin & Lydia — Premium Cinematic Wedding Invitation
+# Jithin & Lydia — Cinematic Wedding Invitation
 
-GitHub Pages-ready, full-screen, non-scrolling Christian wedding invitation.
+This is a drop-in enhanced version of the existing GitHub Pages invitation.
 
-## Included
-- Cinematic scene engine with automatic progression
-- Pointer/touch depth response and interaction ripple
-- Tap/click pause with automatic resume after 2 seconds
-- Wheel/touch-scroll blocking while the film is playing
-- Scripture, hero, Holy Matrimony, reception, optional family blessings, countdown and closing
-- Scene-specific Google Maps links
-- Image preloading for smoother transitions
-- Open Graph/Twitter sharing metadata and favicon
-- Optional music hook that starts only after OPEN INVITATION and pauses with the film
-- Mobile and reduced-motion handling
+## What changed
+- Same existing sections, wording, dates, venues and flow.
+- 2.5D depth/parallax driven by phone orientation on supported mobile devices.
+- Desktop mouse parallax fallback.
+- Cinematic moving light/reflection layer.
+- Multi-depth floating petals and dust.
+- Touch ripple interaction.
+- Hidden tilt reveal on the existing hero scene.
+- Existing countdown and map links retained.
+- Existing `assets/images/*` and `assets/music/wedding.mp3` paths retained.
+- No frameworks or npm/build step required.
 
-## Personal photos
-`assets/images/couple-photo-placeholder.png` is a replaceable slot. Replace it with a real couple photo if desired and update `config.js` (`images.heroPhoto`). The current bundled hero is a cinematic placeholder, not a real photograph of the couple.
-
-## Music
-Set `music.enabled:true` and put the desired file at `assets/music/wedding.mp3` (or change `music.source`). The browser will only attempt playback after the visitor taps OPEN INVITATION.
-
-## Deploy
-Upload the contents of this folder to a GitHub Pages repository. No build step is required.
-
-
-Updated build: centered hero typography, clearer ceremony/reception overlays, event-only micro-scroll, cinematic countdown background, refined closing background, and no external music dependency. Upload the contents of this ZIP to the GitHub repository root.
+## Important asset rule
+Keep the existing `assets/images/` and `assets/music/` files from the current repository when uploading these updated files. The enhanced code intentionally references those exact existing assets so the current artwork and wedding music remain unchanged.
