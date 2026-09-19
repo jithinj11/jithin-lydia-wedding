@@ -1,22 +1,101 @@
-(()=>{'use strict';
-const c=window.weddingConfig||{};const root=document.documentElement,body=document.body;
-const scenes=[...document.querySelectorAll('.scene')],open=document.getElementById('openInvitation'),audio=document.getElementById('weddingMusic'),hint=document.getElementById('hint'),ripple=document.getElementById('interactionRipple');
-let i=0,playing=false,paused=false,timer=0,resume=0,started=0,remaining=0,last=0,tiltSeen=false,permissionAsked=false;
-const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const speed=Math.max(.35,Math.min(2.5,Number(c.animation?.speed)||1));
-function setVars(){for(const[k,v]of Object.entries(c.theme||{}))root.style.setProperty('--'+k,v);root.style.setProperty('--px','0px');root.style.setProperty('--py','0px');root.style.setProperty('--rx','0deg');root.style.setProperty('--ry','0deg');for(const s of scenes){const bg=s.querySelector('.bg');const key=s.dataset.scene;if(bg&&c.images?.[key])bg.style.backgroundImage=`url("${c.images[key]}")`;}}
-function petals(){document.querySelectorAll('.fx-petals').forEach(w=>{for(let n=0;n<20;n++){const s=document.createElement('span');s.style.setProperty('--dur',(8+Math.random()*10).toFixed(1)+'s');s.style.setProperty('--delay',(-Math.random()*15).toFixed(1)+'s');s.style.setProperty('--wind',(Math.random()*70-35).toFixed(0)+'px');w.appendChild(s)}})}
-function preload(){Object.values(c.images||{}).forEach(src=>{const im=new Image();im.decoding='async';im.src=src})}
-function duration(scene){return Math.max(1800,(Number(c.animation?.scenes?.[scene.dataset.scene])||6500)/speed)}
-function show(n){if(n>=scenes.length){playing=false;body.classList.remove('playing','paused','show-tilt-hint');hint.textContent='';if(audio){audio.pause();audio.currentTime=0}return}scenes.forEach((s,j)=>s.classList.toggle('active',j===n));i=n;remaining=duration(scenes[i]);started=performance.now();clearTimeout(timer);if(n!==2)document.querySelector('.hero')?.classList.remove('secret-active');if(playing&&!paused&&!reduced)timer=setTimeout(()=>show(i+1),remaining)}
-async function requestMotion(){if(permissionAsked)return;permissionAsked=true;try{if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){const p=await DeviceOrientationEvent.requestPermission();if(p!=='granted')return}}catch(e){}addEventListener('deviceorientation',orientation,{passive:true})}
-async function start(){if(playing)return;await requestMotion();playing=true;paused=false;body.classList.add('playing','show-tilt-hint');hint.textContent='TOUCH / CLICK TO PAUSE · MOVE TO EXPLORE';if(audio&&c.music?.enabled&&c.music?.source){audio.src=c.music.source;audio.volume=Math.max(0,Math.min(1,Number(c.music.volume)||.22));try{await audio.play()}catch(e){}}show(1);setTimeout(()=>body.classList.remove('show-tilt-hint'),3200)}
-function pauseResume(){if(!playing)return;clearTimeout(resume);if(!paused){remaining=Math.max(120,remaining-(performance.now()-started));clearTimeout(timer);paused=true;body.classList.add('paused');audio?.pause();hint.textContent='PAUSED · RESUMING IN 2 SECONDS'}resume=setTimeout(()=>{if(!playing)return;paused=false;body.classList.remove('paused');hint.textContent='TOUCH / CLICK TO PAUSE · MOVE TO EXPLORE';started=performance.now();audio?.play().catch(()=>{});if(!reduced)timer=setTimeout(()=>show(i+1),remaining)},Number(c.interaction?.resumeAfterInactivity)||2000)}
-function pulse(x,y){if(!ripple)return;ripple.style.left=x+'px';ripple.style.top=y+'px';ripple.classList.remove('pulse');void ripple.offsetWidth;ripple.classList.add('pulse')}
-function setMotion(x,y){const now=performance.now();if(now-last<16)return;last=now;const nx=Math.max(-1,Math.min(1,x)),ny=Math.max(-1,Math.min(1,y));root.style.setProperty('--px',(nx*28).toFixed(2)+'px');root.style.setProperty('--py',(ny*22).toFixed(2)+'px');root.style.setProperty('--bgx',(nx*-14).toFixed(2)+'px');root.style.setProperty('--bgy',(ny*-10).toFixed(2)+'px');root.style.setProperty('--rx',(nx*2.8).toFixed(2)+'deg');root.style.setProperty('--ry',(ny*-2.8).toFixed(2)+'deg');if(Math.abs(nx)>.72||Math.abs(ny)>.72){document.querySelector('.hero')?.classList.add('secret-active');tiltSeen=true}else if(tiltSeen&&Math.abs(nx)<.35&&Math.abs(ny)<.35)document.querySelector('.hero')?.classList.remove('secret-active')}
-function orientation(e){if(!playing||reduced)return;const gamma=e.gamma||0,beta=e.beta||0;setMotion(Math.max(-1,Math.min(1,gamma/28)),Math.max(-1,Math.min(1,(beta-45)/28)))}
-function pointerMove(e){if(!playing||reduced)return;setMotion((e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2);const g=document.getElementById('pointerGlow');if(g){g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'}}
-function pointerDown(e){if(open?.contains(e.target)||e.target?.closest?.('.location-link'))return;if(!playing)return;pulse(e.clientX??innerWidth/2,e.clientY??innerHeight/2);if(e.pointerType!=='touch')pauseResume()}
-function wheel(e){if(!playing)return;if(document.querySelector('.scene.active.event-scene'))return;e.preventDefault();pauseResume()}
-function countdown(){const target=Date.parse(`${c.wedding?.date||'2026-11-07'}T${c.wedding?.time||'15:30'}:00`);const els=['d','h','m','s'].map(id=>document.getElementById(id));const tick=()=>{let q=Math.max(0,Math.floor((target-Date.now())/1000));els[0].textContent=String(Math.floor(q/86400)).padStart(2,'0');els[1].textContent=String(Math.floor(q%86400/3600)).padStart(2,'0');els[2].textContent=String(Math.floor(q%3600/60)).padStart(2,'0');els[3].textContent=String(q%60).padStart(2,'0')};tick();setInterval(tick,1000)}
-open?.addEventListener('click',start);addEventListener('pointermove',pointerMove,{passive:true});addEventListener('pointerdown',pointerDown,{passive:true});addEventListener('wheel',wheel,{passive:false});addEventListener('keydown',e=>{if(!playing||e.target?.closest?.('a,button'))return;if([' ','ArrowDown','ArrowUp','PageDown','PageUp'].includes(e.key)){e.preventDefault();pauseResume()}});document.querySelectorAll('.location-link').forEach(a=>{const key=a.dataset.map;if(c[key]?.mapsUrl)a.href=c[key].mapsUrl});setVars();petals();preload();countdown();
+(()=>{"use strict";
+const cfg=window.weddingConfig||{};
+const scenes=[...document.querySelectorAll(".scene")];
+const labels={opening:"OPENING",scripture:"SCRIPTURE",hero:"JITHIN & LYDIA",ceremony:"HOLY MATRIMONY",reception:"CELEBRATION",countdown:"COUNTDOWN",closing:"FOREVER"};
+const durations={opening:6200,scripture:5200,hero:7600,ceremony:7600,reception:7600,countdown:6000,closing:9000};
+const prefersReduced=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const root=document.documentElement, body=document.body;
+const progress=document.querySelector(".progress span"), sceneName=document.getElementById("sceneName");
+const cursor=document.querySelector(".cursor-light"), music=document.getElementById("music"), sound=document.getElementById("sound");
+let current=0, started=false, paused=false, timer=null, startedAt=0, remaining=0, resumeTimer=null, pointerX=.5, pointerY=.5;
+
+function cssVars(x,y){
+  const dx=(x-.5), dy=(y-.5);
+  pointerX=x; pointerY=y;
+  root.style.setProperty("--mx",(dx*34).toFixed(2)+"px");
+  root.style.setProperty("--my",(dy*24).toFixed(2)+"px");
+  root.style.setProperty("--rx",(dy*-2.8).toFixed(2)+"deg");
+  root.style.setProperty("--ry",(dx*3.8).toFixed(2)+"deg");
+  if(cursor){cursor.style.left=(x*100)+"%";cursor.style.top=(y*100)+"%";}
+}
+function duration(){return (durations[scenes[current]?.dataset.scene]||6500)/(Number(cfg.animation?.speed)||1)}
+function animateScene(scene){
+  scene.querySelectorAll(".depth-front,.depth-mid").forEach(el=>{
+    el.animate([{opacity:0,transform:getComputedStyle(el).transform+" translateY(12px)"},{opacity:1,transform:getComputedStyle(el).transform}],{duration:900,easing:"cubic-bezier(.16,1,.3,1)",fill:"both"});
+  });
+}
+function setScene(n,autoplay=true){
+  clearTimeout(timer);
+  current=Math.max(0,Math.min(n,scenes.length-1));
+  scenes.forEach((s,i)=>s.classList.toggle("is-active",i===current));
+  const key=scenes[current].dataset.scene;
+  sceneName.textContent=labels[key]||key.toUpperCase();
+  root.style.setProperty("--progress",(current/(scenes.length-1)).toFixed(4));
+  if(!prefersReduced) animateScene(scenes[current]);
+  remaining=duration(); startedAt=performance.now();
+  if(started && autoplay && !paused && !prefersReduced) timer=setTimeout(()=>setScene(current+1),remaining);
+}
+function start(){
+  if(started)return;
+  started=true; body.classList.add("started");
+  setScene(1);
+  music.volume=Number(cfg.music?.volume)||.22;
+  music.play().then(()=>{sound.innerHTML='SOUND <span>ON</span>';}).catch(()=>{});
+}
+function pauseResume(){
+  if(!started)return;
+  clearTimeout(resumeTimer);
+  if(!paused){
+    paused=true;
+    remaining=Math.max(400,remaining-(performance.now()-startedAt));
+    clearTimeout(timer);
+    resumeTimer=setTimeout(()=>{paused=false;startedAt=performance.now();if(!prefersReduced)timer=setTimeout(()=>setScene(current+1),remaining);},2000);
+  }else{
+    paused=false;startedAt=performance.now();
+    if(!prefersReduced)timer=setTimeout(()=>setScene(current+1),remaining);
+  }
+}
+function next(){
+  if(!started){start();return}
+  setScene(current+1);
+}
+function toggleSound(){
+  if(music.paused){music.play().then(()=>sound.innerHTML='SOUND <span>ON</span>').catch(()=>{});}
+  else{music.pause();sound.innerHTML='SOUND <span>OFF</span>';}
+}
+function countdown(){
+  const target=Date.parse((cfg.wedding?.date||"2026-11-07")+"T"+(cfg.wedding?.time||"15:30")+":00");
+  const ids=["d","h","m","s"];
+  function tick(){
+    let q=Math.max(0,Math.floor((target-Date.now())/1000));
+    const vals=[Math.floor(q/86400),Math.floor(q%86400/3600),Math.floor(q%3600/60),q%60];
+    ids.forEach((id,i)=>document.getElementById(id).textContent=String(vals[i]).padStart(2,"0"));
+  }
+  tick(); setInterval(tick,1000);
+}
+document.getElementById("enter").addEventListener("click",start);
+document.getElementById("skip").addEventListener("click",next);
+sound.addEventListener("click",toggleSound);
+document.addEventListener("pointermove",e=>cssVars(e.clientX/innerWidth,e.clientY/innerHeight),{passive:true});
+document.addEventListener("pointerdown",e=>{
+  if(e.target.closest("button,a"))return;
+  if(started)pauseResume();
+});
+document.addEventListener("touchmove",e=>{
+  const t=e.touches[0]; if(t)cssVars(t.clientX/innerWidth,t.clientY/innerHeight);
+},{passive:true});
+document.addEventListener("keydown",e=>{
+  if(e.target.closest("button,a"))return;
+  if(e.key==="ArrowRight"||e.key==="PageDown")next();
+  if(e.key==="ArrowLeft"||e.key==="PageUp")setScene(current-1);
+  if(e.key===" "){e.preventDefault();pauseResume();}
+});
+let sx=0,sy=0;
+document.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+document.addEventListener("touchend",e=>{
+  const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+  if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)){dx<0?next():setScene(current-1);}
+},{passive:true});
+countdown();
+setScene(0,false);
 })();

@@ -1,18 +1,20 @@
-# Jithin & Lydia — Cinematic Wedding Invitation
+# Jithin & Lydia — Professional Cinematic Wedding Invitation
 
-This is a drop-in enhanced version of the existing GitHub Pages invitation.
+A self-contained static website for GitHub Pages.
 
-## What changed
-- Same existing sections, wording, dates, venues and flow.
-- 2.5D depth/parallax driven by phone orientation on supported mobile devices.
-- Desktop mouse parallax fallback.
-- Cinematic moving light/reflection layer.
-- Multi-depth floating petals and dust.
-- Touch ripple interaction.
-- Hidden tilt reveal on the existing hero scene.
-- Existing countdown and map links retained.
-- Existing `assets/images/*` and `assets/music/wedding.mp3` paths retained.
-- No frameworks or npm/build step required.
+## Included
+- Premium editorial typography and spacing system
+- Restrained cinematic transitions
+- True pointer/touch parallax with separate depth layers
+- Responsive mobile composition
+- Ceremony and reception map links
+- Countdown to 7 November 2026, 3:30 PM
+- Bundled wedding music
+- Bundled image assets
+- No build step and no external JavaScript dependencies
 
-## Important asset rule
-Keep the existing `assets/images/` and `assets/music/` files from the current repository when uploading these updated files. The enhanced code intentionally references those exact existing assets so the current artwork and wedding music remain unchanged.
+Upload the contents of this folder to the repository root. Keep the `assets` folder beside `index.html`.
+
+
+### V2 — mobile-first hero
+The hero now uses a dedicated narrow-screen composition: stacked names, separated metadata, reduced kicker width, and a three-layer cinematic atmosphere (snow-like particles, drifting petals, and warm glints). Desktop expands this same hierarchy rather than shrinking a desktop layout.
