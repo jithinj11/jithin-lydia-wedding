@@ -3,88 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0c0907">
+<meta name="theme-color" content="#110c08">
 <meta name="description" content="Jithin & Lydia — a cinematic Christian wedding invitation, 7 November 2026.">
+<meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Jithin & Lydia — Wedding Invitation">
-<meta property="og:description" content="7 November 2026 • North Paravur">
+<meta property="og:title" content="Jithin & Lydia | Wedding Invitation">
+<meta property="og:description" content="A cinematic Christian wedding invitation · 7 November 2026">
 <meta property="og:image" content="assets/images/og-image.png">
 <meta property="og:image:alt" content="Jithin and Lydia wedding invitation">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jithin & Lydia — Wedding Invitation">
-<meta name="twitter:description" content="7 November 2026 • North Paravur">
+<meta name="twitter:title" content="Jithin & Lydia | Wedding Invitation">
+<meta name="twitter:description" content="7 November 2026 · North Paravur">
 <meta name="twitter:image" content="assets/images/og-image.png">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<title>Jithin & Lydia — Wedding Invitation</title>
+<title>Jithin & Lydia | Wedding Invitation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="grain"></div><div id="pointerGlow"></div><div id="interactionRipple"></div><div id="letterbox"></div><div id="cinematicVignette"></div>
-
+<div id="grain" aria-hidden="true"></div>
+<div id="pointerGlow" aria-hidden="true"></div>
+<div id="interactionRipple" aria-hidden="true"></div>
+<div id="letterbox" aria-hidden="true"></div>
+<div id="cinematicVignette" aria-hidden="true"></div>
 <main id="film" aria-label="Jithin and Lydia wedding invitation">
+  <section class="scene active" data-scene="opening" aria-label="Opening">
+    <div class="bg depth depth-back"></div><div class="depth depth-mid"></div><div class="lightSweep"></div><div class="shade"></div>
+    <div class="opening content-depth">
+      <small>A CHRISTIAN WEDDING</small><i></i>
+      <h1><span>A BEAUTIFUL</span><span>JOURNEY</span><span>BEGINS</span></h1>
+      <p>Together by Grace<br>Forever in Love</p>
+      <button id="openInvitation" type="button">OPEN INVITATION <b>→</b></button>
+      <div class="micro-hint">A MOMENT WORTH SAVING</div>
+    </div>
+  </section>
 
-<section class="scene active" data-scene="opening" aria-label="Opening">
-<div class="bg"></div><div class="wash"></div><div class="lightSweep"></div>
-<div class="opening content"><small>OUR STORY</small><i></i>
-<h1><span>A BEAUTIFUL</span><span>JOURNEY</span><span>BEGINS</span></h1>
-<p class="opening-tagline">Together by Grace<br>Forever in Love</p>
-<button id="openInvitation" type="button">BEGIN THE JOURNEY <em>→</em></button></div>
-</section>
+  <section class="scene" data-scene="scripture" aria-label="Scripture">
+    <div class="bg depth depth-back"></div><div class="floatingDust"></div><div class="shade soft"></div>
+    <div class="scripture content-depth"><small>SCRIPTURE</small><i></i>
+      <blockquote>“He has made everything beautiful in its time.”</blockquote>
+      <p>Ecclesiastes 3:11</p>
+    </div>
+  </section>
 
-<section class="scene" data-scene="scripture" aria-label="Scripture">
-<div class="bg"></div><div class="wash parchment"></div>
-<div class="scripture content"><small>SCRIPTURE</small><i></i>
-<blockquote>“He has made everything beautiful in its time.”</blockquote><p>Ecclesiastes 3:11</p></div>
-</section>
+  <section class="scene" data-scene="hero" aria-label="Jithin and Lydia">
+    <div class="bg depth depth-back"></div><div class="heroLight"></div><div class="heroShade"></div>
+    <div class="hero content-depth">
+      <small>YOU ARE INVITED TO<br>THE WEDDING OF</small>
+      <div class="names">
+        <div>Jithin</div><em>&amp;</em><div>Lydia</div>
+        <svg viewBox="0 0 500 80" aria-hidden="true"><path d="M90 46 C175 30 260 42 330 48 C390 53 430 43 465 28"/></svg>
+      </div>
+      <p>7 NOVEMBER 2026</p><i></i>
+      <div class="hero-sub">WITH FAITH • WITH LOVE • WITH GRATITUDE</div>
+      <div class="photo-credit" aria-hidden="true">A MOMENT TO REMEMBER</div>
+    </div>
+  </section>
 
-<section class="scene" data-scene="hero" aria-label="Jithin and Lydia">
-<div class="bg"></div><div class="heroShade"></div><div class="heroLight"></div>
-<div class="hero content"><small>YOU ARE INVITED TO</small><p>THE WEDDING OF</p>
-<div class="names"><div>Jithin</div><em>&amp;</em><div>Lydia</div>
-<svg viewBox="0 0 520 90" aria-hidden="true"><path d="M60 54 C145 35 230 43 316 54 C389 63 449 54 482 30"/></svg></div>
-<b>7 NOVEMBER 2026</b></div>
-</section>
+  <section class="scene event-scene" data-scene="ceremony" aria-label="Holy Matrimony">
+    <div class="bg depth depth-back"></div><div class="churchGlow"></div><div class="eventShade"></div>
+    <div class="event ceremony content-depth">
+      <small>THE SACRAMENT OF</small><h2><span>HOLY</span><span>MATRIMONY</span></h2><i></i>
+      <p>St. Thomas Jacobite Syrian Church<br><span>North Paravur</span></p>
+      <b>7 November 2026 · 3:30 PM</b>
+      <a class="location-link" data-map="ceremony" href="#" target="_blank" rel="noopener">VIEW LOCATION <span>↗</span></a>
+    </div>
+  </section>
 
-<section class="scene" data-scene="ceremony" aria-label="Holy Matrimony">
-<div class="bg"></div><div class="eventShade"></div>
-<div class="event ceremony content"><small>THE SACRAMENT OF</small>
-<h2><span>HOLY</span><span>MATRIMONY</span></h2><i></i>
-<p>St. Thomas Jacobite Syrian Church<br><em>North Paravur</em></p>
-<b>7 November 2026 · 3:30 PM</b>
-<a class="location" data-map="ceremony" href="#" target="_blank" rel="noopener">VIEW LOCATION ↗</a></div>
-</section>
+  <section class="scene event-scene" data-scene="reception" aria-label="Celebration of Love">
+    <div class="bg depth depth-back"></div><div class="bokeh"></div><div class="receptionShade"></div>
+    <div class="event reception content-depth">
+      <small>AFTER THE CEREMONY</small>
+      <h2><span>CELEBRATION</span><span>OF LOVE</span></h2><i></i>
+      <p>Sunny Convention Centre<br><span>North Paravur</span></p>
+      <b>7 November 2026 · 6:30 PM onwards</b>
+      <a class="location-link" data-map="reception" href="#" target="_blank" rel="noopener">VIEW LOCATION <span>↗</span></a>
+    </div>
+  </section>
 
-<section class="scene" data-scene="reception" aria-label="Celebration of Love">
-<div class="bg"></div><div class="receptionShade"></div><div class="bokeh"></div>
-<div class="event reception content"><small>AFTER THE CEREMONY</small>
-<h2><span>CELEBRATION</span><span>OF LOVE</span></h2><i></i>
-<p>Sunny Convention Centre<br><em>North Paravur</em></p>
-<b>7 November 2026 · 6:30 PM onwards</b>
-<a class="location" data-map="reception" href="#" target="_blank" rel="noopener">VIEW LOCATION ↗</a></div>
-</section>
+  <section class="scene" data-scene="countdown" aria-label="Countdown">
+    <div class="plain"></div><div class="countHalo"></div>
+    <div class="count content-depth"><small>COUNTING DOWN</small><h2>TO OUR FOREVER</h2>
+      <div class="timer"><div><b id="d">00</b><p>DAYS</p></div><div><b id="h">00</b><p>HOURS</p></div><div><b id="m">00</b><p>MINUTES</p></div><div><b id="s">00</b><p>SECONDS</p></div></div>
+      <em>Every moment brings us closer to the beginning of our forever.</em>
+    </div>
+  </section>
 
-<section class="scene" data-scene="countdown" aria-label="Countdown">
-<div class="plain"></div><div class="countHalo"></div>
-<div class="count content"><small>COUNTING DOWN</small><h2>TO OUR FOREVER</h2>
-<div class="timer" aria-label="Countdown to the wedding">
-<div><b id="d">00</b><p>DAYS</p></div><div><b id="h">00</b><p>HOURS</p></div>
-<div><b id="m">00</b><p>MINUTES</p></div><div><b id="s">00</b><p>SECONDS</p></div>
-</div></div>
-</section>
-
-<section class="scene" data-scene="closing" aria-label="Closing">
-<div class="bg"></div><div class="closingShade"></div><div class="closingLight"></div>
-<div class="closing content"><small>WE BEGIN</small><h2>FOREVER</h2>
-<div>Jithin &amp; Lydia</div><p>7 NOVEMBER 2026</p><i></i>
-<small>THANK YOU<br><span>FOR BEING A PART OF OUR STORY</span></small></div>
-</section>
-
+  <section class="scene" data-scene="closing" aria-label="Closing">
+    <div class="bg depth depth-back"></div><div class="closingLight"></div><div class="shade"></div>
+    <div class="closing content-depth"><small>WITH FAITH IN OUR HEARTS,<br>LOVE BY OUR SIDE,<br>AND GOD BEFORE US,</small>
+      <h2>WE BEGIN FOREVER.</h2><div>Jithin &amp; Lydia</div><p>7 • 11 • 2026</p><i></i><small>THANK YOU<br><span>FOR BEING PART OF OUR JOURNEY</span></small>
+    </div>
+  </section>
 </main>
-<div id="hint" aria-live="polite"></div>
+<div id="hint" aria-live="polite">TOUCH / CLICK TO PAUSE · RESUMES AFTER 2 SECONDS</div>
 <audio id="weddingMusic" preload="auto" loop aria-hidden="true"></audio>
-<script src="config.js"></script><script src="script.js"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

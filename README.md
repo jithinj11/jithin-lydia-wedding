@@ -22,3 +22,6 @@ Set `music.enabled:true` and put the desired file at `assets/music/wedding.mp3` 
 
 ## Deploy
 Upload the contents of this folder to a GitHub Pages repository. No build step is required.
+
+
+Updated build: centered hero typography, clearer ceremony/reception overlays, event-only micro-scroll, cinematic countdown background, refined closing background, and no external music dependency. Upload the contents of this ZIP to the GitHub repository root.
