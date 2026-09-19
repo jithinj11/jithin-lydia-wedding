@@ -20,7 +20,7 @@ window.weddingConfig={
     hero:'assets/images/hero.png',
     ceremony:'assets/images/church.png',
     reception:'assets/images/reception.png',
-    closing:'assets/images/hero.png',
+    closing:'assets/images/closing.png',
     og:'assets/images/og-image.png'
   },
   theme:{background:'#0c0907',gold:'#b59661'}
