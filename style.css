@@ -499,3 +499,1322 @@ body.started .cursor-light{opacity:1}
     animation: none !important;
   }
 }
+
+
+/* =========================================================
+   V3 — GLOBAL PETAL / FLOWER ATMOSPHERE
+   One restrained layer across every scene. Mobile-first.
+   ========================================================= */
+
+#ambient-petals {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  pointer-events: none;
+  opacity: .52;
+  mix-blend-mode: screen;
+  contain: strict;
+}
+
+.scene-hero .hero-atmosphere {
+  opacity: .26;
+}
+
+/* Keep the hero's old decorative fields extremely restrained.
+   The global canvas is now the primary atmospheric effect. */
+.scene-hero .particle-layer {
+  opacity: .16;
+}
+
+@media (max-width: 699px) {
+  #ambient-petals {
+    opacity: .42;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ambient-petals {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   V4 — MOBILE-FIRST OPENING / SCRIPTURE / CLOSING FIX
+   ========================================================= */
+
+/* ---------- OPENING ----------
+   Keep the title as a deliberate centered editorial stack.
+*/
+.scene-opening {
+  overflow: hidden;
+}
+
+.scene-opening .opening-content {
+  width: min(100%, 420px);
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  padding: 28px 24px 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.scene-opening .opening-kicker {
+  width: 100%;
+  margin: 0 0 17px;
+  font-size: 8px;
+  line-height: 1.65;
+  letter-spacing: .22em;
+  text-align: center;
+}
+
+.scene-opening .opening-title {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: .82;
+}
+
+.scene-opening .opening-title span {
+  display: block;
+  white-space: nowrap;
+}
+
+.scene-opening .opening-subtitle {
+  width: min(270px, 85vw);
+  margin: 20px auto 0;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.scene-opening .opening-date {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.scene-opening .opening-place {
+  margin-top: 6px;
+  text-align: center;
+}
+
+.scene-opening .enter-button {
+  margin-top: 27px;
+}
+
+/* Prevent decorative corner copy from colliding with the opening lockup. */
+.scene-opening .opening-corner {
+  bottom: 27px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 699px) {
+  .scene-opening .opening-content {
+    padding-bottom: 100px;
+  }
+
+  .scene-opening .opening-title {
+    font-size: clamp(44px, 14vw, 68px);
+  }
+}
+
+@media (max-width: 380px) {
+  .scene-opening .opening-content {
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-bottom: 94px;
+  }
+
+  .scene-opening .opening-kicker {
+    font-size: 7px;
+    letter-spacing: .18em;
+  }
+
+  .scene-opening .opening-subtitle {
+    width: 245px;
+    font-size: 12px;
+  }
+
+  .scene-opening .opening-corner {
+    display: none;
+  }
+}
+
+/* ---------- SCRIPTURE ----------
+   Force readable contrast and reserve the center of the image
+   for the quote. The background is dimmed independently.
+*/
+.scene-scripture {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.scene-scripture .scene-bg,
+.scene-scripture .scripture-image {
+  filter: brightness(.48) saturate(.72) contrast(1.04);
+}
+
+.scene-scripture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8,7,5,.66), rgba(8,7,5,.20) 36%, rgba(8,7,5,.55) 100%),
+    radial-gradient(circle at 50% 48%, rgba(8,7,5,.04), rgba(8,7,5,.62) 78%);
+}
+
+.scene-scripture .scripture-content {
+  z-index: 12;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  bottom: auto;
+  width: min(330px, 84vw);
+  transform: translate(-50%, -50%);
+  padding: 26px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scene-scripture .scripture-content::before,
+.scene-scripture .scripture-content::after {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: rgba(198,166,110,.72);
+  margin: 0 auto 18px;
+}
+
+.scene-scripture .scripture-content::after {
+  margin: 18px auto 0;
+  opacity: .6;
+}
+
+.scene-scripture .scripture-quote,
+.scene-scripture blockquote {
+  max-width: 300px;
+  margin: 0 auto;
+  color: #fff9ef !important;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(28px, 8vw, 40px) !important;
+  line-height: 1.12 !important;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  text-shadow: 0 3px 24px rgba(0,0,0,.82);
+}
+
+.scene-scripture .scripture-reference {
+  margin-top: 16px;
+  color: rgba(255,245,229,.9) !important;
+  font-size: 8px !important;
+  letter-spacing: .22em;
+  line-height: 1.5;
+  text-shadow: 0 2px 12px rgba(0,0,0,.8);
+}
+
+@media (max-width: 699px) {
+  .scene-scripture .scripture-content {
+    width: min(320px, 86vw);
+    padding: 24px 16px;
+  }
+
+  .scene-scripture .scripture-quote,
+  .scene-scripture blockquote {
+    font-size: clamp(27px, 8.4vw, 36px) !important;
+  }
+}
+
+/* ---------- CLOSING ----------
+   The full couple image must remain visible on phones.
+   Use contain-like positioning rather than a face-only crop.
+*/
+.scene-closing {
+  overflow: hidden;
+  background: #0d0c0a;
+}
+
+.scene-closing .scene-bg,
+.scene-closing .closing-image {
+  background-position: center center !important;
+  background-size: cover !important;
+  transform: scale(1.005) translate3d(var(--mx), var(--my), 0) !important;
+  filter: brightness(.62) saturate(.76) contrast(1.03);
+}
+
+.scene-closing .scene-vignette,
+.scene-closing .closing-shade {
+  background:
+    linear-gradient(180deg, rgba(7,6,5,.30) 0%, rgba(7,6,5,.05) 35%, rgba(7,6,5,.30) 62%, rgba(7,6,5,.82) 100%),
+    radial-gradient(circle at 50% 42%, transparent 22%, rgba(7,6,5,.45) 100%);
+}
+
+.scene-closing .closing-content {
+  z-index: 13;
+  left: 50%;
+  right: auto;
+  top: auto;
+  bottom: 0;
+  width: min(350px, 88vw);
+  transform: translateX(-50%);
+  padding: 0 10px 12vh;
+  text-align: center;
+}
+
+.scene-closing .closing-content h2 {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.scene-closing .closing-content p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 699px) {
+  .scene-closing .scene-bg,
+  .scene-closing .closing-image {
+    background-position: 50% 42% !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .scene-closing .scene-bg,
+  .scene-closing .closing-image {
+    background-position: 50% 40% !important;
+  }
+}
+
+
+/* =========================================================
+   V5 — CORRECT CURRENT MARKUP SELECTORS
+   ========================================================= */
+
+/* OPENING: mobile lockup */
+.scene-opening .opening-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 17vh 22px 8.5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  z-index: 12;
+}
+
+.scene-opening .opening-frame > .eyebrow {
+  margin: 0;
+  font-size: 8px;
+  line-height: 1.6;
+  letter-spacing: .23em;
+  text-align: center;
+}
+
+.scene-opening .opening-frame > .rule {
+  display: none;
+}
+
+.scene-opening .opening-copy {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scene-opening .opening-copy h1 {
+  width: 100%;
+  margin: 0;
+  font-size: clamp(43px, 13.5vw, 66px);
+  line-height: .88;
+  letter-spacing: -.035em;
+  text-align: center;
+}
+
+.scene-opening .opening-copy h1 span {
+  display: block;
+  white-space: nowrap;
+}
+
+.scene-opening .opening-copy p {
+  margin: 21px 0 0;
+  font-size: 11px;
+  line-height: 1.65;
+  letter-spacing: .08em;
+  text-align: center;
+}
+
+.scene-opening .opening-copy p em {
+  font-size: 17px;
+  letter-spacing: .02em;
+}
+
+.scene-opening .opening-bottom {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: 12px;
+}
+
+.scene-opening .opening-bottom > span {
+  font-size: 7px;
+  letter-spacing: .19em;
+  white-space: nowrap;
+}
+
+.scene-opening .opening-bottom > span:last-child {
+  text-align: right;
+}
+
+.scene-opening .opening-bottom #enter {
+  white-space: nowrap;
+  min-width: 145px;
+}
+
+@media (max-width: 390px) {
+  .scene-opening .opening-frame {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .scene-opening .opening-copy h1 {
+    font-size: 41px;
+  }
+
+  .scene-opening .opening-copy p {
+    margin-top: 17px;
+  }
+
+  .scene-opening .opening-bottom {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .scene-opening .opening-bottom > span {
+    display: none;
+  }
+
+  .scene-opening .opening-bottom #enter {
+    justify-self: center;
+  }
+}
+
+/* SCRIPTURE: current markup uses scripture-copy */
+.scene-scripture .scene-media {
+  filter: brightness(.42) saturate(.68) contrast(1.06);
+}
+
+.scene-scripture .scene-wash {
+  z-index: 3;
+  background:
+    linear-gradient(180deg, rgba(6,6,5,.68), rgba(6,6,5,.18) 38%, rgba(6,6,5,.68) 100%),
+    radial-gradient(circle at 50% 48%, rgba(6,6,5,.02), rgba(6,6,5,.72) 86%);
+}
+
+.scene-scripture .scripture-copy {
+  position: absolute;
+  z-index: 14;
+  left: 50%;
+  top: 50%;
+  width: min(330px, 84vw);
+  transform: translate(-50%, -50%);
+  padding: 25px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.scene-scripture .scripture-copy .eyebrow {
+  margin-bottom: 18px;
+  font-size: 7px;
+  letter-spacing: .22em;
+  color: rgba(255,247,234,.76);
+  text-shadow: 0 2px 16px rgba(0,0,0,.9);
+}
+
+.scene-scripture .scripture-copy blockquote {
+  width: 100%;
+  max-width: 300px;
+  margin: 0;
+  color: #fffaf0 !important;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(28px, 8vw, 38px) !important;
+  line-height: 1.1 !important;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  text-shadow: 0 3px 25px rgba(0,0,0,.95);
+}
+
+.scene-scripture .scripture-ref {
+  margin-top: 17px;
+  color: rgba(255,244,224,.92) !important;
+  font-size: 8px;
+  line-height: 1.5;
+  letter-spacing: .22em;
+  text-shadow: 0 2px 13px rgba(0,0,0,.9);
+}
+
+.scene-scripture .scripture-line {
+  width: 38px;
+  height: 1px;
+  margin-top: 17px;
+  background: rgba(198,166,110,.82);
+}
+
+.scene-scripture .editorial-number {
+  z-index: 13;
+  opacity: .48;
+}
+
+@media (max-width: 390px) {
+  .scene-scripture .scripture-copy {
+    width: 88vw;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .scene-scripture .scripture-copy blockquote {
+    font-size: 27px !important;
+  }
+}
+
+/* CLOSING: current markup uses closing-photo */
+.scene-closing .closing-photo {
+  transform: scale(1.015) translate3d(calc(var(--mx) * .25), calc(var(--my) * .25), 0) !important;
+  background-position: center 42% !important;
+  filter: brightness(.58) saturate(.74) contrast(1.03);
+}
+
+.scene-closing .closing-shade {
+  background:
+    linear-gradient(180deg, rgba(7,6,5,.18) 0%, rgba(7,6,5,.02) 34%, rgba(7,6,5,.34) 62%, rgba(7,6,5,.88) 100%),
+    radial-gradient(circle at 50% 42%, transparent 20%, rgba(7,6,5,.42) 100%);
+}
+
+.scene-closing .closing-content {
+  left: 50%;
+  right: auto;
+  bottom: 0;
+  width: min(350px, 88vw);
+  padding: 0 10px 10.5vh;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 15;
+}
+
+.scene-closing .closing-content h2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.scene-closing .closing-content p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 699px) {
+  .scene-closing .closing-photo {
+    background-position: center 38% !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .scene-closing .closing-photo {
+    background-position: center 36% !important;
+  }
+}
+
+/* =========================================================
+   V6 — CONSOLIDATED MOBILE-FIRST POLISH
+   Targets the actual current markup only.
+   ========================================================= */
+
+/* ---------- OPENING ---------- */
+.scene-opening .opening-frame{
+  padding:12.5vh 20px 7.5vh;
+  align-items:center;
+  text-align:center;
+}
+.scene-opening .opening-frame > .eyebrow{
+  width:100%;
+  font-size:8px;
+  line-height:1.7;
+  letter-spacing:.22em;
+  text-align:center;
+}
+.scene-opening .opening-copy{
+  width:100%;
+  margin:0;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.scene-opening .opening-copy h1{
+  width:100%;
+  font-size:clamp(42px,13.2vw,64px);
+  line-height:.88;
+  letter-spacing:-.035em;
+  text-align:center;
+}
+.scene-opening .opening-copy h1 span{white-space:nowrap;display:block}
+.scene-opening .opening-copy p{
+  margin:20px 0 0;
+  font-size:11px;
+  line-height:1.7;
+  text-align:center;
+}
+.scene-opening .opening-copy p em{font-size:17px}
+.scene-opening .opening-bottom{
+  width:100%;
+  grid-template-columns:1fr auto 1fr;
+  gap:10px;
+  align-items:center;
+}
+.scene-opening .opening-bottom > span{
+  font-size:7px;
+  letter-spacing:.16em;
+  white-space:nowrap;
+}
+.scene-opening .opening-bottom > span:last-child{text-align:right}
+.scene-opening .opening-bottom button{min-width:148px}
+@media(max-width:390px){
+  .scene-opening .opening-frame{padding-left:16px;padding-right:16px}
+  .scene-opening .opening-copy h1{font-size:40px}
+  .scene-opening .opening-bottom{grid-template-columns:1fr}
+  .scene-opening .opening-bottom > span{display:none}
+  .scene-opening .opening-bottom button{justify-self:center}
+}
+
+/* ---------- SCRIPTURE ---------- */
+.scene-scripture .scene-media.scripture-media{
+  display:block !important;
+  position:absolute !important;
+  inset:-5% !important;
+  z-index:0 !important;
+  width:auto !important;
+  height:auto !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  background-image:url("assets/images/scripture.png") !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  filter:brightness(.58) saturate(.68) contrast(1.04) !important;
+}
+.scene-scripture .scene-wash{
+  z-index:3 !important;
+  background:
+    linear-gradient(180deg,rgba(7,6,5,.48),rgba(7,6,5,.12) 38%,rgba(7,6,5,.62) 100%),
+    radial-gradient(circle at 50% 48%,rgba(7,6,5,.02),rgba(7,6,5,.58) 88%) !important;
+}
+.scene-scripture .scripture-copy{
+  position:absolute;
+  z-index:14;
+  left:50%;
+  top:50%;
+  width:min(340px,86vw);
+  transform:translate(-50%,-50%);
+  text-align:center;
+}
+.scene-scripture .scripture-copy .eyebrow{
+  margin-bottom:18px;
+  font-size:7px;
+  letter-spacing:.22em;
+  color:rgba(255,247,234,.8);
+  text-shadow:0 2px 18px rgba(0,0,0,.9);
+}
+.scene-scripture .scripture-copy blockquote{
+  max-width:315px;
+  margin:0 auto;
+  color:#fffaf0 !important;
+  font-family:var(--serif);
+  font-size:clamp(27px,8.2vw,38px) !important;
+  font-style:italic;
+  font-weight:400;
+  line-height:1.12 !important;
+  letter-spacing:-.015em;
+  text-shadow:0 3px 26px rgba(0,0,0,.95);
+}
+.scene-scripture .scripture-ref{
+  margin-top:17px;
+  color:rgba(255,244,224,.94) !important;
+  font-size:8px;
+  letter-spacing:.2em;
+  text-shadow:0 2px 14px rgba(0,0,0,.9);
+}
+.scene-scripture .scripture-line{
+  width:38px;
+  height:1px;
+  margin:17px auto 0;
+  background:var(--gold);
+}
+
+/* ---------- HERO ---------- */
+.scene-hero .hero-image{
+  background-position:center 43% !important;
+  filter:brightness(.68) saturate(.78) contrast(1.06) !important;
+}
+.scene-hero .hero-shade{
+  background:
+    linear-gradient(180deg,rgba(5,5,4,.48) 0%,rgba(5,5,4,.04) 34%,rgba(5,5,4,.12) 55%,rgba(5,5,4,.86) 100%),
+    radial-gradient(circle at 50% 40%,transparent 12%,rgba(5,5,4,.45) 100%) !important;
+}
+.scene-hero .hero-content{
+  left:0 !important;
+  top:auto !important;
+  bottom:0 !important;
+  width:100% !important;
+  padding:0 22px 13vh !important;
+  transform:translate3d(calc(var(--mx)*.2),calc(var(--my)*.2),0) !important;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.scene-hero .hero-kicker{
+  width:min(285px,86vw);
+  margin:0 auto 17px;
+  font-size:7px;
+  line-height:1.75;
+  letter-spacing:.19em;
+  text-align:center;
+  color:rgba(247,241,231,.78);
+}
+.scene-hero .names{
+  width:100%;
+  margin:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center;
+  gap:0 !important;
+  flex-wrap:nowrap !important;
+  line-height:1 !important;
+}
+.scene-hero .names span{
+  display:block;
+  font-family:var(--serif) !important;
+  font-size:clamp(65px,19vw,88px) !important;
+  font-weight:400;
+  line-height:.78 !important;
+  letter-spacing:-.055em;
+  white-space:nowrap;
+  text-shadow:0 7px 30px rgba(0,0,0,.55);
+}
+.scene-hero .names small{
+  display:block;
+  margin:4px 0 3px !important;
+  font-family:var(--script) !important;
+  font-size:28px !important;
+  line-height:.75 !important;
+  color:var(--gold);
+}
+.scene-hero .hero-meta{
+  margin-top:21px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+.scene-hero .hero-meta .hero-date,
+.scene-hero .hero-meta .hero-location{
+  margin:0;
+  font-size:7px;
+  line-height:1.5;
+  letter-spacing:.23em;
+  color:rgba(255,249,239,.92);
+  text-shadow:0 2px 13px rgba(0,0,0,.8);
+}
+.scene-hero .hero-meta .hero-location{font-size:6.5px;color:rgba(255,249,239,.66)}
+.scene-hero .hero-meta i{width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.scene-hero .hero-corner{display:none}
+.scene-hero .hero-atmosphere{opacity:.18 !important}
+@media(min-width:700px){
+  .scene-hero .hero-content{
+    left:8vw !important;
+    top:50% !important;
+    bottom:auto !important;
+    width:min(760px,70vw) !important;
+    padding:0 !important;
+    align-items:flex-start;
+    text-align:left;
+  }
+  .scene-hero .hero-kicker{width:auto;margin:0 0 18px;text-align:left}
+  .scene-hero .names{flex-direction:row !important;align-items:baseline !important;justify-content:flex-start}
+  .scene-hero .names span{font-size:clamp(74px,10vw,150px) !important}
+  .scene-hero .names small{font-size:40px !important;margin:0 10px !important}
+  .scene-hero .hero-meta{flex-direction:row;gap:13px;align-items:center}
+  .scene-hero .hero-corner{display:block}
+}
+@media(max-width:390px){
+  .scene-hero .hero-content{padding-left:17px !important;padding-right:17px !important;padding-bottom:11vh !important}
+  .scene-hero .names span{font-size:62px !important}
+  .scene-hero .hero-kicker{width:255px;font-size:6.5px}
+}
+
+/* ---------- CLOSING ---------- */
+.scene-closing .closing-photo{
+  background-position:center 38% !important;
+  filter:brightness(.62) saturate(.72) contrast(1.04) !important;
+  transform:scale(1.015) translate3d(calc(var(--mx)*.18),calc(var(--my)*.18),0) !important;
+}
+.scene-closing .closing-shade{
+  background:
+    linear-gradient(180deg,rgba(5,4,3,.10),rgba(5,4,3,.02) 32%,rgba(5,4,3,.34) 60%,rgba(5,4,3,.9) 100%),
+    radial-gradient(circle at 50% 38%,transparent 18%,rgba(5,4,3,.4) 100%) !important;
+}
+.scene-closing .closing-content{
+  left:50% !important;
+  right:auto !important;
+  bottom:0 !important;
+  width:min(350px,88vw) !important;
+  padding:0 8px 10vh !important;
+  transform:translateX(-50%) !important;
+  text-align:center;
+}
+@media(max-width:390px){
+  .scene-closing .closing-photo{background-position:center 34% !important}
+}
+
+/* ---------- GLOBAL QUALITY ---------- */
+/* Avoid particle canvas washing out typography. */
+#ambient-petals{opacity:.34 !important}
+@media(max-width:699px){#ambient-petals{opacity:.28 !important}}
+
+
+/* =========================================================
+   V7 — HERO TYPOGRAPHY + FILM-LIKE SCENE TRANSITIONS
+   ========================================================= */
+
+.scene-hero .hero-content {
+  z-index: 16;
+  left: 50%;
+  right: auto;
+  top: auto;
+  bottom: 0;
+  width: min(390px, 90vw);
+  padding: 0 12px max(100px, 12vh);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.scene-hero .hero-kicker {
+  width: 250px;
+  margin: 0 0 20px;
+  font-family: var(--sans);
+  font-size: 7px;
+  line-height: 1.7;
+  letter-spacing: .24em;
+  text-align: center;
+  color: rgba(250,245,235,.72);
+}
+
+.scene-hero .names {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  line-height: .70;
+  white-space: nowrap;
+}
+
+.scene-hero .names span {
+  display: block;
+  font-family: "Great Vibes", "Snell Roundhand", "Brush Script MT", cursive !important;
+  font-size: clamp(66px, 19vw, 94px) !important;
+  font-weight: 400 !important;
+  letter-spacing: .005em !important;
+  line-height: .70 !important;
+  transform: none !important;
+  text-shadow: 0 5px 26px rgba(0,0,0,.55);
+}
+
+.scene-hero .names small {
+  display: block;
+  margin: 4px 0 5px;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 25px !important;
+  font-weight: 400;
+  line-height: 1 !important;
+  color: var(--gold);
+  transform: none !important;
+}
+
+.scene-hero .hero-date,
+.scene-hero .hero-location {
+  font-family: var(--sans);
+}
+
+.scene-hero .hero-meta {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+
+.scene-hero .hero-meta .hero-date {
+  font-size: 8px;
+  letter-spacing: .27em;
+  color: rgba(255,249,239,.92);
+}
+
+.scene-hero .hero-meta .hero-location {
+  font-size: 7px;
+  letter-spacing: .23em;
+  color: rgba(255,249,239,.65);
+}
+
+.scene-hero .hero-meta i {
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: rgba(198,166,110,.82);
+}
+
+.scene-hero .hero-atmosphere {
+  opacity: .18;
+}
+
+@media (min-width:700px) {
+  .scene-hero .hero-content {
+    top: 50%;
+    bottom: auto;
+    left: 9vw;
+    width: min(720px, 68vw);
+    padding: 0;
+    transform: translateY(-50%);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .scene-hero .hero-kicker {
+    width: auto;
+    text-align: left;
+    margin-bottom: 18px;
+  }
+
+  .scene-hero .names {
+    align-items: flex-start;
+  }
+
+  .scene-hero .names span {
+    font-size: clamp(76px, 9vw, 140px) !important;
+  }
+
+  .scene-hero .names small {
+    font-size: 29px !important;
+    margin: 3px 0 2px 7px;
+  }
+
+  .scene-hero .hero-meta {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 24px;
+  }
+}
+
+@media (max-width:390px) {
+  .scene-hero .hero-content {
+    width: 92vw;
+    padding-bottom: 94px;
+  }
+
+  .scene-hero .names span {
+    font-size: 61px !important;
+  }
+
+  .scene-hero .hero-kicker {
+    width: 235px;
+    margin-bottom: 17px;
+    font-size: 6.5px;
+  }
+
+  .scene-hero .hero-meta {
+    margin-top: 21px;
+  }
+}
+
+/* ---------- QUIET / REFINED FILM TRANSITIONS ---------- */
+.scene {
+  transition:
+    opacity 1.15s cubic-bezier(.22,.61,.36,1),
+    visibility 1.15s ease;
+}
+
+.scene.is-active .scene-media,
+.scene.is-active .scene-image,
+.scene.is-active .hero-image,
+.scene.is-active .closing-photo {
+  animation: cinematicKenBurns 9s cubic-bezier(.22,.61,.36,1) both;
+}
+
+.scene.is-active .opening-copy,
+.scene.is-active .scripture-copy,
+.scene.is-active .hero-content,
+.scene.is-active .closing-content {
+  animation: editorialReveal 1.35s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes cinematicKenBurns {
+  from { transform: scale(1.035) translate3d(0,0,0); }
+  to   { transform: scale(1.075) translate3d(0,-.4%,0); }
+}
+
+@keyframes editorialReveal {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Don't animate the fixed canvas or decorative particles as a block. */
+#ambient-petals { animation: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene.is-active .scene-media,
+  .scene.is-active .scene-image,
+  .scene.is-active .hero-image,
+  .scene.is-active .closing-photo,
+  .scene.is-active .opening-copy,
+  .scene.is-active .scripture-copy,
+  .scene.is-active .hero-content,
+  .scene.is-active .closing-content {
+    animation: none !important;
+  }
+}
+
+
+/* =========================================================
+   STRICT V8 — THREE NON-NEGOTIABLE FIXES
+   ========================================================= */
+
+/* CRITICAL IMAGE LAYERS
+   img elements are explicitly sized and positioned. */
+.scene > .scene-media,
+.scene > .hero-image,
+.scene > .closing-photo {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  margin: 0 !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.scene-scripture > .scripture-media {
+  object-position: center center !important;
+  filter: brightness(.46) saturate(.72) contrast(1.05) !important;
+}
+
+.scene-opening > .opening-media {
+  object-position: center center !important;
+  filter: brightness(.68) saturate(.78) contrast(1.04) !important;
+}
+
+.scene-hero > .hero-image {
+  object-position: center 48% !important;
+  filter: brightness(.64) saturate(.78) contrast(1.06) !important;
+}
+
+.scene-closing > .closing-photo {
+  object-position: center 42% !important;
+  filter: brightness(.58) saturate(.74) contrast(1.03) !important;
+}
+
+/* SCRIPTURE: guaranteed readable layer */
+.scene-scripture {
+  background: #12100d !important;
+  isolation: isolate;
+}
+
+.scene-scripture .scene-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    linear-gradient(180deg, rgba(5,5,4,.62), rgba(5,5,4,.18) 40%, rgba(5,5,4,.70) 100%),
+    radial-gradient(circle at 50% 48%, rgba(5,5,4,.02), rgba(5,5,4,.68) 90%);
+}
+
+.scene-scripture .scripture-copy {
+  z-index: 20 !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  bottom: auto !important;
+  right: auto !important;
+  width: min(330px, 84vw) !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  transform: translate(-50%, -50%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.scene-scripture .scripture-copy .eyebrow {
+  margin: 0 0 18px !important;
+  color: rgba(255,248,236,.78) !important;
+  font-size: 7px !important;
+  letter-spacing: .22em !important;
+  text-shadow: 0 2px 14px rgba(0,0,0,.95);
+}
+
+.scene-scripture .scripture-copy blockquote {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 300px !important;
+  margin: 0 !important;
+  color: #fffaf0 !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(27px, 8vw, 37px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -.015em !important;
+  text-shadow: 0 3px 24px rgba(0,0,0,.98) !important;
+}
+
+.scene-scripture .scripture-ref {
+  margin: 17px 0 0 !important;
+  color: rgba(255,244,224,.92) !important;
+  font-family: var(--sans) !important;
+  font-size: 8px !important;
+  letter-spacing: .22em !important;
+}
+
+.scene-scripture .scripture-line {
+  width: 38px !important;
+  height: 1px !important;
+  margin-top: 17px !important;
+  background: rgba(198,166,110,.84) !important;
+}
+
+/* HERO: hard-reset the typography so nothing can inherit a conflicting transform. */
+.scene-hero {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.scene-hero .hero-content {
+  position: absolute !important;
+  z-index: 30 !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: 0 !important;
+  width: min(360px, 88vw) !important;
+  height: auto !important;
+  padding: 0 8px 12vh !important;
+  margin: 0 !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  text-align: center !important;
+}
+
+.scene-hero .hero-kicker {
+  position: static !important;
+  width: 245px !important;
+  margin: 0 0 21px !important;
+  padding: 0 !important;
+  font-family: var(--sans) !important;
+  font-size: 6.5px !important;
+  line-height: 1.75 !important;
+  letter-spacing: .22em !important;
+  text-align: center !important;
+  transform: none !important;
+}
+
+.scene-hero .names {
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  line-height: 1 !important;
+  transform: none !important;
+}
+
+.scene-hero .names span {
+  position: static !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: "Great Vibes", "Snell Roundhand", "Brush Script MT", cursive !important;
+  font-size: clamp(58px, 18vw, 82px) !important;
+  font-weight: 400 !important;
+  line-height: .78 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+  transform: none !important;
+  text-shadow: 0 5px 25px rgba(0,0,0,.62) !important;
+}
+
+.scene-hero .names small {
+  position: static !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 8px 0 7px !important;
+  padding: 0 !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  font-weight: 400 !important;
+  color: var(--gold) !important;
+  transform: none !important;
+}
+
+.scene-hero .hero-meta {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 25px 0 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  transform: none !important;
+}
+
+.scene-hero .hero-meta .hero-date,
+.scene-hero .hero-meta .hero-location {
+  position: static !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: var(--sans) !important;
+  font-size: 7.5px !important;
+  line-height: 1.4 !important;
+  letter-spacing: .25em !important;
+  white-space: nowrap !important;
+  transform: none !important;
+}
+
+.scene-hero .hero-meta .hero-location {
+  font-size: 6.5px !important;
+  letter-spacing: .21em !important;
+  color: rgba(255,249,239,.68) !important;
+}
+
+.scene-hero .hero-meta i {
+  position: static !important;
+  display: block !important;
+  width: 34px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  background: rgba(198,166,110,.85) !important;
+  transform: none !important;
+}
+
+/* Keep all hero decorative layers behind the text. */
+.scene-hero .hero-atmosphere { z-index: 8 !important; }
+.scene-hero .hero-shade { z-index: 9 !important; }
+.scene-hero .hero-content { z-index: 30 !important; }
+
+@media (max-width: 390px) {
+  .scene-hero .hero-content {
+    width: 91vw !important;
+    padding-bottom: 11vh !important;
+  }
+
+  .scene-hero .names span {
+    font-size: 55px !important;
+  }
+
+  .scene-hero .hero-kicker {
+    width: 225px !important;
+    font-size: 6px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .scene-hero .hero-meta {
+    margin-top: 22px !important;
+  }
+}
+
+@media (min-width: 700px) {
+  .scene-hero .hero-content {
+    left: 9vw !important;
+    top: 50% !important;
+    bottom: auto !important;
+    width: min(650px, 65vw) !important;
+    padding: 0 !important;
+    transform: translateY(-50%) !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .scene-hero .hero-kicker {
+    width: auto !important;
+    text-align: left !important;
+  }
+
+  .scene-hero .names {
+    align-items: flex-start !important;
+  }
+
+  .scene-hero .names span {
+    font-size: clamp(70px, 8.5vw, 125px) !important;
+  }
+
+  .scene-hero .hero-meta {
+    flex-direction: row !important;
+  }
+}
+
+/* Disable competing old reveal transforms on the hero text. */
+.scene-hero .hero-content,
+.scene-hero .hero-content * {
+  animation-name: none !important;
+}
+
+/* ENTRY BUTTON must sit above every atmospheric layer. */
+#enter {
+  position: relative !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}

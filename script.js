@@ -99,3 +99,169 @@ document.addEventListener("touchend",e=>{
 countdown();
 setScene(0,false);
 })();
+
+/* =========================================================
+   V3 — GLOBAL CINEMATIC PETAL FIELD
+   Lightweight canvas, adaptive particle count, mobile-first.
+   ========================================================= */
+(() => {
+  const canvas = document.getElementById('ambient-petals');
+  if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const ctx = canvas.getContext('2d', { alpha: true });
+  if (!ctx) return;
+
+  let width = 0, height = 0, dpr = 1;
+  let particles = [];
+  let raf = 0;
+  let last = performance.now();
+
+  const mobile = () => window.innerWidth < 700;
+  const countFor = () => {
+    const area = Math.max(320000, window.innerWidth * window.innerHeight);
+    const base = Math.round(area / 115000);
+    return Math.max(7, Math.min(mobile() ? 14 : 24, base));
+  };
+
+  const resize = () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const target = countFor();
+    while (particles.length < target) particles.push(makeParticle(true));
+    if (particles.length > target) particles.length = target;
+  };
+
+  const makeParticle = (initial = false) => {
+    const isPetal = Math.random() > 0.26;
+    return {
+      x: Math.random() * width,
+      y: initial ? Math.random() * height : -20 - Math.random() * 90,
+      size: isPetal ? 2.1 + Math.random() * 3.4 : .8 + Math.random() * 1.7,
+      speed: .13 + Math.random() * .31,
+      drift: .16 + Math.random() * .34,
+      phase: Math.random() * Math.PI * 2,
+      rotation: Math.random() * Math.PI * 2,
+      spin: (Math.random() - .5) * .006,
+      opacity: isPetal ? .20 + Math.random() * .28 : .20 + Math.random() * .24,
+      isPetal,
+      warm: Math.random() > .58
+    };
+  };
+
+  const drawPetal = (p) => {
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rotation);
+    ctx.globalAlpha = p.opacity;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, p.size * 1.45, p.size * .72, 0, 0, Math.PI * 2);
+    ctx.fillStyle = p.warm ? 'rgba(246,226,193,.9)' : 'rgba(255,248,237,.88)';
+    ctx.fill();
+    ctx.restore();
+  };
+
+  const drawDust = (p) => {
+    ctx.save();
+    ctx.globalAlpha = p.opacity;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,249,238,.88)';
+    ctx.fill();
+    ctx.restore();
+  };
+
+  const tick = (now) => {
+    const dt = Math.min(32, now - last);
+    last = now;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const windStrength = mobile() ? .34 : .52;
+
+    for (const p of particles) {
+      p.y += p.speed * dt;
+      p.x += Math.sin(now * .00035 + p.phase) * windStrength + p.drift * .055;
+      p.rotation += p.spin * dt;
+
+      if (p.y > height + 30 || p.x < -60 || p.x > width + 60) {
+        Object.assign(p, makeParticle(false));
+        if (Math.random() > .35) p.x = Math.random() * width;
+      }
+
+      p.isPetal ? drawPetal(p) : drawDust(p);
+    }
+
+    raf = requestAnimationFrame(tick);
+  };
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 120);
+  }, { passive: true });
+
+  resize();
+  raf = requestAnimationFrame(tick);
+
+  window.addEventListener('pagehide', () => cancelAnimationFrame(raf), { once: true });
+})();
+
+/* V7 — robust invitation entry */
+(() => {
+  const enterButton = document.getElementById('enter');
+  if (!enterButton) return;
+  enterButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const next = typeof window.nextScene === 'function' ? window.nextScene : null;
+    if (next) next();
+    else {
+      const opening = document.querySelector('[data-scene="opening"]');
+      const scripture = document.querySelector('[data-scene="scripture"]');
+      if (opening && scripture) {
+        opening.classList.remove('is-active');
+        scripture.classList.add('is-active');
+      }
+    }
+  }, { capture: true });
+})();
+
+
+/* =========================================================
+   STRICT V8 INVITATION NAVIGATION
+   The Enter button always moves opening -> scripture.
+   ========================================================= */
+(() => {
+  const scenes = Array.from(document.querySelectorAll('.scene'));
+  const enter = document.getElementById('enter');
+  if (!enter || !scenes.length) return;
+
+  let active = scenes.findIndex(s => s.classList.contains('is-active'));
+  if (active < 0) active = 0;
+
+  const show = (index) => {
+    active = (index + scenes.length) % scenes.length;
+    scenes.forEach((scene, i) => {
+      scene.classList.toggle('is-active', i === active);
+      scene.setAttribute('aria-hidden', i === active ? 'false' : 'true');
+    });
+    document.body.dataset.scene = scenes[active]?.dataset.scene || '';
+    window.scrollTo(0, 0);
+  };
+
+  enter.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    show(active === 0 ? 1 : active + 1);
+  }, true);
+
+  // Safety: if another script removes the active state, restore it.
+  show(active);
+})();

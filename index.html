@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <canvas id="ambient-petals" aria-hidden="true"></canvas>
 <div class="noise" aria-hidden="true"></div>
 <div class="cursor-light" aria-hidden="true"></div>
 <div class="progress"><span></span></div>
@@ -23,7 +24,7 @@
 
 <main class="experience" aria-label="Jithin and Lydia wedding invitation">
   <section class="scene scene-opening is-active" data-scene="opening">
-    <div class="scene-media opening-media" data-depth="0"></div>
+    <img class="scene-media opening-media" data-depth="0" src="assets/images/opening.png" alt="" aria-hidden="true">
     <div class="scene-wash"></div>
     <div class="opening-frame">
       <div class="eyebrow">A CHRISTIAN WEDDING</div>
@@ -41,7 +42,7 @@
   </section>
 
   <section class="scene scene-scripture" data-scene="scripture">
-    <div class="scene-media scripture-media" data-depth="-1"></div>
+    <img class="scene-media scripture-media" data-depth="-1" src="assets/images/scripture.png" alt="" aria-hidden="true">
     <div class="scene-wash"></div>
     <div class="editorial-number">01</div>
     <div class="scripture-copy depth-layer">
@@ -53,7 +54,7 @@
   </section>
 
   <section class="scene scene-hero" data-scene="hero">
-    <div class="hero-image depth-back"></div>
+    <img class="hero-image depth-back" src="assets/images/hero.png" alt="" aria-hidden="true">
     <div class="hero-glass depth-mid"></div>
     <div class="hero-shade"></div>
 
@@ -132,7 +133,7 @@
   </section>
 
   <section class="scene scene-closing" data-scene="closing">
-    <div class="closing-photo depth-back"></div>
+    <img class="closing-photo depth-back" src="assets/images/closing.png" alt="" aria-hidden="true">
     <div class="closing-shade"></div>
     <div class="closing-content depth-front">
       <div class="eyebrow">WITH FAITH IN OUR HEARTS</div>
