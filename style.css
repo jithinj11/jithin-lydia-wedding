@@ -12,3 +12,52 @@
 .event-scene .event{min-height:112vh;padding-top:0;padding-bottom:12vh}
 .event-scene .event p,.event-scene .event b,.event-scene .location-link{filter:drop-shadow(0 3px 10px rgba(0,0,0,.9))}
 @media(max-width:700px){.hero small{top:-10px}.event-scene .event{min-height:118vh;padding-bottom:16vh}}
+
+
+/* ===== FINAL VISIBILITY / RESPONSIVE REPAIR ===== */
+html,body{overflow:hidden;width:100%;height:100%;}
+body{touch-action:auto;overflow:hidden;}
+.scene{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;}
+.scene.active>.bg,.scene.active>.plain,.scene.active>.shade,.scene.active>.soft,.scene.active>.heroShade,.scene.active>.eventShade,.scene.active>.receptionShade,.scene.active>.depth,.scene.active>.lightSweep,.scene.active>.heroLight,.scene.active>.churchGlow,.scene.active>.bokeh,.scene.active>.floatingDust,.scene.active>.softRays,.scene.active>.countHalo,.scene.active>.closingLight{position:absolute;}
+.scene.active>.bg{z-index:-6;}
+.scene.active>.depth-mid{z-index:-4;}
+.scene.active>.shade,.scene.active>.soft,.scene.active>.heroShade,.scene.active>.eventShade,.scene.active>.receptionShade{z-index:-2;}
+.scene.active>.lightSweep,.scene.active>.heroLight,.scene.active>.churchGlow,.scene.active>.bokeh,.scene.active>.floatingDust,.scene.active>.softRays,.scene.active>.countHalo,.scene.active>.closingLight{z-index:-1;}
+.scene.active>.content-depth{position:absolute;z-index:3;left:50%;top:50%;width:min(92vw,900px);margin:0;text-align:center;transform:translate3d(calc(-50% + var(--px)),calc(-50% + var(--py)),0);}
+.opening.content-depth{top:58%;width:min(90vw,520px);}
+.scripture.content-depth{width:min(90vw,900px);}
+.hero.content-depth{width:min(94vw,900px);}
+.event.content-depth{left:58%;top:50%;width:min(88vw,720px);text-align:left;}
+.count.content-depth{width:min(92vw,850px);}
+.closing.content-depth{top:57%;width:min(92vw,900px);}
+
+/* Only ceremony and reception are vertically scrollable. */
+.event-scene{overflow-y:auto;overflow-x:hidden;touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.event-scene::-webkit-scrollbar{display:none;}
+.event-scene .event.content-depth{position:relative;left:auto;top:auto;width:min(88vw,720px);margin:0 auto;transform:none;min-height:125vh;padding-top:38vh;padding-bottom:24vh;}
+.event-scene .event.content-depth>*{position:relative;z-index:4;}
+.event-scene:before{content:'';display:block;height:1px;}
+.event-scene:after{content:'';position:absolute;left:0;right:0;bottom:0;height:18vh;pointer-events:none;z-index:1;background:linear-gradient(transparent,rgba(0,0,0,.35));}
+
+@media(max-width:700px){
+  .scene.active>.content-depth{width:90vw;}
+  .opening.content-depth{top:57%;width:90vw;}
+  .hero.content-depth{top:50%;width:94vw;}
+  .hero small{top:-12px;}
+  .event-scene .event.content-depth{width:88vw;min-height:130vh;padding-top:38vh;padding-bottom:28vh;text-align:center;}
+  .event-scene .event i{margin-inline:auto;}
+  .event-scene .event p{font-size:1.12rem;line-height:1.12;}
+  .event-scene .event b{font-size:.78rem;line-height:1.5;}
+  .reception.content-depth{left:auto;}
+  .count.content-depth{width:90vw;}
+  .closing.content-depth{top:56%;width:92vw;}
+}
+
+@media(min-width:701px){
+  .event-scene .event.content-depth{min-height:120vh;padding-top:34vh;}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .scene.active>.content-depth{transform:translate(-50%,-50%)!important;}
+  .event-scene .event.content-depth{transform:none!important;}
+}

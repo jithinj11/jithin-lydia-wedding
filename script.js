@@ -106,6 +106,7 @@
 
   function pointerDown(e){
     if(open&&open.contains(e.target))return;
+    if(isEventSceneActive() && (e.pointerType==='touch' || e.pointerType==='pen')) return;
     if(e.target?.closest?.('.location-link'))return;
     if(!playing)return;
     pulse(e.clientX??innerWidth/2,e.clientY??innerHeight/2);pauseAndResume();
