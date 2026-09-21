@@ -116,11 +116,21 @@
     }
   }
 
+  function startMusicFromGesture() {
+    if (!music || cfg.music?.enabled === false) return;
+    music.volume = Number(cfg.music?.volume) || 0.22;
+    const promise = music.play();
+    if (promise && typeof promise.catch === 'function') promise.catch(() => {});
+  }
+
   function enterInvitation(event) {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
+
+    // Start audio directly from the user's gesture before any scene transition.
+    startMusicFromGesture();
 
     // This is the only code path for the opening button.
     if (!started) {
@@ -130,14 +140,6 @@
 
     showScene(1);
 
-    if (music) {
-      music.volume = Number(cfg.music?.volume) || 0.22;
-      music.play().then(() => {
-        if (soundButton) soundButton.innerHTML = 'SOUND <span>ON</span>';
-      }).catch(() => {
-        if (soundButton) soundButton.innerHTML = 'SOUND <span>OFF</span>';
-      });
-    }
   }
 
   function nextScene(event) {
@@ -171,7 +173,14 @@
     }
   }
 
-  // Critical interaction: exactly one listener, directly on the button.
+  // Start music on the earliest user gesture; no visible sound control is needed.
+  if (enter) {
+    enter.addEventListener('pointerdown', startMusicFromGesture, { passive: true });
+    enter.addEventListener('touchstart', startMusicFromGesture, { passive: true });
+    enter.addEventListener('click', enterInvitation);
+  }
+
+  // Critical interaction: exactly one listener for optional controls.
   if (nextButton) nextButton.addEventListener('click', nextScene);
   if (soundButton) soundButton.addEventListener('click', toggleSound);
 
@@ -249,14 +258,6 @@
       body.classList.add('started', 'invitation-entered');
     }
     showScene(1);
-    if (music) {
-      music.volume = Number(cfg.music?.volume) || 0.22;
-      music.play().then(() => {
-        if (soundButton) soundButton.innerHTML = 'SOUND <span>ON</span>';
-      }).catch(() => {
-        if (soundButton) soundButton.innerHTML = 'SOUND <span>OFF</span>';
-      });
-    }
   };
 
   // Deterministic initial state: opening only.

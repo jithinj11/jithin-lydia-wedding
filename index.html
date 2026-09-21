@@ -34,8 +34,9 @@
   };
 })();
 </script>
-    <link rel="preload" as="image" href="assets/images/scripture.png">
-    <link rel="preload" as="image" href="assets/images/hero.png">
+    <link rel="preload" as="image" href="assets/images/scripture.webp">
+    <link rel="preload" as="image" href="assets/images/hero.webp">
+<link rel="preload" as="image" href="assets/images/hero.webp" fetchpriority="high">
 </head>
 <body>
   <canvas id="ambient-petals" aria-hidden="true"></canvas>
@@ -46,7 +47,7 @@
 
 <main class="experience" aria-label="Jithin and Lydia wedding invitation">
   <section class="scene scene-opening is-active" data-scene="opening">
-    <img class="scene-media opening-media" data-depth="0" src="assets/images/opening.png" alt="" aria-hidden="true">
+    <img class="scene-media opening-media" data-depth="0" loading="eager" src="assets/images/opening.webp" alt="" aria-hidden="true">
     <div class="scene-wash"></div>
     <div class="opening-frame">
       <div class="eyebrow">A CHRISTIAN WEDDING</div>
@@ -64,7 +65,7 @@
   </section>
 
   <section class="scene scene-scripture" data-scene="scripture">
-    <img class="scene-media scripture-media" data-depth="-1" src="assets/images/scripture.png" alt="" aria-hidden="true">
+    <img class="scene-media scripture-media" data-depth="-1" loading="eager" src="assets/images/scripture.webp" alt="" aria-hidden="true">
     <div class="scene-wash"></div>
     <div class="editorial-number">01</div>
     <div class="scripture-copy depth-layer">
@@ -76,7 +77,7 @@
   </section>
 
   <section class="scene scene-hero" data-scene="hero">
-    <img class="hero-image depth-back" src="assets/images/hero.png" alt="" aria-hidden="true">
+    <img class="hero-image depth-back" loading="eager" fetchpriority="high" src="assets/images/hero.webp" alt="" aria-hidden="true">
     <div class="hero-glass depth-mid"></div>
     <div class="hero-shade"></div>
 
@@ -176,7 +177,7 @@
   </section>
 
   <section class="scene scene-closing" data-scene="closing">
-    <img class="closing-photo depth-back" src="assets/images/closing.png" alt="" aria-hidden="true">
+    <img class="closing-photo depth-back" loading="lazy" src="assets/images/closing.webp" alt="" aria-hidden="true">
     <div class="closing-shade"></div>
     <div class="closing-content depth-front">
       <div class="eyebrow">WITH FAITH IN OUR HEARTS</div>
@@ -192,7 +193,7 @@
 <div class="controls">
 </div>
 <div class="scene-label"><span id="sceneName">OPENING</span><i></i><span>07 / 11 / 2026</span></div>
-<audio id="music" preload="auto" loop src="assets/music/wedding.mp3"></audio>
+<audio id="music" preload="auto" loop playsinline src="assets/music/wedding.mp3"><source src="assets/music/wedding.mp3" type="audio/mpeg"></audio>
 <script src="config.js"></script>
 <script src="script.js"></script>
 </body>
