@@ -22,13 +22,24 @@
     closing: 'FOREVER'
   };
 
-  const durations = {
-    scripture: 5200,
-    hero: 7600,
-    ceremony: 7600,
-    reception: 7600,
-    countdown: 6000,
-    closing: 9000
+  const sceneSettings = cfg.sceneSettings || {
+    opening: {duration: 0, shift: {x: 0, y: 0}, auto: false},
+    scripture: {duration: 5200, shift: {x: 0, y: 0}, auto: true},
+    hero: {duration: 7600, shift: {x: 0, y: 0}, auto: true},
+    ceremony: {duration: 7600, shift: {x: 0, y: 0}, auto: true},
+    reception: {duration: 7600, shift: {x: 0, y: 0}, auto: true},
+    countdown: {duration: 6000, shift: {x: 0, y: 0}, auto: true},
+    closing: {duration: 9000, shift: {x: 0, y: 0}, auto: true}
+  };
+
+  const contentSelectors = {
+    opening: '.opening-frame',
+    scripture: '.scripture-copy',
+    hero: '.hero-content',
+    ceremony: '.event-content',
+    reception: '.event-content',
+    countdown: '.count-content',
+    closing: '.closing-content'
   };
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -53,6 +64,15 @@
     body.dataset.scene = key;
   }
 
+  function revealHeroNames() {
+    const hero = document.querySelector('.scene-hero');
+    if (!hero) return;
+    // The text is always visible by default. This class only adds the writing effect.
+    hero.classList.remove('hero-writing-active');
+    void hero.offsetWidth;
+    hero.classList.add('hero-writing-active');
+  }
+
   function showScene(index, options = {}) {
     if (!scenes.length) return;
     const { autoAdvance = true } = options;
@@ -68,10 +88,29 @@
 
     updateChrome();
 
-    if (started && autoAdvance && !reducedMotion) {
-      const key = scenes[current]?.dataset.scene;
-      const delay = durations[key];
-      if (delay) timer = window.setTimeout(() => showScene(current + 1), delay);
+    const key = scenes[current]?.dataset.scene || 'opening';
+    if (key === 'hero') {
+      window.setTimeout(revealHeroNames, 30);
+    }
+    const settings = sceneSettings[key] || {};
+    const shift = settings.shift || {};
+    const x = Number(shift.x) || 0;
+    const y = Number(shift.y) || 0;
+
+    scenes.forEach(scene => {
+      const sceneKey = scene.dataset.scene;
+      const selector = contentSelectors[sceneKey];
+      if (!selector) return;
+      const content = scene.querySelector(selector);
+      if (!content) return;
+      const active = scene === scenes[current];
+      content.style.setProperty('--scene-shift-x', active ? `${x}px` : '0px');
+      content.style.setProperty('--scene-shift-y', active ? `${y}px` : '0px');
+    });
+
+    if (started && autoAdvance && !reducedMotion && settings.auto !== false) {
+      const delay = Number(settings.duration) || 0;
+      if (delay > 0) timer = window.setTimeout(() => showScene(current + 1), delay);
     }
   }
 

@@ -1974,3 +1974,554 @@ body.started .cursor-light{opacity:1}
   transform: translateX(-50%) translateY(-2px) !important;
 }
 #ambient-petals, .noise, .cursor-light, .film-bars { pointer-events: none !important; }
+
+
+/* USER CONFIGURABLE PAGE SHIFTS */
+.scene .opening-frame,
+.scene .scripture-copy,
+.scene .hero-content,
+.scene .event-content,
+.scene .count-content,
+.scene .closing-content {
+  translate: var(--scene-shift-x, 0px) var(--scene-shift-y, 0px);
+  transition: translate .9s cubic-bezier(.16,1,.3,1);
+}
+
+
+/* V13 HERO CLEAN MODE — no controls over the hero image. */
+body[data-scene="hero"] .controls {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Hero couple names — handwritten calligraphy, clearly visible and centered. */
+.scene-hero .hero-names-safe {
+  position: relative !important;
+  z-index: 60 !important;
+  display: block !important;
+  width: 100% !important;
+  margin: 18px 0 12px !important;
+  padding: 0 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  font-family: "Great Vibes", "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive !important;
+  font-size: clamp(68px, 11vw, 118px) !important;
+  font-weight: 400 !important;
+  line-height: .95 !important;
+  letter-spacing: .01em !important;
+  color: #fffaf2 !important;
+  text-shadow: 0 5px 28px rgba(0,0,0,.72), 0 1px 3px rgba(0,0,0,.8) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+.scene-hero .hero-names-safe span {
+  display: inline-block !important;
+  margin: 0 .14em !important;
+  color: #d8bb82 !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: .42em !important;
+  font-style: italic !important;
+  vertical-align: middle !important;
+  text-shadow: 0 3px 16px rgba(0,0,0,.7) !important;
+}
+@media (max-width: 600px) {
+  .scene-hero .hero-names-safe {
+    font-size: clamp(58px, 17vw, 86px) !important;
+    margin-top: 14px !important;
+  }
+}
+
+/* =========================================================
+   V14 — CLEAN CINEMATIC HERO
+   No NEXT / SOUND controls anywhere. Hero invitation copy
+   reveals above the handwritten names.
+   ========================================================= */
+#sound, #skip, .controls #sound, .controls #skip {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.scene-hero .hero-content {
+  z-index: 40 !important;
+}
+
+/* The invitation line sits directly above the names. */
+.scene-hero .hero-kicker {
+  position: relative !important;
+  z-index: 60 !important;
+  width: auto !important;
+  margin: 0 0 22px !important;
+  text-align: center !important;
+  color: rgba(255,248,236,.96) !important;
+  font-family: var(--sans) !important;
+  font-size: clamp(8px, 1.1vw, 11px) !important;
+  font-weight: 600 !important;
+  letter-spacing: .38em !important;
+  opacity: 0 !important;
+  transform: translateY(14px) !important;
+  animation: heroInviteReveal 1s .18s cubic-bezier(.16,1,.3,1) forwards !important;
+  text-shadow: 0 3px 18px rgba(0,0,0,.72) !important;
+}
+
+/* Override the older V9/V13 "no animation" rules with a real reveal. */
+.scene-hero .hero-names-safe {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+  white-space: normal !important;
+}
+
+.scene-hero .hero-name-safe,
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-name-lydia {
+  position: relative !important;
+  display: block !important;
+  font-family: "Great Vibes", "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-size: clamp(66px, 11vw, 118px) !important;
+  line-height: .82 !important;
+  letter-spacing: .01em !important;
+  color: #fffaf2 !important;
+  text-shadow: 0 5px 28px rgba(0,0,0,.76), 0 1px 4px rgba(0,0,0,.9) !important;
+  opacity: 0 !important;
+  visibility: visible !important;
+  transform: translateY(28px) scale(.96) !important;
+  filter: blur(3px) !important;
+  animation: heroNameReveal 1.35s cubic-bezier(.16,1,.3,1) forwards !important;
+}
+
+.scene-hero .hero-name-lydia {
+  animation-delay: .58s !important;
+}
+
+.scene-hero .hero-amp-safe {
+  display: block !important;
+  margin: 13px 0 10px !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(25px, 3vw, 34px) !important;
+  line-height: 1 !important;
+  font-style: italic !important;
+  color: #d8bb82 !important;
+  opacity: 0 !important;
+  transform: translateY(12px) !important;
+  animation: heroAmpReveal .9s .38s cubic-bezier(.16,1,.3,1) forwards !important;
+  text-shadow: 0 3px 18px rgba(0,0,0,.75) !important;
+}
+
+.scene-hero .hero-meta {
+  margin-top: 30px !important;
+  opacity: 0 !important;
+  transform: translateY(12px) !important;
+  animation: heroMetaReveal .9s 1.18s cubic-bezier(.16,1,.3,1) forwards !important;
+}
+
+.scene-hero .hero-corner {
+  right: auto !important;
+  left: 50% !important;
+  bottom: 8vh !important;
+  transform: translateX(-50%) !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  color: rgba(247,241,231,.68) !important;
+}
+
+@keyframes heroInviteReveal {
+  from { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes heroNameReveal {
+  from { opacity: 0; transform: translateY(28px) scale(.96); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes heroAmpReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroMetaReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 699px) {
+  .scene-hero .hero-content {
+    left: 50% !important;
+    top: 52% !important;
+    width: 90vw !important;
+    transform: translate(-50%, -50%) !important;
+    text-align: center !important;
+  }
+  .scene-hero .hero-kicker {
+    margin-bottom: 20px !important;
+    font-size: 7px !important;
+    letter-spacing: .30em !important;
+  }
+  .scene-hero .hero-name-jithin,
+  .scene-hero .hero-name-lydia {
+    font-size: clamp(62px, 18vw, 88px) !important;
+  }
+  .scene-hero .hero-amp-safe {
+    margin: 10px 0 8px !important;
+    font-size: 25px !important;
+  }
+  .scene-hero .hero-meta {
+    margin-top: 25px !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+  }
+  .scene-hero .hero-meta i { display: none !important; }
+  .scene-hero .hero-corner {
+    bottom: 5.5vh !important;
+    font-size: 7px !important;
+    letter-spacing: .16em !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-hero .hero-kicker,
+  .scene-hero .hero-name-jithin,
+  .scene-hero .hero-name-lydia,
+  .scene-hero .hero-amp-safe,
+  .scene-hero .hero-meta {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* V14.1 — HARD HERO COPY VISIBILITY FALLBACK
+   The calligraphy reveal is driven by the scene controller via Web Animations API.
+   These rules ensure no legacy animation rule can hide the copy. */
+.scene-hero .hero-content,
+.scene-hero .hero-kicker,
+.scene-hero .hero-names-safe,
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-amp-safe,
+.scene-hero .hero-name-lydia,
+.scene-hero .hero-meta {
+  visibility: visible !important;
+}
+.scene-hero .hero-names-safe { position:relative !important; z-index:80 !important; }
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-name-lydia {
+  font-family:"Great Vibes","Snell Roundhand","Segoe Script","Brush Script MT",cursive !important;
+  color:#fffaf2 !important;
+  text-shadow:0 6px 30px rgba(0,0,0,.82),0 1px 4px rgba(0,0,0,.9) !important;
+}
+.scene-hero .hero-amp-safe { color:#d8bb82 !important; }
+
+
+/* V15 FINAL HERO VISIBILITY LOCK
+   The Hero container must never be hidden by legacy scene-reveal animations.
+   The individual calligraphy elements are animated independently by script.js. */
+.scene-hero .hero-content {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+  z-index: 100 !important;
+}
+.scene-hero .hero-kicker,
+.scene-hero .hero-names-safe,
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-amp-safe,
+.scene-hero .hero-name-lydia,
+.scene-hero .hero-meta {
+  visibility: visible !important;
+}
+.scene-hero .hero-names-safe {
+  opacity: 1 !important;
+  z-index: 110 !important;
+  position: relative !important;
+}
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-name-lydia {
+  opacity: 1;
+  visibility: visible !important;
+  display: block !important;
+  font-family: "Great Vibes", "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive !important;
+  color: #fffaf2 !important;
+  text-shadow: 0 6px 30px rgba(0,0,0,.82), 0 1px 5px rgba(0,0,0,.95) !important;
+}
+.scene-hero .hero-amp-safe {
+  opacity: 1;
+  visibility: visible !important;
+  display: block !important;
+  color: #d8bb82 !important;
+}
+.scene-hero .hero-meta { opacity: 1 !important; visibility: visible !important; }
+
+
+
+/* V15.1 — GUARANTEED HERO REVEAL
+   No legacy Hero animation is allowed to hide the text. The reveal uses movement + blur,
+   while opacity stays at 1 so the names remain visible even if JS animation is unavailable. */
+@keyframes heroNameVisibleReveal {
+  from { opacity: 1; transform: translateY(30px) scale(.94); filter: blur(7px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes heroAmpVisibleReveal {
+  from { opacity: 1; transform: translateY(16px); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes heroInviteVisibleReveal {
+  from { opacity: 1; transform: translateY(14px); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.scene-hero .hero-content { opacity: 1 !important; visibility: visible !important; animation: none !important; }
+.scene-hero .hero-kicker {
+  opacity: 1 !important; visibility: visible !important;
+  animation: heroInviteVisibleReveal .9s .15s cubic-bezier(.16,1,.3,1) both !important;
+}
+.scene-hero .hero-name-jithin {
+  opacity: 1 !important; visibility: visible !important;
+  animation: heroNameVisibleReveal 1.25s .35s cubic-bezier(.16,1,.3,1) both !important;
+}
+.scene-hero .hero-amp-safe {
+  opacity: 1 !important; visibility: visible !important;
+  animation: heroAmpVisibleReveal .8s .65s cubic-bezier(.16,1,.3,1) both !important;
+}
+.scene-hero .hero-name-lydia {
+  opacity: 1 !important; visibility: visible !important;
+  animation: heroNameVisibleReveal 1.25s .8s cubic-bezier(.16,1,.3,1) both !important;
+}
+.scene-hero .hero-meta { opacity: 1 !important; visibility: visible !important; animation: heroInviteVisibleReveal .85s 1.45s cubic-bezier(.16,1,.3,1) both !important; }
+
+/* =========================================================
+   V16 — HERO HANDWRITTEN REVEAL
+   The names are visible even before JS runs. JS only adds the
+   writing animation class; therefore a failed animation can never
+   make the names disappear.
+   ========================================================= */
+.scene-hero .hero-content {
+  left: 8.5vw !important;
+  top: 50% !important;
+  bottom: auto !important;
+  width: min(620px, 52vw) !important;
+  padding: 0 !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  transform: translate3d(calc(var(--mx) * .25), calc(-50% + var(--my) * .25), 0) !important;
+  z-index: 120 !important;
+}
+.scene-hero .hero-kicker {
+  opacity: 1 !important;
+  visibility: visible !important;
+  margin: 0 0 22px !important;
+  color: rgba(255,248,236,.94) !important;
+  font-size: 9px !important;
+  letter-spacing: .34em !important;
+  text-shadow: 0 2px 18px rgba(0,0,0,.8) !important;
+  animation: none !important;
+}
+.scene-hero .hero-names-safe {
+  position: relative !important;
+  z-index: 130 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-name-lydia {
+  position: relative !important;
+  display: block !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  clip-path: inset(0 0 0 0);
+  -webkit-clip-path: inset(0 0 0 0);
+  font-family: "Great Vibes", "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive !important;
+  font-weight: 400 !important;
+  font-size: clamp(6rem, 9.2vw, 9.5rem) !important;
+  line-height: .78 !important;
+  letter-spacing: -.035em !important;
+  color: #fff7e7 !important;
+  text-shadow: 0 5px 24px rgba(0,0,0,.7), 0 1px 3px rgba(0,0,0,.95) !important;
+}
+.scene-hero .hero-amp-safe {
+  display: block !important;
+  position: relative !important;
+  margin: 7px 0 7px 10px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  filter: none !important;
+  color: #d9b66e !important;
+  font-family: "Great Vibes", "Snell Roundhand", cursive !important;
+  font-size: clamp(2.5rem, 4vw, 4rem) !important;
+  line-height: .8 !important;
+  text-shadow: 0 4px 20px rgba(0,0,0,.8) !important;
+}
+.scene-hero .hero-name-jithin::after,
+.scene-hero .hero-name-lydia::after {
+  content: "";
+  position: absolute;
+  top: 53%;
+  left: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ffe3a4;
+  box-shadow: 0 0 8px 3px rgba(255,210,119,.8), 0 0 22px 8px rgba(255,190,83,.35);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-name-lydia {
+  /* visible fallback */
+  clip-path: inset(0 0 0 0);
+  -webkit-clip-path: inset(0 0 0 0);
+}
+.scene-hero:not(.hero-writing-active) .hero-name-jithin,
+.scene-hero:not(.hero-writing-active) .hero-name-lydia {
+  animation: none !important;
+}
+.scene-hero.hero-writing-active .hero-name-jithin {
+  animation: heroWriteJithin 1.65s cubic-bezier(.22,.72,.24,1) .05s both !important;
+}
+.scene-hero.hero-writing-active .hero-name-lydia {
+  animation: heroWriteLydia 1.65s cubic-bezier(.22,.72,.24,1) 1.45s both !important;
+}
+.scene-hero.hero-writing-active .hero-amp-safe {
+  animation: heroAmpWrite .65s cubic-bezier(.16,1,.3,1) 1.1s both !important;
+}
+.scene-hero.hero-writing-active .hero-name-jithin::after {
+  animation: penJithin 1.65s cubic-bezier(.22,.72,.24,1) .05s both;
+}
+.scene-hero.hero-writing-active .hero-name-lydia::after {
+  animation: penLydia 1.65s cubic-bezier(.22,.72,.24,1) 1.45s both;
+}
+@keyframes heroWriteJithin {
+  0% { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); filter: blur(1.5px); transform: translateX(-8px); }
+  12% { filter: blur(.8px); }
+  100% { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); filter: blur(0); transform: translateX(0); }
+}
+@keyframes heroWriteLydia {
+  0% { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); filter: blur(1.5px); transform: translateX(-8px); }
+  12% { filter: blur(.8px); }
+  100% { clip-path: inset(0 0 0 0); -webkit-clip-path: inset(0 0 0 0); filter: blur(0); transform: translateX(0); }
+}
+@keyframes heroAmpWrite {
+  from { opacity: 0; transform: translateY(10px) scale(.86); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes penJithin {
+  0% { left: 0; opacity: 1; }
+  100% { left: calc(100% - 4px); opacity: 0; }
+}
+@keyframes penLydia {
+  0% { left: 0; opacity: 1; }
+  100% { left: calc(100% - 4px); opacity: 0; }
+}
+.scene-hero .hero-meta {
+  opacity: 1 !important;
+  visibility: visible !important;
+  margin-top: 28px !important;
+  align-items: flex-start !important;
+  animation: none !important;
+}
+.scene-hero .hero-meta .hero-date,
+.scene-hero .hero-meta .hero-location {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: rgba(255,248,236,.9) !important;
+  text-shadow: 0 2px 14px rgba(0,0,0,.75) !important;
+}
+@media (max-width: 700px) {
+  .scene-hero .hero-content {
+    left: 8vw !important;
+    top: 50% !important;
+    width: 84vw !important;
+    transform: translate3d(0,-50%,0) !important;
+  }
+  .scene-hero .hero-kicker { margin-bottom: 18px !important; font-size: 7px !important; }
+  .scene-hero .hero-name-jithin,
+  .scene-hero .hero-name-lydia { font-size: clamp(4.8rem, 22vw, 7.2rem) !important; }
+  .scene-hero .hero-amp-safe { font-size: 2.7rem !important; margin: 7px 0 7px 7px !important; }
+  .scene-hero .hero-meta { margin-top: 24px !important; }
+}
+
+/* No NEXT or SOUND controls anywhere. */
+.controls{display:none!important}
+
+/* V17 — COMPLETE CALLIGRAPHY / PEN-WRITE EFFECT
+   The lettering is ALWAYS complete. The animation is created by a luminous writing cursor
+   and a subtle ink-glow sweep, so the letters can never be caught half-clipped. */
+.scene-hero .hero-name-jithin,
+.scene-hero .hero-name-lydia {
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(0) !important;
+  filter: none !important;
+  animation: none !important;
+  background: none !important;
+  position: relative !important;
+}
+.scene-hero .hero-name-jithin::after,
+.scene-hero .hero-name-lydia::after {
+  top: 52% !important;
+  left: 0 !important;
+  width: 12px !important;
+  height: 12px !important;
+  opacity: 0 !important;
+  transform: translate(-50%,-50%) rotate(-18deg) !important;
+}
+.scene-hero.hero-writing-active .hero-name-jithin,
+.scene-hero.hero-writing-active .hero-name-lydia {
+  animation: heroInkGlow 1.15s ease-out both !important;
+}
+.scene-hero.hero-writing-active .hero-name-jithin::after {
+  animation: penSweepJithin 1.8s cubic-bezier(.22,.72,.24,1) .05s both !important;
+}
+.scene-hero.hero-writing-active .hero-name-lydia::after {
+  animation: penSweepLydia 1.8s cubic-bezier(.22,.72,.24,1) 1.55s both !important;
+}
+@keyframes heroInkGlow {
+  0% { text-shadow: 0 0 0 rgba(255,218,142,0), 0 6px 28px rgba(0,0,0,.78); }
+  35% { text-shadow: 0 0 18px rgba(255,211,125,.65), 0 6px 28px rgba(0,0,0,.78); }
+  100% { text-shadow: 0 0 4px rgba(255,211,125,.18), 0 6px 28px rgba(0,0,0,.78); }
+}
+@keyframes penSweepJithin {
+  0% { left: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+@keyframes penSweepLydia {
+  0% { left: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+.scene-hero .hero-amp-safe {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  filter: none !important;
+}
