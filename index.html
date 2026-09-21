@@ -57,7 +57,7 @@
       </div>
       <div class="opening-bottom">
         <span>07 · 11 · 2026</span>
-        <button id="enter" type="button" aria-label="Enter invitation" onclick="return window.__enterWedding(event)">ENTER INVITATION <b aria-hidden="true">↗</b></button>
+        <button id="enter" type="button" aria-label="Enter invitation" onclick="this.blur();document.body.classList.add('started','invitation-entered');document.querySelectorAll('.scene').forEach((s,i)=>{s.classList.toggle('is-active',i===1);s.setAttribute('aria-hidden',i===1?'false':'true')});if(window.__weddingStart)window.__weddingStart();return false;">ENTER INVITATION <b aria-hidden="true">↗</b></button>
         <span>NORTH PARAVUR</span>
       </div>
     </div>

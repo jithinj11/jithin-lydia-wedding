@@ -199,6 +199,25 @@
     if (countdownTimer) window.clearInterval(countdownTimer);
   }, { once: true });
 
+  // Public start bridge used by the opening button.
+  // The inline button fallback activates Scripture first; this function then
+  // takes over the normal cinematic state machine without reversing the scene.
+  window.__weddingStart = function () {
+    if (!started) {
+      started = true;
+      body.classList.add('started', 'invitation-entered');
+    }
+    showScene(1);
+    if (music) {
+      music.volume = Number(cfg.music?.volume) || 0.22;
+      music.play().then(() => {
+        if (soundButton) soundButton.innerHTML = 'SOUND <span>ON</span>';
+      }).catch(() => {
+        if (soundButton) soundButton.innerHTML = 'SOUND <span>OFF</span>';
+      });
+    }
+  };
+
   // Deterministic initial state: opening only.
   showScene(0, { autoAdvance: false });
 })();
