@@ -1818,3 +1818,159 @@ body.started .cursor-light{opacity:1}
   pointer-events: auto !important;
   cursor: pointer !important;
 }
+
+/* =========================================================
+   V9 — FINAL HERO / SCRIPTURE / ENTRY LOCK
+   ========================================================= */
+
+/* HERO: safe text is ordinary flow layout, not transformed/animated. */
+.scene-hero .hero-names-safe {
+  position: relative !important;
+  z-index: 50 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.scene-hero .hero-name-safe {
+  position: relative !important;
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  white-space: nowrap !important;
+  font-family: "Great Vibes", "Snell Roundhand", "Brush Script MT", cursive !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  color: #fffaf2 !important;
+  line-height: .82 !important;
+  letter-spacing: 0 !important;
+  text-shadow: 0 5px 25px rgba(0,0,0,.62) !important;
+}
+
+.scene-hero .hero-name-jithin {
+  font-size: clamp(60px, 18vw, 86px) !important;
+}
+
+.scene-hero .hero-name-lydia {
+  font-size: clamp(60px, 18vw, 86px) !important;
+}
+
+.scene-hero .hero-amp-safe {
+  position: relative !important;
+  display: block !important;
+  margin: 7px 0 6px !important;
+  padding: 0 !important;
+  transform: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 25px !important;
+  line-height: 1 !important;
+  color: #c6a66e !important;
+}
+
+@media (max-width:390px) {
+  .scene-hero .hero-name-jithin,
+  .scene-hero .hero-name-lydia {
+    font-size: 56px !important;
+  }
+  .scene-hero .hero-amp-safe {
+    font-size: 22px !important;
+    margin-top: 6px !important;
+    margin-bottom: 5px !important;
+  }
+}
+
+@media (min-width:700px) {
+  .scene-hero .hero-names-safe {
+    align-items: flex-start !important;
+  }
+  .scene-hero .hero-name-jithin,
+  .scene-hero .hero-name-lydia {
+    font-size: clamp(72px, 8.5vw, 125px) !important;
+  }
+  .scene-hero .hero-amp-safe {
+    font-size: 28px !important;
+    margin-left: 5px !important;
+  }
+}
+
+/* SCRIPTURE: actual IMG always visible; overlays cannot hide it. */
+.scene-scripture > .scripture-media {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ENTRY: top-level button is always clickable. */
+.scene-opening #enter {
+  position: relative !important;
+  z-index: 999 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Never let the global atmosphere intercept input. */
+#ambient-petals {
+  pointer-events: none !important;
+}
+
+/* V10 — HARD-ISOLATED INVITATION ENTRY
+   The first-screen button has its own interaction path and sits above every visual layer. */
+.scene-opening { z-index: 100 !important; }
+.scene-opening .opening-frame { z-index: 1000 !important; pointer-events: none !important; }
+.scene-opening #enter {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: max(42px, 7vh) !important;
+  transform: translateX(-50%) !important;
+  z-index: 100000 !important;
+  display: inline-flex !important;
+  width: min(300px, 82vw) !important;
+  min-height: 54px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+.scene-opening #enter:hover,
+.scene-opening #enter:active,
+.scene-opening #enter:focus-visible {
+  transform: translateX(-50%) translateY(-2px) !important;
+}
+#ambient-petals, .noise, .cursor-light, .film-bars { pointer-events: none !important; }

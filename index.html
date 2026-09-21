@@ -14,6 +14,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=DM+Sans:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+(function(){
+  window.__enterWedding = function(event){
+    if(event){ event.preventDefault(); event.stopPropagation(); }
+    var opening=document.querySelector(".scene-opening");
+    var scripture=document.querySelector(".scene-scripture");
+    if(!opening || !scripture) return false;
+    document.querySelectorAll(".scene").forEach(function(scene){
+      scene.classList.remove("is-active");
+      scene.setAttribute("aria-hidden","true");
+    });
+    opening.classList.remove("is-active");
+    scripture.classList.add("is-active");
+    scripture.setAttribute("aria-hidden","false");
+    document.body.classList.add("started","invitation-entered");
+    document.body.dataset.scene="scripture";
+    return false;
+  };
+})();
+</script>
+    <link rel="preload" as="image" href="assets/images/scripture.png">
+    <link rel="preload" as="image" href="assets/images/hero.png">
 </head>
 <body>
   <canvas id="ambient-petals" aria-hidden="true"></canvas>
@@ -35,7 +57,7 @@
       </div>
       <div class="opening-bottom">
         <span>07 · 11 · 2026</span>
-        <button id="enter" type="button">ENTER INVITATION <b>↗</b></button>
+        <button id="enter" type="button" aria-label="Enter invitation" onclick="return window.__enterWedding(event)">ENTER INVITATION <b aria-hidden="true">↗</b></button>
         <span>NORTH PARAVUR</span>
       </div>
     </div>
@@ -67,10 +89,10 @@
 
     <div class="hero-content depth-front">
       <div class="hero-kicker">WITH FAITH · WITH LOVE · WITH GRATITUDE</div>
-      <div class="names" aria-label="Jithin and Lydia">
-        <span>Jithin</span>
-        <small>&amp;</small>
-        <span>Lydia</span>
+      <div class="hero-names-safe" aria-label="Jithin and Lydia">
+        <div class="hero-name-safe hero-name-jithin">Jithin</div>
+        <div class="hero-amp-safe">&amp;</div>
+        <div class="hero-name-safe hero-name-lydia">Lydia</div>
       </div>
       <div class="hero-meta">
         <span class="hero-date">07 NOVEMBER 2026</span>
