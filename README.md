@@ -1,14 +1,17 @@
-# Jithin & Lydia Wedding — V17
+# Jithin & Lydia Wedding Invitation — V19
 
-Upload the contents of this folder to GitHub Pages.
+GitHub Pages-ready wedding invitation.
 
-## Hero
-The Hero calligraphy is always fully visible. The reveal is a luminous pen-writing sweep and ink glow, so the names are never clipped or partially rendered.
-
-## Controls
-NEXT and SOUND controls are removed from all pages.
+## Hero behavior
+- Uses the original `assets/images/hero.png` as the permanent Hero photograph.
+- No black replacement/background slide.
+- `YOU ARE INVITED` appears above the names.
+- Jithin, &, and Lydia use a refined handwritten/calligraphy treatment.
+- The names reveal left-to-right with a warm glowing pen effect and remain fully visible afterward.
+- NEXT and SOUND controls are removed from the entire site.
 
 ## Configuration
-Edit `config.js` to change scene duration, page shifts, and auto-advance.
+Edit `config.js` to change scene duration, automatic progression, and per-page shifts.
 
-A high-resolution visual reference for the Hero calligraphy is included at `assets/images/hero-calligraphy-reference.png`.
+## Deploy
+Upload the contents of this folder to the GitHub Pages repository root.

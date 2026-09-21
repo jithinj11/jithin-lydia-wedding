@@ -70,8 +70,7 @@
     // The text is always visible by default. This class only adds the writing effect.
     hero.classList.remove('hero-writing-active');
     void hero.offsetWidth;
-    const start = () => hero.classList.add('hero-writing-active');
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
+    hero.classList.add('hero-writing-active');
   }
 
   function showScene(index, options = {}) {
@@ -92,7 +91,6 @@
     const key = scenes[current]?.dataset.scene || 'opening';
     if (key === 'hero') {
       window.setTimeout(revealHeroNames, 30);
-      window.setTimeout(() => { const h=document.querySelector('.scene-hero'); if (h && h.classList.contains('is-active')) h.classList.add('hero-writing-complete'); }, 5300);
     }
     const settings = sceneSettings[key] || {};
     const shift = settings.shift || {};
@@ -110,7 +108,7 @@
       content.style.setProperty('--scene-shift-y', active ? `${y}px` : '0px');
     });
 
-    if (started && autoAdvance && settings.auto !== false) {
+    if (started && autoAdvance && !reducedMotion && settings.auto !== false) {
       const delay = Number(settings.duration) || 0;
       if (delay > 0) timer = window.setTimeout(() => showScene(current + 1), delay);
     }

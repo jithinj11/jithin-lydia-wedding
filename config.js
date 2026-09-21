@@ -12,7 +12,7 @@ window.weddingConfig={
   // Set auto:false on a page if you want it to wait for NEXT/swipe.
   sceneSettings:{
     opening:{duration:0, shift:{x:0,y:0}, auto:false},
-    scripture:{duration:5200, shift:{x:0,y:0}, auto:true},
+    scripture:{duration:3800, shift:{x:0,y:0}, auto:true},
     hero:{duration:7600, shift:{x:0,y:0}, auto:true},
     ceremony:{duration:7600, shift:{x:0,y:0}, auto:true},
     reception:{duration:7600, shift:{x:0,y:0}, auto:true},

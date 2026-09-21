@@ -12,7 +12,7 @@
 <title>Jithin & Lydia | Wedding Invitation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=DM+Sans:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=DM+Sans:wght@400;500;600&family=Great+Vibes&family=Ballet&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script>
 (function(){
@@ -57,7 +57,7 @@
       </div>
       <div class="opening-bottom">
         <span>07 · 11 · 2026</span>
-        <button id="enter" type="button" aria-label="Enter invitation" onclick="this.blur();document.body.classList.add('started','invitation-entered');document.querySelectorAll('.scene').forEach((s,i)=>{s.classList.toggle('is-active',i===1);s.setAttribute('aria-hidden',i===1?'false':'true')});if(window.__weddingStart)window.__weddingStart();return false;">ENTER INVITATION <b aria-hidden="true">↗</b></button>
+        <button id="enter" type="button" aria-label="Enter invitation" onclick="this.blur();document.body.classList.add('started','invitation-entered');document.querySelectorAll('.scene').forEach((s,i)=>{s.classList.toggle('is-active',i===1);s.setAttribute('aria-hidden',i===1?'false':'true')});if(window.__weddingStart)window.__weddingStart();window.clearTimeout(window.__heroFallbackTimer);window.__heroFallbackTimer=window.setTimeout(function(){var active=document.querySelector('.scene.is-active');if(active&&active.dataset.scene==='scripture'){document.querySelectorAll('.scene').forEach(function(scene){scene.classList.remove('is-active');scene.setAttribute('aria-hidden','true');});var hero=document.querySelector('.scene-hero');if(hero){hero.classList.add('is-active');hero.setAttribute('aria-hidden','false');document.body.dataset.scene='hero';}}},5400);return false;">ENTER INVITATION <b aria-hidden="true">↗</b></button>
         <span>NORTH PARAVUR</span>
       </div>
     </div>
@@ -89,10 +89,30 @@
 
     <div class="hero-content depth-front">
       <div class="hero-kicker">YOU ARE INVITED</div>
-      <div class="hero-names-safe" aria-label="Jithin and Lydia">
-        <span class="hero-name-jithin">Jithin</span>
-        <span class="hero-amp-safe">&amp;</span>
-        <span class="hero-name-lydia">Lydia</span>
+      <div class="hero-calligraphy" aria-label="Jithin and Lydia">
+        <svg class="hero-calligraphy-svg" viewBox="0 0 1000 700" role="img" aria-label="Jithin and Lydia in handwritten calligraphy" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="inkGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <linearGradient id="inkGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#fff4c7"/>
+              <stop offset=".45" stop-color="#e6c27a"/>
+              <stop offset="1" stop-color="#b9873e"/>
+            </linearGradient>
+          </defs>
+          <g class="ink-word ink-jithin" filter="url(#inkGlow)">
+            <text x="500" y="315" text-anchor="middle">Jithin</text>
+          </g>
+          <g class="ink-word ink-amp" filter="url(#inkGlow)">
+            <text x="500" y="430" text-anchor="middle">&amp;</text>
+          </g>
+          <g class="ink-word ink-lydia" filter="url(#inkGlow)">
+            <text x="500" y="570" text-anchor="middle">Lydia</text>
+          </g>
+          <circle class="writing-pen" cx="165" cy="260" r="7"/>
+        </svg>
       </div>
       <div class="hero-meta">
         <span class="hero-date">07 NOVEMBER 2026</span>
@@ -101,6 +121,7 @@
       </div>
     </div>
 
+    <div class="hero-writing-pen" aria-hidden="true"></div>
     <div class="hero-corner">THE BEGINNING OF OUR FOREVER</div>
   </section>
 
