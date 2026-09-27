@@ -2856,3 +2856,28 @@ body[data-scene="hero"] .controls {
     margin-top: 8px !important;
   }
 }
+
+.scene-event .event-layout {
+  pointer-events: auto !important;
+  z-index: 20 !important;
+}
+
+.scene-event .event-content {
+  pointer-events: auto !important;
+  position: absolute !important;
+  z-index: 30 !important;
+}
+
+.scene-event .map-link {
+  position: relative !important;
+  z-index: 100 !important;
+  display: inline-flex !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  cursor: pointer !important;
+}
+
+.scene-event .event-photo,
+.scene-event .event-overlay {
+  pointer-events: none !important;
+}
