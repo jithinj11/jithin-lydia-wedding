@@ -4,7 +4,10 @@
   const cfg = window.weddingConfig || {};
   const root = document.documentElement;
   const body = document.body;
-  const scenes = Array.from(document.querySelectorAll('.scene'));
+
+  const scenes = Array.from(
+    document.querySelectorAll('.scene')
+  );
 
   const enter = document.getElementById('enter');
   const nextButton = document.getElementById('skip');
@@ -79,25 +82,25 @@
 
   let current = 0;
   let started = false;
-  let timer = null;
+  let sceneTimer = null;
   let countdownTimer = null;
 
   /*
    * =========================================================
-   * SCENE TIMER
+   * TIMER
    * =========================================================
    */
 
   function clearSceneTimer() {
-    if (timer) {
-      window.clearTimeout(timer);
-      timer = null;
+    if (sceneTimer) {
+      window.clearTimeout(sceneTimer);
+      sceneTimer = null;
     }
   }
 
   /*
    * =========================================================
-   * CHROME / UI
+   * UI
    * =========================================================
    */
 
@@ -120,7 +123,7 @@
 
   /*
    * =========================================================
-   * HERO WRITING ANIMATION
+   * HERO
    * =========================================================
    */
 
@@ -154,14 +157,11 @@
 
   /*
    * =========================================================
-   * SHOW SCENE
+   * SCENE ENGINE
    * =========================================================
    */
 
-  function showScene(
-    index,
-    options = {}
-  ) {
+  function showScene(index, options = {}) {
     if (!scenes.length) return;
 
     const {
@@ -180,10 +180,10 @@
       );
 
     scenes.forEach(
-      (scene, i) => {
+      (scene, indexNumber) => {
 
         const active =
-          i === current;
+          indexNumber === current;
 
         scene.classList.toggle(
           'is-active',
@@ -192,9 +192,7 @@
 
         scene.setAttribute(
           'aria-hidden',
-          active
-            ? 'false'
-            : 'true'
+          active ? 'false' : 'true'
         );
       }
     );
@@ -206,7 +204,7 @@
       'opening';
 
     /*
-     * Hero animation
+     * Hero writing animation
      */
 
     if (key === 'hero') {
@@ -241,7 +239,7 @@
     }
 
     /*
-     * Scene movement
+     * Scene positioning
      */
 
     const settings =
@@ -294,7 +292,7 @@
     );
 
     /*
-     * Automatic cinematic progression
+     * Automatic progression
      */
 
     if (
@@ -308,24 +306,18 @@
 
       if (delay > 0) {
 
-        timer =
+        sceneTimer =
           window.setTimeout(
             () => {
 
               /*
-               * Do not advance if the user
-               * is currently interacting with
-               * a location link.
+               * If the user has touched a map button,
+               * do not continue cinematic navigation.
                */
 
-              const activeElement =
-                document.activeElement;
-
               if (
-                activeElement &&
-                activeElement.closest(
-                  '.map-link'
-                )
+                document.body.dataset.mapOpening ===
+                'true'
               ) {
                 return;
               }
@@ -366,8 +358,7 @@
 
     if (
       promise &&
-      typeof promise.catch ===
-        'function'
+      typeof promise.catch === 'function'
     ) {
       promise.catch(
         () => {}
@@ -377,7 +368,7 @@
 
   /*
    * =========================================================
-   * ENTER INVITATION
+   * ENTER
    * =========================================================
    */
 
@@ -405,7 +396,7 @@
 
   /*
    * =========================================================
-   * NEXT SCENE
+   * NEXT
    * =========================================================
    */
 
@@ -417,9 +408,8 @@
     }
 
     if (!started) {
-      return enterInvitation(
-        event
-      );
+      enterInvitation(event);
+      return;
     }
 
     showScene(
@@ -432,7 +422,7 @@
 
   /*
    * =========================================================
-   * PREVIOUS SCENE
+   * PREVIOUS
    * =========================================================
    */
 
@@ -473,8 +463,7 @@
           cfg.music?.volume
         ) || 0.22;
 
-      music
-        .play()
+      music.play()
         .then(() => {
 
           if (soundButton) {
@@ -530,12 +519,11 @@
 
   /*
    * =========================================================
-   * OPTIONAL CONTROLS
+   * CONTROLS
    * =========================================================
    */
 
   if (nextButton) {
-
     nextButton.addEventListener(
       'click',
       nextScene
@@ -543,7 +531,6 @@
   }
 
   if (soundButton) {
-
     soundButton.addEventListener(
       'click',
       toggleSound
@@ -552,17 +539,14 @@
 
   /*
    * =========================================================
-   * GOOGLE MAPS / LOCATION BUTTON FIX
+   * GOOGLE MAPS BUTTONS
    * =========================================================
    *
-   * IMPORTANT:
+   * THIS IS THE IMPORTANT PART.
    *
-   * The cinematic page has global touch/swipe handlers.
-   * Those handlers can accidentally interpret a tap on
-   * VIEW LOCATION as a swipe/navigation gesture.
-   *
-   * These handlers completely isolate .map-link from
-   * the cinematic navigation system.
+   * The map buttons are completely isolated from
+   * the cinematic navigation.
+   * =========================================================
    */
 
   const mapLinks =
@@ -574,47 +558,48 @@
     link => {
 
       /*
-       * Stop cinematic timer immediately.
-       */
-
-      const stopSceneInteraction =
-        event => {
-
-          event.stopPropagation();
-
-          clearSceneTimer();
-        };
-
-      /*
-       * Mouse / pointer
+       * Stop the cinematic system when
+       * the user starts touching the button.
        */
 
       link.addEventListener(
         'pointerdown',
-        stopSceneInteraction,
+        event => {
+
+          event.stopPropagation();
+
+          body.dataset.mapOpening =
+            'true';
+
+          clearSceneTimer();
+
+        },
         {
+          capture: true,
           passive: true
         }
       );
-
-      /*
-       * Mobile touch
-       */
 
       link.addEventListener(
         'touchstart',
-        stopSceneInteraction,
+        event => {
+
+          event.stopPropagation();
+
+          body.dataset.mapOpening =
+            'true';
+
+          clearSceneTimer();
+
+        },
         {
+          capture: true,
           passive: true
         }
       );
 
       /*
-       * Actual click.
-       *
-       * DO NOT preventDefault().
-       * The browser must be allowed to open
-       * the Google Maps URL normally.
+       * Mouse click.
        */
 
       link.addEventListener(
@@ -623,30 +608,74 @@
 
           event.stopPropagation();
 
+          body.dataset.mapOpening =
+            'true';
+
           clearSceneTimer();
 
-          /*
-           * Force the URL to open explicitly.
-           *
-           * This is the final fallback for mobile
-           * browsers where another event handler
-           * interferes with target="_blank".
-           */
-
           const url =
-            link.getAttribute(
-              'href'
-            );
+            link.href;
 
           if (!url) return;
 
-          event.preventDefault();
+          /*
+           * Use the browser's normal link
+           * navigation first.
+           */
 
-          window.open(
-            url,
-            '_blank',
-            'noopener,noreferrer'
+          window.location.href =
+            url;
+
+        },
+        {
+          capture: true
+        }
+      );
+
+      /*
+       * Mobile touch.
+       *
+       * Some mobile browsers do not reliably
+       * generate the same click behaviour when
+       * several layers are animated.
+       */
+
+      link.addEventListener(
+        'touchend',
+        event => {
+
+          event.stopPropagation();
+
+          body.dataset.mapOpening =
+            'true';
+
+          clearSceneTimer();
+
+          const url =
+            link.href;
+
+          if (!url) return;
+
+          /*
+           * Small delay allows the browser to
+           * finish the touch gesture before
+           * changing the page.
+           */
+
+          window.setTimeout(
+            () => {
+
+              window.location.href =
+                url;
+
+            },
+            50
           );
+
+        },
+        {
+          capture: true,
+          passive: true
         }
       );
     }
@@ -654,7 +683,7 @@
 
   /*
    * =========================================================
-   * KEYBOARD NAVIGATION
+   * KEYBOARD
    * =========================================================
    */
 
@@ -662,12 +691,8 @@
     'keydown',
     event => {
 
-      /*
-       * Never allow keyboard navigation to
-       * interfere with links/buttons.
-       */
-
       if (
+        event.target.closest &&
         event.target.closest(
           'button, a'
         )
@@ -693,39 +718,41 @@
 
   /*
    * =========================================================
-   * TOUCH / SWIPE NAVIGATION
+   * SWIPE NAVIGATION
    * =========================================================
    */
 
   let touchStartX = 0;
   let touchStartY = 0;
-
-  /*
-   * Touch start
-   */
+  let touchingMap = false;
 
   document.addEventListener(
     'touchstart',
     event => {
 
-      /*
-       * CRITICAL:
-       *
-       * Never start a swipe gesture when the
-       * user touches VIEW LOCATION.
-       */
+      const target =
+        event.target;
 
       if (
-        event.target.closest(
+        target &&
+        target.closest &&
+        target.closest(
           '.map-link'
         )
       ) {
+
+        touchingMap = true;
+
         touchStartX = 0;
         touchStartY = 0;
+
         return;
       }
 
+      touchingMap = false;
+
       const touch =
+        event.changedTouches &&
         event.changedTouches[0];
 
       if (!touch) return;
@@ -735,42 +762,46 @@
 
       touchStartY =
         touch.clientY;
+
     },
     {
       passive: true
     }
   );
 
-  /*
-   * Touch end
-   */
-
   document.addEventListener(
     'touchend',
     event => {
 
       /*
-       * CRITICAL:
-       *
-       * Never process swipe navigation
-       * for the Maps button.
+       * NEVER process a map button as
+       * a swipe.
        */
 
+      if (touchingMap) {
+
+        touchingMap = false;
+
+        touchStartX = 0;
+        touchStartY = 0;
+
+        return;
+      }
+
+      const target =
+        event.target;
+
       if (
-        event.target.closest(
+        target &&
+        target.closest &&
+        target.closest(
           '.map-link'
         )
       ) {
-        touchStartX = 0;
-        touchStartY = 0;
         return;
       }
 
       if (!started) return;
-
-      /*
-       * No valid touch start.
-       */
 
       if (
         touchStartX === 0 &&
@@ -780,6 +811,7 @@
       }
 
       const touch =
+        event.changedTouches &&
         event.changedTouches[0];
 
       if (!touch) return;
@@ -792,17 +824,8 @@
         touch.clientY -
         touchStartY;
 
-      /*
-       * Reset values.
-       */
-
       touchStartX = 0;
       touchStartY = 0;
-
-      /*
-       * Only treat a significant horizontal
-       * movement as a swipe.
-       */
 
       if (
         Math.abs(dx) > 55 &&
@@ -811,14 +834,12 @@
       ) {
 
         if (dx < 0) {
-
           nextScene();
-
         } else {
-
           previousScene();
         }
       }
+
     },
     {
       passive: true
@@ -872,11 +893,8 @@
     event => {
 
       pointerAtmosphere(
-        event.clientX /
-          innerWidth,
-
-        event.clientY /
-          innerHeight
+        event.clientX / innerWidth,
+        event.clientY / innerHeight
       );
 
     },
@@ -934,6 +952,7 @@
       ),
 
       total % 60
+
     ];
 
     [
@@ -942,18 +961,18 @@
       'm',
       's'
     ].forEach(
-      (id, i) => {
+      (id, index) => {
 
-        const node =
+        const element =
           document.getElementById(
             id
           );
 
-        if (node) {
+        if (element) {
 
-          node.textContent =
+          element.textContent =
             String(
-              values[i]
+              values[index]
             ).padStart(
               2,
               '0'
@@ -973,7 +992,7 @@
 
   /*
    * =========================================================
-   * PAGE CLEANUP
+   * CLEANUP
    * =========================================================
    */
 
@@ -998,7 +1017,7 @@
 
   /*
    * =========================================================
-   * PUBLIC START BRIDGE
+   * PUBLIC START
    * =========================================================
    */
 
@@ -1036,7 +1055,7 @@
 
 /*
  * =========================================================
- * LIGHTWEIGHT GLOBAL CINEMATIC PETAL / DUST FIELD
+ * AMBIENT PETALS / DUST
  * =========================================================
  */
 
@@ -1072,14 +1091,13 @@
 
   let particles = [];
 
-  let raf = 0;
+  let animationFrame = 0;
 
   let last =
     performance.now();
 
   const isMobile =
-    () =>
-      innerWidth < 700;
+    () => innerWidth < 700;
 
   const particleCount =
     () =>
@@ -1089,7 +1107,6 @@
           isMobile()
             ? 14
             : 24,
-
           Math.round(
             Math.max(
               320000,
@@ -1100,19 +1117,12 @@
         )
       );
 
-  /*
-   * =========================================================
-   * PARTICLE CREATION
-   * =========================================================
-   */
-
   function makeParticle(
     initial
   ) {
 
     const petal =
-      Math.random() >
-      0.26;
+      Math.random() > 0.26;
 
     return {
 
@@ -1133,19 +1143,19 @@
           ? 2.1 +
             Math.random() *
               3.4
-          : .8 +
+          : 0.8 +
             Math.random() *
               1.7,
 
       speed:
-        .13 +
+        0.13 +
         Math.random() *
-          .31,
+          0.31,
 
       drift:
-        .16 +
+        0.16 +
         Math.random() *
-          .34,
+          0.34,
 
       phase:
         Math.random() *
@@ -1160,23 +1170,17 @@
       spin:
         (
           Math.random() -
-          .5
-        ) * .006,
+          0.5
+        ) * 0.006,
 
       opacity:
-        .18 +
+        0.18 +
         Math.random() *
-          .3,
+          0.3,
 
       petal
     };
   }
-
-  /*
-   * =========================================================
-   * RESIZE
-   * =========================================================
-   */
 
   function resize() {
 
@@ -1188,8 +1192,7 @@
 
     dpr =
       Math.min(
-        devicePixelRatio ||
-          1,
+        devicePixelRatio || 1,
         1.5
       );
 
@@ -1241,12 +1244,6 @@
     }
   }
 
-  /*
-   * =========================================================
-   * DRAW PARTICLE
-   * =========================================================
-   */
-
   function draw(p) {
 
     ctx.save();
@@ -1276,7 +1273,7 @@
         0,
         0,
         p.size * 1.45,
-        p.size * .72,
+        p.size * 0.72,
         0,
         0,
         Math.PI * 2
@@ -1298,15 +1295,9 @@
     ctx.restore();
   }
 
-  /*
-   * =========================================================
-   * ANIMATION LOOP
-   * =========================================================
-   */
+  function animate(now) {
 
-  function tick(now) {
-
-    const dt =
+    const delta =
       Math.min(
         32,
         now - last
@@ -1323,61 +1314,53 @@
 
     const wind =
       isMobile()
-        ? .34
-        : .52;
+        ? 0.34
+        : 0.52;
 
     particles.forEach(
-      p => {
+      particle => {
 
-        p.y +=
-          p.speed *
-          dt;
+        particle.y +=
+          particle.speed *
+          delta;
 
-        p.x +=
+        particle.x +=
           Math.sin(
-            now * .00035 +
-            p.phase
+            now * 0.00035 +
+            particle.phase
           ) *
             wind +
-          p.drift *
-            .055;
+          particle.drift *
+            0.055;
 
-        p.rotation +=
-          p.spin *
-          dt;
+        particle.rotation +=
+          particle.spin *
+          delta;
 
         if (
-          p.y >
+          particle.y >
             height + 30 ||
-          p.x <
+          particle.x <
             -60 ||
-          p.x >
+          particle.x >
             width + 60
         ) {
 
           Object.assign(
-            p,
-            makeParticle(
-              false
-            )
+            particle,
+            makeParticle(false)
           );
         }
 
-        draw(p);
+        draw(particle);
       }
     );
 
-    raf =
+    animationFrame =
       requestAnimationFrame(
-        tick
+        animate
       );
   }
-
-  /*
-   * =========================================================
-   * START
-   * =========================================================
-   */
 
   resize();
 
@@ -1389,23 +1372,17 @@
     }
   );
 
-  raf =
+  animationFrame =
     requestAnimationFrame(
-      tick
+      animate
     );
-
-  /*
-   * =========================================================
-   * CLEANUP
-   * =========================================================
-   */
 
   window.addEventListener(
     'pagehide',
     () => {
 
       cancelAnimationFrame(
-        raf
+        animationFrame
       );
 
     },
