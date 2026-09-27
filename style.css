@@ -16,14 +16,42 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.noise{display:none!important}.scene-image,.scene-media,.hero-image,.event-photo,.count-photo,.closing-photo{transform:scale(1.04)!important}}
 
 
-/* Location button fix */
-.scene-event .event-layout,
-.scene-event .event-content,
-.scene-event .map-link {
-  position: relative;
-  z-index: 20 !important;
+/* FINAL LOCATION BUTTON FIX */
+.scene-event .event-content{
+  position:relative !important;
+  z-index:50 !important;
+  pointer-events:auto !important;
 }
-.scene-event .map-link {
-  pointer-events: auto !important;
-  cursor: pointer !important;
+.scene-event .location-link{
+  position:relative !important;
+  z-index:100 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  margin-top:22px !important;
+  padding:13px 18px !important;
+  border:1px solid rgba(188,160,113,.72) !important;
+  background:rgba(17,14,10,.34) !important;
+  color:var(--ink) !important;
+  text-decoration:none !important;
+  font:500 8px var(--sans) !important;
+  letter-spacing:.2em !important;
+  cursor:pointer !important;
+  pointer-events:auto !important;
+  touch-action:manipulation !important;
+  -webkit-tap-highlight-color:rgba(188,160,113,.2) !important;
+}
+.scene-event .location-link:hover{
+  border-color:var(--gold) !important;
+  background:rgba(188,160,113,.16) !important;
+  transform:translateY(-2px);
+}
+.scene-event .location-link b{font-size:12px !important}
+@media(max-width:699px){
+  .scene-event .location-link{
+    padding:14px 17px !important;
+    margin-top:18px !important;
+    min-height:44px !important;
+  }
 }
